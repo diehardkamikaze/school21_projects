@@ -1,0 +1,42 @@
+
+
+#include "stdio.h"
+
+#ifndef PRINT
+# define PRINT printf
+#endif
+
+int	main()
+{
+	//general tests
+	// max of args
+	// 0 params
+	// other types?
+	// without params using situation?
+
+
+	//char tests
+	printf("---------- char tests: ----------\n");
+	PRINT("%%c : %c\n", 99);
+	PRINT("some 4 chars: %c, %c, %c, %c\n", 100, 99, 98, 97);
+	printf("###################################\n\n");
+
+	//string tests
+	char simple_arr[] = "mchau_tester";
+	printf("---------- string tests: ----------\n");
+	PRINT(" : return count  %d\n", PRINT("i"));
+	PRINT("i'am the constant small string\n");
+	PRINT("i'am the constant \\ small string \\with some escape-symbols \t\n");
+	PRINT("");
+	PRINT("\n");
+	PRINT("How %%s  work with char *: %s \n", simple_arr);
+	PRINT("I give error in working with other types\n");
+	PRINT("I give error if param do not used in general line\n");
+	PRINT("I work normally with arrays withdout null-terminate\n");
+	PRINT("I give error if 0 params\n");
+	printf("###################################\n\n");
+
+
+
+	return (0);
+}
