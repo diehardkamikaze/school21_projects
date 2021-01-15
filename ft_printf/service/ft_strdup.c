@@ -1,27 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_init_permitted.c                                :+:      :+:    :+:   */
+/*   ft_strdup.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mchau <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/12/01 12:44:15 by mchau             #+#    #+#             */
-/*   Updated: 2020/12/01 13:46:31 by mchau            ###   ########.fr       */
+/*   Created: 2020/11/10 03:27:08 by mchau             #+#    #+#             */
+/*   Updated: 2020/11/10 03:32:45 by mchau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-void	ft_init_permiddet_array(char *s)
-{
-	char	*flags;
-	int		i;
+#include "libft.h"
 
-	i = 0;
-	flags = "cspdiuxX%-0.*nfgelh";
-	while (i <= 83)
-		s[i++] = 0;
-	while (*flags)
-	{
-		s[*flags - '%'] = 1;
-		flags++;
-	}
+char	*ft_strdup(const char *s1)
+{
+	char	*result;
+	size_t	len;
+
+	len = ft_strlen(s1);
+	result = (char *)malloc(len + 1);
+	if (!result)
+		return (0);
+	ft_strlcpy(result, s1, len + 1);
+	return (result);
 }

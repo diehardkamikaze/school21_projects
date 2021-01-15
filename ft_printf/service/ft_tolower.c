@@ -1,25 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf_functions.c                              :+:      :+:    :+:   */
+/*   ft_tolower.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mchau <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/12/01 10:57:22 by mchau             #+#    #+#             */
-/*   Updated: 2020/12/01 11:20:19 by mchau            ###   ########.fr       */
+/*   Created: 2020/11/10 01:01:49 by mchau             #+#    #+#             */
+/*   Updated: 2020/11/10 01:02:25 by mchau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
-
-int	func_n(void *n, ...)
+int	ft_tolower(int c)
 {
-	va_list ap;
-	int *res;
-
-	res = (int *)n;
-	va_start(ap, n);
-	*res = va_arg(ap, int);
-	va_end(ap);
-	return (0);
+	if (c >= 'A' && c <= 'Z')
+		return (c + 32);
+	return (c);
 }
