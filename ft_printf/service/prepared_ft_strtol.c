@@ -6,11 +6,12 @@
 /*   By: mchau <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/15 12:33:26 by mchau             #+#    #+#             */
-/*   Updated: 2021/01/15 12:48:28 by mchau            ###   ########.fr       */
+/*   Updated: 2021/01/15 14:06:37 by mchau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../ft_printf.h"
+//rename that and change header! 
+#include "ft_printf.h"
 
 int		ft_isalpha(int c)
 {

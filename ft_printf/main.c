@@ -1,25 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_bzero.c                                         :+:      :+:    :+:   */
+/*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mchau <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/11/09 22:11:27 by mchau             #+#    #+#             */
-/*   Updated: 2020/11/09 22:22:44 by mchau            ###   ########.fr       */
+/*   Created: 2021/01/15 14:59:25 by mchau             #+#    #+#             */
+/*   Updated: 2021/01/15 20:00:07 by mchau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "ft_printf.h"
 
-void	ft_bzero(void *s, size_t n)
+int main(void)
 {
-	unsigned char *tmp;
-
-	tmp = (unsigned char *)s;
-	while (n--)
-	{
-		*tmp = 0;
-		tmp++;
-	}
+	printf("%d\n", printf("%0-10%"));
+	 printf("%d\n", ft_printf("%*.*s\n",-10, 0, "almaz"));
+	//printf("%0-c \n", 88);
+	return (0);
 }

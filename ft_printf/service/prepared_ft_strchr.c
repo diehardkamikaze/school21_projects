@@ -6,10 +6,11 @@
 /*   By: mchau <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/10 01:04:15 by mchau             #+#    #+#             */
-/*   Updated: 2021/01/15 12:42:47 by mchau            ###   ########.fr       */
+/*   Updated: 2021/01/15 14:06:08 by mchau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+//rename that and change header!
 char	*ft_strchr(const char *s, int c)
 {
 	char *arr;

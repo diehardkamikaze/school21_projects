@@ -1,9 +1,13 @@
 #!/bin/bash
 #test it!
-echo "---Start testing:----"
-cd ../ && make && cd TESTER
+clear
+echo "---Start testing:---"
+cd ../ && make re && cd TESTER
 gcc -Wall -Wextra -Werror main.c -L../ -lftprintf -I../
 > user_printf_output
 ./a.out > user_printf_output
 echo "---DIFFs:----"
-diff system_printf_output user_printf_output
+cat system_printf_output
+echo '---versus---'
+cat user_printf_output
+#diff system_printf_output user_printf_output

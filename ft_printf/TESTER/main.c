@@ -6,7 +6,7 @@
 /*   By: mchau <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/14 11:47:51 by mchau             #+#    #+#             */
-/*   Updated: 2021/01/14 13:17:11 by mchau            ###   ########.fr       */
+/*   Updated: 2021/01/15 14:58:56 by mchau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,15 +39,16 @@ int	PRINT_F(char *format, ...)
 
 void	start_tests()
 {
-	assert(PRINT_F("%c\n", 88));
+	//assert(PRINT_F("%c\n", 88));
+	assert(PRINT_F("%c %c", 88));
+	//assert(PRINT_F("%c\n", 88));
+	//assert(PRINT_F("%c\n", 88));
 }
 
 int		main()
 {
 	g_special_random_fd = open("system_printf_output", O_WRONLY | O_TRUNC);
-	if(g_special_random_fd != -1)
-	{
+	if (g_special_random_fd != -1)
 		start_tests();
-	}
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: mchau <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/15 12:58:33 by mchau             #+#    #+#             */
-/*   Updated: 2021/01/15 13:08:01 by mchau            ###   ########.fr       */
+/*   Updated: 2021/01/15 19:52:56 by mchau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,23 @@
 
 int spec_handler(char flag, t_params *t)
 {
-	t->specific = (void *)(long)flag;
-	return (1);
-	/*
+	int result;
+	result = 1;
+	if (t->zero == 1 && t->minus == 1)
+		return (error_log("0", "results in undefined behavior with 'c'\n"));
+	if(t->width < 0)
+	{
+		t->width = t->width * -1;
+		t->minus = 1;
+		t->zero = 0;
+	}
+	if (flag == 's')
+		t->specific = &s_handler;
 	if (flag == 'c')
 		t->specific = &c_handler;
-	if (flag == 's')
+	if (flag == '2')
+		t->specific = (void *)(long)flag;
+	/*if (flag == 's')
 		t->specific = &s_handler;
 	if (flag == 'p')
 		t->specific = &p_handler;
@@ -30,8 +41,8 @@ int spec_handler(char flag, t_params *t)
 	if (flag == 'x')
 		t->specific = &x_handler;
 	if (flag == 'X')
-		t->specific = &big_x_handler;
-	return (1);*/
+		t->specific = &big_x_handler; */
+	return (result);
 }
 
 int	flag_handler(char flag, t_params *t)

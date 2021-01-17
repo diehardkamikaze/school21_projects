@@ -1,25 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_calloc.c                                        :+:      :+:    :+:   */
+/*   ft_puts.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mchau <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/11/10 00:32:43 by mchau             #+#    #+#             */
-/*   Updated: 2020/11/13 00:31:31 by mchau            ###   ########.fr       */
+/*   Created: 2021/01/15 15:17:11 by mchau             #+#    #+#             */
+/*   Updated: 2021/01/15 15:23:55 by mchau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "ft_printf.h"
 
-void	*ft_calloc(size_t count, size_t size)
+int	error_log(char *flag, char *message)
 {
-	void	*result;
+	ft_putstr("error: flag '");
+	ft_putstr(flag);
+	write(1, "' \n", 3);
+	ft_putstr( message);
+	return (-1);
+}
 
-	result = 0;
-	result = malloc(size * count);
-	if (!result)
-		return (0);
-	ft_bzero(result, size * count);
-	return (result);
+void	ft_putstr(char *s)
+{
+	while (*s != 0)
+	{
+		write(1, s, 1);
+		s++;
+	}
 }

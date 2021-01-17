@@ -6,12 +6,11 @@
 /*   By: mchau <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/01 11:01:35 by mchau             #+#    #+#             */
-/*   Updated: 2021/01/15 13:51:40 by mchau            ###   ########.fr       */
+/*   Updated: 2021/01/15 20:00:16 by mchau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
-#include <stdio.h>
 
 int		ft_parser(char *str, t_params *t, va_list args)
 {
@@ -23,14 +22,14 @@ int		ft_parser(char *str, t_params *t, va_list args)
 	if (*str == '*' && str++)
 		t->width = va_arg(args, int);
 	else
-		t->width = ft_strtol(str, &str, 10);
-	if (*str == '.' && str++)
+		t->width = ft_strtol(str, &str, 10);;
+	if (*str == '.' && str++ && (t->dot = 1))
 	{
 		if(*str == '*' && str++)
 			t->precision = va_arg(args, int);
 		else
 			t->precision = ft_strtol(str, &str, 10);
-	}
+	};
 	if (ft_strchr("cspdiuxX%", *str) && spec_handler(*str, t))
 		return (str + 1 - start);
 	return (-1);
@@ -40,6 +39,7 @@ int	clear_spec(t_params *t)
 {
 	t->width = 0;
 	t->precision = 0;
+	t->dot = 0;
 	t->specific = 0;
 	t->zero = 0;
 	t->minus = 0;
@@ -62,12 +62,12 @@ int		ft_vprintf(char *format, va_list args)
 		{
 			if ((parsing_shift = ft_parser(format + 1, parse_result, args)) == -1)
 				return (-1);
-			//printed_count += parse_result->specific(parse_result);
-			printf("width: %d\n", parse_result->width);
+			printed_count += parse_result->specific(parse_result, args);
+			/*printf("width: %d\n", parse_result->width);
 			printf("precision: %d\n", parse_result->precision);
 			printf("flag 0: %d\n", (int)parse_result->zero);
 			printf("flag minus: %d\n", (int)parse_result->minus);
-			printf("flag specific: %c\n", (char)parse_result->specific);
+			printf("------\n");*/ 
 			format += parsing_shift;
 		}
 		else
