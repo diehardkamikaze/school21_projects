@@ -6,7 +6,7 @@
 /*   By: mchau <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/14 11:47:51 by mchau             #+#    #+#             */
-/*   Updated: 2021/01/15 14:58:56 by mchau            ###   ########.fr       */
+/*   Updated: 2021/01/17 13:25:57 by mchau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,10 +39,59 @@ int	PRINT_F(char *format, ...)
 
 void	start_tests()
 {
-	//assert(PRINT_F("%c\n", 88));
-	assert(PRINT_F("%c %c", 88));
-	//assert(PRINT_F("%c\n", 88));
-	//assert(PRINT_F("%c\n", 88));
+	/* %tests */
+	assert(PRINT_F("test: %.%"));
+	assert(PRINT_F("test: %.10%"));
+	assert(PRINT_F("test: %.*%", -10));
+	assert(PRINT_F("test: %10.%"));
+	assert(PRINT_F("test: %*.%", -10));
+	assert(PRINT_F("test: %9.10%"));
+	assert(PRINT_F("test: %*.10%,", -1));
+	assert(PRINT_F("test: %9.*%", -10));
+	assert(PRINT_F("test: %*.*%", -8, -7));
+
+	assert(PRINT_F("test: %-.%"));
+	assert(PRINT_F("test: %-.10%"));
+	assert(PRINT_F("test: %-.*%", -10));
+	assert(PRINT_F("test: %-10.%"));
+	assert(PRINT_F("test: %-*.%", -10));
+	assert(PRINT_F("test: %-9.10%"));
+	assert(PRINT_F("test: %-*.10%", -19));
+	assert(PRINT_F("test: %-9.*%", -10));
+	assert(PRINT_F("test: %-*.*%", -8, -7));
+
+	assert(PRINT_F("test: %0.%"));
+	assert(PRINT_F("test: %0.10%"));
+	assert(PRINT_F("test: %0.*%", -10));
+	assert(PRINT_F("test: %010.%"));
+	assert(PRINT_F("test: %0*.%", -10));
+	assert(PRINT_F("test: %09.10%"));
+	assert(PRINT_F("test: %0*.10%", -19));
+	assert(PRINT_F("test: %09.*%", -10));
+	assert(PRINT_F("test: %0*.*%", -8, -7));
+
+	assert(PRINT_F("test: %-0.%"));
+	assert(PRINT_F("test: %-0.10%"));
+	assert(PRINT_F("test: %-0.*%", -10));
+	assert(PRINT_F("test: %-010.%"));
+	assert(PRINT_F("test: %-0*.%", -10));
+	assert(PRINT_F("test: %-09.10%"));
+	assert(PRINT_F("test: %-0*.10%", -19));
+	assert(PRINT_F("test: %-09.*%", -10));
+	assert(PRINT_F("test: %-0*.*%", -8, -7));
+
+	/* end of %% tests  */
+
+	/* %c tests */
+	assert(PRINT_F("test: %c", 88));
+	assert(PRINT_F("test: %10c", 89));
+	assert(PRINT_F("test: %*c", -89));
+
+	assert(PRINT_F("test: -%c", 88));
+	assert(PRINT_F("test: %-10c", 89));
+	assert(PRINT_F("test: %-*c", -89));
+
+	/* end of %c tests */
 }
 
 int		main()

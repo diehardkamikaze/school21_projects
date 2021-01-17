@@ -6,7 +6,7 @@
 /*   By: mchau <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/01 10:49:59 by mchau             #+#    #+#             */
-/*   Updated: 2021/01/17 11:55:01 by mchau            ###   ########.fr       */
+/*   Updated: 2021/01/17 12:34:27 by mchau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@
 
 typedef struct	s_params
 {
-	int		width;
 	int		precision;
+	int		width;
 	int		(*specific)(struct s_params *t, va_list args);
 	char	zero;
 	char	minus;

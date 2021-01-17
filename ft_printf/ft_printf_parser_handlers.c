@@ -6,7 +6,7 @@
 /*   By: mchau <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/15 12:58:33 by mchau             #+#    #+#             */
-/*   Updated: 2021/01/17 12:04:55 by mchau            ###   ########.fr       */
+/*   Updated: 2021/01/17 13:20:39 by mchau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int spec_handler(char flag, t_params *t)
 		t->zero = 0;
 	if (t->width < 0)
 	{
-		t->width = t->width * -1;
+		t->width = (-1) * t->width;
 		t->minus = 1;
 		t->zero = 0;
 	}

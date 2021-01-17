@@ -6,7 +6,7 @@
 /*   By: mchau <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/15 14:59:25 by mchau             #+#    #+#             */
-/*   Updated: 2021/01/17 12:01:18 by mchau            ###   ########.fr       */
+/*   Updated: 2021/01/17 13:23:14 by mchau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,6 @@
 
 int main(void)
 {
-	printf("|%d\n", ft_printf("test: %0%"));
-	printf("|%d\n", ft_printf("test: %0-%"));
-	printf("|%d\n", ft_printf("test: %0%"));
-	printf("|%d\n", ft_printf("test: %0%"));
-	printf("|%d\n", ft_printf("test: %0%"));
-	printf("|%d\n", ft_printf("test: %0%"));
-	// printf("%d\n", ft_printf("%*.*s\n",-10, 0, "almaz"));
+	printf("|%d\n", printf("test: %*c", -19, 88));
 	return (0);
 }

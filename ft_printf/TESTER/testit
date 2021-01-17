@@ -7,7 +7,7 @@ gcc -Wall -Wextra -Werror main.c -L../ -lftprintf -I../
 > user_printf_output
 ./a.out > user_printf_output
 echo "---DIFFs:----"
-cat system_printf_output
-echo '---versus---'
-cat user_printf_output
-#diff system_printf_output user_printf_output
+#cat system_printf_output
+#echo '---versus---'
+#cat user_printf_output
+diff system_printf_output user_printf_output

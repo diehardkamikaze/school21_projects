@@ -6,7 +6,7 @@
 /*   By: mchau <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/14 14:41:33 by mchau             #+#    #+#             */
-/*   Updated: 2021/01/17 11:56:12 by mchau            ###   ########.fr       */
+/*   Updated: 2021/01/17 13:27:04 by mchau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,20 +25,17 @@ int	c_handler(t_params *t, va_list arg)
 {
 	char	c;
 	int		result_count;
+	int		n;
 
 	c = (char)va_arg(arg, int);
-	if (t->width <= 1)
-	{
-		write(1, &c, 1);
-		return (1);
-	}
-	result_count = t->width - 1;
+	n = t->width > 1 ? t->width - 1 : 0;
+	result_count = 1;
 	if (!t->minus)
-		print_nchr(' ', result_count);
+		print_nchr(' ', n);
 	write(1, &c, 1);
 	if(t->minus)
-		print_nchr(' ', result_count);
-	return (t->width);
+		print_nchr(' ', n);
+	return (result_count + n);
 }
 
 int	s_handler(t_params *t, va_list arg)

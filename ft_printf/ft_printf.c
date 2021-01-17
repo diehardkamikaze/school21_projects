@@ -6,7 +6,7 @@
 /*   By: mchau <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/01 11:01:35 by mchau             #+#    #+#             */
-/*   Updated: 2021/01/15 20:00:16 by mchau            ###   ########.fr       */
+/*   Updated: 2021/01/17 13:27:02 by mchau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int		ft_parser(char *str, t_params *t, va_list args)
 	if (*str == '*' && str++)
 		t->width = va_arg(args, int);
 	else
-		t->width = ft_strtol(str, &str, 10);;
+		t->width = ft_strtol(str, &str, 10);
 	if (*str == '.' && str++ && (t->dot = 1))
 	{
 		if(*str == '*' && str++)
@@ -63,11 +63,11 @@ int		ft_vprintf(char *format, va_list args)
 			if ((parsing_shift = ft_parser(format + 1, parse_result, args)) == -1)
 				return (-1);
 			printed_count += parse_result->specific(parse_result, args);
-			/*printf("width: %d\n", parse_result->width);
+		/*	printf("width: %d\n", parse_result->width);
 			printf("precision: %d\n", parse_result->precision);
 			printf("flag 0: %d\n", (int)parse_result->zero);
 			printf("flag minus: %d\n", (int)parse_result->minus);
-			printf("------\n");*/ 
+			printf("------\n") ;*/
 			format += parsing_shift;
 		}
 		else
