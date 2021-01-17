@@ -6,7 +6,7 @@
 /*   By: mchau <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/14 14:41:33 by mchau             #+#    #+#             */
-/*   Updated: 2021/01/15 20:00:11 by mchau            ###   ########.fr       */
+/*   Updated: 2021/01/17 11:56:12 by mchau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,9 +66,25 @@ int	s_handler(t_params *t, va_list arg)
 
 int	percent_handler(t_params *t, va_list arg)
 {
-;
+	int		result_count;
+	char	fill;
+	int		n;
+
+	if (arg)
+		result_count = 1;
+	result_count = 1;
+	fill = t->zero ? '0' : ' ';
+	n = t->width > 1 ? t->width - 1 : 0;
+	if (!t->minus)
+		print_nchr(fill, n);
+	write(1, "%", 1);
+	if (t->minus)
+		print_nchr(fill, n);
+	return (n + result_count);
 }
+
 /*
+
 
 s_handler
 p_handler

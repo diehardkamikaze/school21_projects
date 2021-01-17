@@ -6,7 +6,7 @@
 /*   By: mchau <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/01 10:49:59 by mchau             #+#    #+#             */
-/*   Updated: 2021/01/15 19:50:24 by mchau            ###   ########.fr       */
+/*   Updated: 2021/01/17 11:55:01 by mchau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,5 +52,7 @@ void			ft_putstr(char *s);
 int				c_handler(t_params *t, va_list arg);
 
 int				s_handler(t_params *t, va_list arg);
+
+int				percent_handler(t_params *t, va_list arg);
 
 #endif

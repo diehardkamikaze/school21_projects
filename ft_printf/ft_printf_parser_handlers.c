@@ -6,7 +6,7 @@
 /*   By: mchau <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/15 12:58:33 by mchau             #+#    #+#             */
-/*   Updated: 2021/01/15 19:52:56 by mchau            ###   ########.fr       */
+/*   Updated: 2021/01/17 12:04:55 by mchau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,9 @@ int spec_handler(char flag, t_params *t)
 {
 	int result;
 	result = 1;
-	if (t->zero == 1 && t->minus == 1)
-		return (error_log("0", "results in undefined behavior with 'c'\n"));
-	if(t->width < 0)
+	if (t->minus == 1)
+		t->zero = 0;
+	if (t->width < 0)
 	{
 		t->width = t->width * -1;
 		t->minus = 1;
@@ -28,6 +28,8 @@ int spec_handler(char flag, t_params *t)
 		t->specific = &s_handler;
 	if (flag == 'c')
 		t->specific = &c_handler;
+	if (flag == '%')
+		t->specific = &percent_handler;
 	if (flag == '2')
 		t->specific = (void *)(long)flag;
 	/*if (flag == 's')
