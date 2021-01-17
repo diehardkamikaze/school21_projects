@@ -6,7 +6,7 @@
 /*   By: mchau <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/14 11:47:51 by mchau             #+#    #+#             */
-/*   Updated: 2021/01/17 13:25:57 by mchau            ###   ########.fr       */
+/*   Updated: 2021/01/17 13:58:14 by mchau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,49 @@ void	start_tests()
 	assert(PRINT_F("test: %-*c", -89));
 
 	/* end of %c tests */
+
+	/* %s tests */
+	assert(PRINT_F("test: %s", "almaz"));
+	assert(PRINT_F("test: %.s", "almazyan"));
+	assert(PRINT_F("test: %.*s", 0, "toptoptoptop"));
+	assert(PRINT_F("test: %.*s", -8, "almaz"));
+	assert(PRINT_F("test: %.10s", "almaz"));
+	assert(PRINT_F("test: %.4s", "almaz"));
+	assert(PRINT_F("test: %2s", "almaz"));
+	assert(PRINT_F("test: %12s", "almaz"));
+	assert(PRINT_F("test: %2.s", "almaz"));
+	assert(PRINT_F("test: %*.s", 2, "almaz"));
+	assert(PRINT_F("test: %*.s", 16, "almaz"));
+	assert(PRINT_F("test: %*.*s", -8, -8, "almaz"));
+	assert(PRINT_F("test: %*.*s", 17, -8, "almaz"));
+	assert(PRINT_F("test: %*.*s", 2, -8, "almaz"));
+	assert(PRINT_F("test: %*.10s", -10,  "almaz"));
+	assert(PRINT_F("test: %*.10s", 3, "almaz"));
+	assert(PRINT_F("test: %*.10s", 8, "almaz"));
+	assert(PRINT_F("test: %12.*s", 3, "almaz"));
+	assert(PRINT_F("test: %99.*s", 3,"almaz"));
+
+	assert(PRINT_F("test: %-s", "almaz"));
+	assert(PRINT_F("test: %-.s", "almazyan"));
+	assert(PRINT_F("test: %-.*s", 0, "toptoptoptop"));
+	assert(PRINT_F("test: %-.*s", -8, "almaz"));
+	assert(PRINT_F("test: %-.10s", "almaz"));
+	assert(PRINT_F("test: %-.4s", "almaz"));
+	assert(PRINT_F("test: %-2s", "almaz"));
+	assert(PRINT_F("test: %-12s", "almaz"));
+	assert(PRINT_F("test: %-2.s", "almaz"));
+	assert(PRINT_F("test: %-*.s", 2, "almaz"));
+	assert(PRINT_F("test: %-*.s", 16, "almaz"));
+	assert(PRINT_F("test: %-*.*s", -8, -8, "almaz"));
+	assert(PRINT_F("test: %-*.*s", 17, -8, "almaz"));
+	assert(PRINT_F("test: %-*.*s", 2, -8, "almaz"));
+	assert(PRINT_F("test: %--*.10s", -10,  "almaz"));
+	assert(PRINT_F("test: %-*.10s", 3, "almaz"));
+	assert(PRINT_F("test: %-*.10s", 8, "almaz"));
+	assert(PRINT_F("test: %-12.*s", 3, "almaz"));
+	assert(PRINT_F("test: %-99.*s", 3,"almaz"));
+	/* end of %s tests */
+
 }
 
 int		main()

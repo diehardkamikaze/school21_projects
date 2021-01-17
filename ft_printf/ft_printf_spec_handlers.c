@@ -6,7 +6,7 @@
 /*   By: mchau <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/14 14:41:33 by mchau             #+#    #+#             */
-/*   Updated: 2021/01/17 13:27:04 by mchau            ###   ########.fr       */
+/*   Updated: 2021/01/17 14:00:37 by mchau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,23 +42,21 @@ int	s_handler(t_params *t, va_list arg)
 {
 	char	*s;
 	int		result_count;
-	int		i;
+	int		n;
 
-	i = 0;
 	result_count = 0;
 	s = (char *)va_arg(arg, void *);
-	while (s[i] != 0)
-		i++;
-	if (t->dot && t->precision >= 0 && i >= t->precision)
-		i = t->precision;
-	if (t->width > i)
-		result_count = t->width - i;
+	while (s[result_count] != 0)
+		result_count++;
+	if (t->dot && t->precision >= 0 && result_count > t->precision)
+		result_count = t->precision;
+	n = t->width > result_count ? t->width - result_count : 0;
 	if (!t->minus)
-		print_nchr(' ', result_count);
-	write(1, s, i);
+		print_nchr(' ', n);
+	write(1, s, result_count);
 	if (t->minus)
-		print_nchr(' ', result_count);
-	return (result_count + i);
+		print_nchr(' ', n);
+	return (result_count + n);
 }
 
 int	percent_handler(t_params *t, va_list arg)
