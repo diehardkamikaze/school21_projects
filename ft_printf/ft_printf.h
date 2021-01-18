@@ -6,7 +6,7 @@
 /*   By: mchau <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/01 10:49:59 by mchau             #+#    #+#             */
-/*   Updated: 2021/01/17 12:34:27 by mchau            ###   ########.fr       */
+/*   Updated: 2021/01/18 09:31:41 by mchau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,10 @@ long			ft_strtol(const char *nptr, char **endptr, int base);
 
 char			*ft_strchr(const char *s, int c);
 
+int				ft_number_len(unsigned long input, int radix);
+
+void			ft_putnbr_positive(unsigned long input, int radix, char start);
+
 int				spec_handler(char flag, t_params *t);
 
 int				flag_handler(char flag, t_params *t);
@@ -54,5 +58,15 @@ int				c_handler(t_params *t, va_list arg);
 int				s_handler(t_params *t, va_list arg);
 
 int				percent_handler(t_params *t, va_list arg);
+
+int				d_i_handler(t_params *t, va_list arg);
+
+int				p_handler(t_params *t, va_list args);
+
+int				u_handler(t_params *t, va_list args);
+
+int             x_handler(t_params *t, va_list args);
+
+int             x_upper_handler(t_params *t, va_list args);
 
 #endif

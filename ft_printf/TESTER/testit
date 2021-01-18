@@ -10,4 +10,4 @@ echo "---DIFFs:----"
 #cat system_printf_output
 #echo '---versus---'
 #cat user_printf_output
-diff system_printf_output user_printf_output
+diff -c  system_printf_output user_printf_output

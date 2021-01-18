@@ -5,28 +5,32 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: mchau <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/12/01 13:46:37 by mchau             #+#    #+#             */
-/*   Updated: 2020/12/02 18:07:12 by mchau            ###   ########.fr       */
+/*   Created: 2021/01/18 09:39:12 by mchau             #+#    #+#             */
+/*   Updated: 2021/01/18 10:25:58 by mchau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
+#include <ft_printf.h>
 
-void	ft_itoa(size_t  input, char *buffer, int radix)
+int		ft_number_len(unsigned long input, int radix)
 {
-	char	sign;
+	if (input != 0)
+		return (1 + ft_number_len(input / radix, radix));
+	return (0);
+}
 
-	sign = 0;
-	if (input < 0 && (sign = -1))
-		input *= -1;
-	*buffer = '0';
-	while (input != 0)
-    {
-        int remainder = input % radix;
-        *buffer = (remainder >= 10) ? (remainder - 10) + 'a' : remainder + '0';
-        input = input/radix;
-		buffer--;
-    }
-	if (sign)
-		*buffer = '-';
+void	ft_putnbr_positive(unsigned long input, int radix, char start)
+{
+	int remainder;
+	char digit;
+
+	remainder = input % radix;
+	digit = (remainder >= 10) ? (remainder - 10) + start : remainder + '0';
+	if (input / radix > 0)
+	{
+		ft_putnbr_positive(input / radix, radix, start);
+		write(1, &digit, 1);
+	}
+	else
+		write(1, &digit, 1);
 }

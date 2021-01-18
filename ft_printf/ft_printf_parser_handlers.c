@@ -6,7 +6,7 @@
 /*   By: mchau <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/15 12:58:33 by mchau             #+#    #+#             */
-/*   Updated: 2021/01/17 13:20:39 by mchau            ###   ########.fr       */
+/*   Updated: 2021/01/18 10:37:05 by mchau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ int spec_handler(char flag, t_params *t)
 {
 	int result;
 	result = 1;
+	if (t->precision < 0)
+		t->dot = 0;
 	if (t->minus == 1)
 		t->zero = 0;
 	if (t->width < 0)
@@ -32,18 +34,16 @@ int spec_handler(char flag, t_params *t)
 		t->specific = &percent_handler;
 	if (flag == '2')
 		t->specific = (void *)(long)flag;
-	/*if (flag == 's')
-		t->specific = &s_handler;
+	if (flag == 'd' || flag == 'i')
+		t->specific = &d_i_handler;
 	if (flag == 'p')
 		t->specific = &p_handler;
-	if (flag == 'd' || flag == 'i')
-		t->specific = &di_handler;
 	if (flag == 'u')
 		t->specific = &u_handler;
 	if (flag == 'x')
 		t->specific = &x_handler;
 	if (flag == 'X')
-		t->specific = &big_x_handler; */
+		t->specific = &x_upper_handler;
 	return (result);
 }
 
