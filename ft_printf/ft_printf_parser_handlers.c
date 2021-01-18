@@ -6,34 +6,27 @@
 /*   By: mchau <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/15 12:58:33 by mchau             #+#    #+#             */
-/*   Updated: 2021/01/18 11:10:43 by mchau            ###   ########.fr       */
+/*   Updated: 2021/01/18 15:48:28 by mchau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-int spec_handler(char flag, t_params *t)
+void	spec_handler(char flag, t_params *t)
 {
-	int result;
-	result = 1;
+	t->specific = &error_log;
 	if (t->precision < 0)
 		t->dot = 0;
+	if (t->width < 0 && (t->minus = 1))
+		t->width = (-1) * t->width;
 	if (t->minus == 1)
 		t->zero = 0;
-	if (t->width < 0)
-	{
-		t->width = (-1) * t->width;
-		t->minus = 1;
-		t->zero = 0;
-	}
 	if (flag == 's')
 		t->specific = &s_handler;
 	if (flag == 'c')
 		t->specific = &c_handler;
 	if (flag == '%')
 		t->specific = &percent_handler;
-	if (flag == '2')
-		t->specific = (void *)(long)flag;
 	if (flag == 'd' || flag == 'i')
 		t->specific = &d_i_handler;
 	if (flag == 'p')
@@ -44,14 +37,13 @@ int spec_handler(char flag, t_params *t)
 		t->specific = &x_handler;
 	if (flag == 'X')
 		t->specific = &x_upper_handler;
-	return (result);
 }
 
-int	flag_handler(char flag, t_params *t)
+int		flag_handler(char flag, t_params *t)
 {
 	if (flag == '0')
 		t->zero = 1;
-	if(flag == '-')
+	if (flag == '-')
 		t->minus = 1;
 	return (1);
 }

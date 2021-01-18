@@ -5,25 +5,42 @@
 #                                                     +:+ +:+         +:+      #
 #    By: mchau <marvin@42.fr>                       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2020/12/02 17:49:28 by mchau             #+#    #+#              #
-#    Updated: 2021/01/15 19:31:58 by mchau            ###   ########.fr        #
+#    Created: 2021/01/18 17:26:45 by mchau             #+#    #+#              #
+#    Updated: 2021/01/18 18:46:29 by mchau            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
+################################################################################
+
+# VARIABLES:
+
+################################################################################
+
 NAME = libftprintf.a
+HEADER_DIR = .
 FLAGS = -Wall -Wextra -Werror
-SOURCES = *.c ./service/prepare*.c
-OBJECTS = *.o
+SOURCES = ft_printf.c ft_printf_parser_handlers.c ft_printf_spec_handlers.c\
+		ft_printf_spec_handlers2.c ft_putnbr.c ft_puts.c\
+		ft_strchr.c ft_strtol.c
+
+OBJ = $(patsubst %.c, %.o, $(SOURCES))
+################################################################################
+
+# TARGETS:
+
+################################################################################
 
 all: $(NAME)
 
-$(NAME):
-	gcc $(FLAGS) -c $(SOURCES) -I.
-	ar rc $(NAME) $(OBJECTS)
+$(NAME) : $(OBJ)
+	ar rc $(NAME) $(OBJ)
 	ranlib $(NAME)
 
+%.o : %.c ft_printf.h
+	gcc $(FLAGS) -c $< -I$(HEADER_DIR)
+
 clean:
-	rm -f  $(OBJECTS)
+	rm -f $(OBJ)
 
 fclean: clean
 	rm -f $(NAME)

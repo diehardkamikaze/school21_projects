@@ -5,12 +5,12 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: mchau <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/01/18 09:39:12 by mchau             #+#    #+#             */
-/*   Updated: 2021/01/18 11:05:42 by mchau            ###   ########.fr       */
+/*   Created: 2021/01/18 14:59:41 by mchau             #+#    #+#             */
+/*   Updated: 2021/01/18 18:45:02 by mchau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <ft_printf.h>
+#include "ft_printf.h"
 
 int		ft_number_len(unsigned long input, int radix)
 {
@@ -21,8 +21,8 @@ int		ft_number_len(unsigned long input, int radix)
 
 void	ft_putnbr_positive(unsigned long input, int radix, char start)
 {
-	int remainder;
-	char digit;
+	int		remainder;
+	char	digit;
 
 	remainder = input % radix;
 	digit = (remainder >= 10) ? (remainder - 10) + start : remainder + '0';

@@ -1,34 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlcpy.c                                       :+:      :+:    :+:   */
+/*   ft_strchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mchau <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/11/10 03:06:27 by mchau             #+#    #+#             */
-/*   Updated: 2020/11/10 03:26:56 by mchau            ###   ########.fr       */
+/*   Created: 2021/01/18 14:57:29 by mchau             #+#    #+#             */
+/*   Updated: 2021/01/18 18:45:09 by mchau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-
-size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize)
+char	*ft_strchr(const char *s, int c)
 {
-	size_t n;
+	char *arr;
 
-	if (!src || !dst)
-		return (0);
-	n = 0;
-	while (n < dstsize)
+	arr = (char *)s;
+	while (*arr != 0)
 	{
-		dst[n] = src[n];
-		if (src[n] == 0)
-			break ;
-		n++;
+		if (*arr == c)
+			return (arr);
+		arr++;
 	}
-	if (n == dstsize && dstsize != 0)
-		dst[n - 1] = 0;
-	while (src[n])
-		n++;
-	return (n);
+	if (c == 0)
+		return (arr);
+	return (0);
 }
