@@ -6,7 +6,7 @@
 /*   By: mchau <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/18 09:39:12 by mchau             #+#    #+#             */
-/*   Updated: 2021/01/18 10:25:58 by mchau            ###   ########.fr       */
+/*   Updated: 2021/01/18 11:05:42 by mchau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 int		ft_number_len(unsigned long input, int radix)
 {
-	if (input != 0)
+	if (input >= (unsigned long)radix)
 		return (1 + ft_number_len(input / radix, radix));
-	return (0);
+	return (1);
 }
 
 void	ft_putnbr_positive(unsigned long input, int radix, char start)

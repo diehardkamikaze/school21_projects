@@ -6,7 +6,7 @@
 /*   By: mchau <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/14 11:47:51 by mchau             #+#    #+#             */
-/*   Updated: 2021/01/18 10:41:23 by mchau            ###   ########.fr       */
+/*   Updated: 2021/01/18 10:47:07 by mchau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -240,7 +240,7 @@ void	start_tests()
      assert(PRINT_F("test: %-*d", -29, -188));
      assert(PRINT_F("test: %-*d", -30,  90));
 
-     assert(PRINT_F("test: %-10.1dl", 90));
+     assert(PRINT_F("test: %-10.1d", 90));
      assert(PRINT_F("test: %-10.5d", 90));
      assert(PRINT_F("test: %-10.20d", 90));
      assert(PRINT_F("test: %-10.1d", -90));
