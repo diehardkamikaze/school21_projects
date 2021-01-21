@@ -6,44 +6,62 @@
 /*   By: mchau <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/15 12:58:33 by mchau             #+#    #+#             */
-/*   Updated: 2021/01/18 15:48:28 by mchau            ###   ########.fr       */
+/*   Updated: 2021/01/20 14:37:57 by mchau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-void	spec_handler(char flag, t_params *t)
+void	ft_preprocessor(t_params *t)
 {
-	t->specific = &error_log;
-	if (t->precision < 0)
-		t->dot = 0;
-	if (t->width < 0 && (t->minus = 1))
-		t->width = (-1) * t->width;
-	if (t->minus == 1)
-		t->zero = 0;
-	if (flag == 's')
-		t->specific = &s_handler;
-	if (flag == 'c')
-		t->specific = &c_handler;
-	if (flag == '%')
-		t->specific = &percent_handler;
-	if (flag == 'd' || flag == 'i')
-		t->specific = &d_i_handler;
-	if (flag == 'p')
-		t->specific = &p_handler;
-	if (flag == 'u')
-		t->specific = &u_handler;
-	if (flag == 'x')
-		t->specific = &x_handler;
-	if (flag == 'X')
-		t->specific = &x_upper_handler;
+	if (t->width < 0)
+	{
+		t->width = -1 * t->width;
+		t->flag = t->flag | PF_MINUS;
+	}
+	if (t->flag && PF_MINUS)
+        t->zero = 0;
 }
 
-int		flag_handler(char flag, t_params *t)
+int		ft_router(char flag, t_params *t, va_list args, int len)
 {
-	if (flag == '0')
-		t->zero = 1;
-	if (flag == '-')
-		t->minus = 1;
-	return (1);
+	if (flag == 's')
+		return (s_handler(t, args));
+	if (flag == 'c')
+		return (c_handler(t, args));
+	if (flag == '%')
+		return (percent_handler(t, args));
+	if (flag == 'd' || flag == 'i')
+		return (d_i_handler(t, args));
+	if (flag == 'p')
+		return (p_handler(t, args));
+	if (flag == 'u')
+		return (u_handler(t, args));
+	if (flag == 'x')
+		return (x_handler(t, args));
+	if (flag == 'X')
+		return (x_upper_handler(t, args));
+	if (flag == 'n')
+		return (n_handler(t, args, len));
+	if (flag == 'f')
+		return (f_handler(t, args);
+	return (-1);
+}
+
+int		flag_parser(char flag, t_params *t)
+{
+	int	result;
+
+	result = 0;
+	if (flag == '0' && (result = 1))
+		t->flag = t->flag | PF_ZERO;
+	if (flag == '-' && (result = 1))
+		t->flag = t->flag | PF_MINUS;
+	if (flag == '+' && (result = 1))
+		t->flag = t->flag | PF_PLUS;
+	if (flag == ' ' && (result = 1))
+		t->flag = t->flag | PF_SPACE;
+	if (flag == '#' && (result = 1))
+		t->flag = t->flag | PF_GRILL;
+	return (result);
 }
