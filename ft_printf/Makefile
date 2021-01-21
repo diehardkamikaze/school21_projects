@@ -6,7 +6,7 @@
 #    By: mchau <marvin@42.fr>                       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/01/18 17:26:45 by mchau             #+#    #+#              #
-#    Updated: 2021/01/21 09:56:32 by mchau            ###   ########.fr        #
+#    Updated: 2021/01/21 14:45:28 by mchau            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,9 +18,8 @@
 
 NAME = libftprintf.a
 FLAGS = -Wall -Wextra -Werror
-SOURCES = ft_printf.c ft_printf_parser_handlers.c ft_printf_spec_handlers.c\
-		ft_printf_spec_handlers2.c ft_putnbr.c ft_puts.c\
-		ft_strchr.c ft_strtol.c
+SOURCES = c_handler.c ft_printf.c ft_puts.c	ft_strtol.c	s_handler.c ft_parser.c\
+		  ft_putnbr.c ft_strchr.c ft_utf_codings.c
 
 # DIRS
 
@@ -50,7 +49,7 @@ $(OBJ_DIR):
 	mkdir $@
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(INC_DIR)/ft_printf.h
-	gcc $(FLAGS) -c $< -I$(INC_DIR)
+	gcc $(FLAGS) -c $< -o $@ -I$(INC_DIR)
 
 bonus: $(NAME)
 

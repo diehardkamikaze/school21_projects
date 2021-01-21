@@ -6,75 +6,42 @@
 /*   By: mchau <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/01 11:01:35 by mchau             #+#    #+#             */
-/*   Updated: 2021/01/20 17:06:58 by mchau            ###   ########.fr       */
+/*   Updated: 2021/01/21 15:07:03 by mchau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-int		ft_parser(char *str, t_params *t, va_list args)
-{
-	char	*start;
-
-	start = str;
-	while (ft_strchr("-0", *str) != 0)
-		str += flag_handler(*str, t);
-	if (*str == '*' && str++)
-		t->width = va_arg(args, int);
-	else
-		t->width = ft_strtol(str, &str, 10);
-	if (*str == '.' && str++ && (t->dot = 1))
-	{
-		if (*str == '*' && str++)
-			t->precision = va_arg(args, int);
-		else
-			t->precision = ft_strtol(str, &str, 10);
-	}
-	if (*str != 0 && ft_strchr("cspdiuxX%", *str))
-	{
-		spec_handler(*str, t);
-		return (str + 1 - start);
-	}
-	return (-1);
-}
-
 int		clear_spec(t_params *t)
 {
 	t->width = 0;
-	t->precision = 0;
-	t->dot = 0;
-	t->specific = 0;
-	t->zero = 0;
-	t->minus = 0;
+	t->precision = -1;
+	t->flags = 0;
+	t->length = 0;
 	return (1);
 }
 
 int		ft_vprintf(char *format, va_list args)
 {
-	t_params	*parse_result;
-	int			printed_count;
+	t_params	parse_result;
 	int			parsing_shift;
 
-	if (!(parse_result = malloc(sizeof(t_params))))
-		return (-1);
-	printed_count = 0;
+	parse_result.printed = 0;
 	parsing_shift = 0;
 	while (*format)
 	{
-		if (*format == '%' && clear_spec(parse_result))
+		if (*format == '%' && clear_spec(&parse_result))
 		{
 			if ((parsing_shift =\
-						ft_parser(format + 1, parse_result, args)) == -1)
+						ft_parser(format + 1, &parse_result, args)) == -1)
 				return (-1);
-			printed_count += parse_result->specific(parse_result, args);
 			format += parsing_shift;
 		}
 		else
-			printed_count += write(1, format, 1);
+			parse_result.printed += write(1, format, 1);
 		format++;
 	}
-	free(parse_result);
-	return (printed_count);
+	return (parse_result.printed);
 }
 
 int		ft_printf(const char *s, ...)

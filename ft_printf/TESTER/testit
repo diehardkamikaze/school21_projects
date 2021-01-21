@@ -3,7 +3,7 @@
 clear
 echo "---Start testing:---"
 cd ../ && make re && cd TESTER
-gcc -Wall -Wextra -Werror main.c -L../ -lftprintf -I../
+gcc -Wall -Wextra -Werror main.c -L../ -lftprintf -I../includes
 > user_printf_output
 ./a.out > user_printf_output
 echo "---DIFFs:----"
