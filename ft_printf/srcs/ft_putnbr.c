@@ -6,20 +6,20 @@
 /*   By: mchau <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/18 14:59:41 by mchau             #+#    #+#             */
-/*   Updated: 2021/01/18 18:45:02 by mchau            ###   ########.fr       */
+/*   Updated: 2021/01/21 17:33:16 by mchau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-int		ft_number_len(unsigned long input, int radix)
+int		ft_number_len(unsigned long long input, int radix)
 {
 	if (input >= (unsigned long)radix)
 		return (1 + ft_number_len(input / radix, radix));
 	return (1);
 }
 
-void	ft_putnbr_positive(unsigned long input, int radix, char start)
+void	ft_putnbr_positive(unsigned long long input, int radix, char start)
 {
 	int		remainder;
 	char	digit;

@@ -6,7 +6,7 @@
 /*   By: mchau <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/01 10:49:59 by mchau             #+#    #+#             */
-/*   Updated: 2021/01/21 15:05:15 by mchau            ###   ########.fr       */
+/*   Updated: 2021/01/21 17:45:03 by mchau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,9 +46,10 @@ long			ft_strtol(const char *nptr, char **endptr, int base);
 
 char			*ft_strchr(const char *s, int c);
 
-int				ft_number_len(unsigned long input, int radix);
+int				ft_number_len(unsigned long long input, int radix);
 
-void			ft_putnbr_positive(unsigned long input, int radix, char start);
+void			ft_putnbr_positive(unsigned long long input, int radix, \
+		char start);
 
 void			spec_handler(char flag, t_params *t);
 

@@ -6,7 +6,7 @@
 /*   By: mchau <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/21 12:39:15 by mchau             #+#    #+#             */
-/*   Updated: 2021/01/21 15:02:38 by mchau            ###   ########.fr       */
+/*   Updated: 2021/01/21 17:36:10 by mchau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,13 +75,13 @@ int		ft_router(char flag, t_params *t, va_list args)
 		return (t->printed += s_handler(t, args));
 	if (flag == 'c')
 		return (t->printed += c_handler(t, args));
-	/*if (flag == '%')
+	if (flag == '%')
 		return (t->printed += percent_handler(t, args));
-	if (flag == 'd' || flag == 'i')
+	/*if (flag == 'd' || flag == 'i')
 		return (t->printed += d_i_handler(t, args));
-	if (flag == 'p')
+	*/if (flag == 'p')
 		return (t->printed += p_handler(t, args));
-	if (flag == 'u')
+	/*if (flag == 'u')
 		return (t->printed += u_handler(t, args));
 	if (flag == 'x')
 		return (t->printed += x_handler(t, args));
