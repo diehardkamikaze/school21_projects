@@ -6,7 +6,7 @@
 #    By: mchau <marvin@42.fr>                       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/01/18 17:26:45 by mchau             #+#    #+#              #
-#    Updated: 2021/01/18 18:46:29 by mchau            ###   ########.fr        #
+#    Updated: 2021/01/21 09:56:32 by mchau            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,14 +17,23 @@
 ################################################################################
 
 NAME = libftprintf.a
-HEADER_DIR = .
 FLAGS = -Wall -Wextra -Werror
 SOURCES = ft_printf.c ft_printf_parser_handlers.c ft_printf_spec_handlers.c\
 		ft_printf_spec_handlers2.c ft_putnbr.c ft_puts.c\
 		ft_strchr.c ft_strtol.c
 
-OBJ = $(patsubst %.c, %.o, $(SOURCES))
-################################################################################
+# DIRS
+
+OBJ_DIR = objs
+SRC_DIR = srcs
+INC_DIR = includes
+
+# PREPROCESS
+
+OBJ = $(addprefix $(OBJ_DIR)/, $(patsubst %.c, %.o, $(SOURCES)))
+
+
+###############################################################################
 
 # TARGETS:
 
@@ -32,19 +41,29 @@ OBJ = $(patsubst %.c, %.o, $(SOURCES))
 
 all: $(NAME)
 
-$(NAME) : $(OBJ)
-	ar rc $(NAME) $(OBJ)
-	ranlib $(NAME)
+#test obj_dir when obj changed -> get error mkdir?
+$(NAME): $(OBJ_DIR) $(OBJ)
+	ar rc $@ $(OBJ)
+	ranlib $@
 
-%.o : %.c ft_printf.h
-	gcc $(FLAGS) -c $< -I$(HEADER_DIR)
+$(OBJ_DIR):
+	mkdir $@
+
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(INC_DIR)/ft_printf.h
+	gcc $(FLAGS) -c $< -I$(INC_DIR)
+
+bonus: $(NAME)
 
 clean:
-	rm -f $(OBJ)
+	rm -rf $(OBJ_DIR)
 
 fclean: clean
 	rm -f $(NAME)
 
 re: fclean all
 
-.PHONY: all clean fclean re
+test:
+	make && gcc -Wall -Wextra -Werror -I.\
+		main.c -L. -lftprintf  && ./a.out
+
+.PHONY: all clean fclean re test
