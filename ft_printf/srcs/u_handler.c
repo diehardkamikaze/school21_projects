@@ -6,7 +6,7 @@
 /*   By: mchau <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/22 13:44:29 by mchau             #+#    #+#             */
-/*   Updated: 2021/01/22 13:54:10 by mchau            ###   ########.fr       */
+/*   Updated: 2021/01/22 14:56:35 by mchau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ long long	inner_long_handler_u(unsigned char length, va_list args)
 		return (va_arg(args, unsigned long int));
 	if (length == 'l' + 'l')
 		return (va_arg(args, unsigned long long int));
-	return (va_arg(args, int));
+	return (va_arg(args, unsigned int));
 }
 
 int			u_handler(t_params *t, va_list args)

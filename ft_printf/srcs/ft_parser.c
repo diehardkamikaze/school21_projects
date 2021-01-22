@@ -6,7 +6,7 @@
 /*   By: mchau <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/21 12:39:15 by mchau             #+#    #+#             */
-/*   Updated: 2021/01/22 13:50:25 by mchau            ###   ########.fr       */
+/*   Updated: 2021/01/22 17:10:18 by mchau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,6 @@ int	ft_preprocessor(t_params *t)
 	}
 	if (t->flags & PF_MINUS)
 		t->flags = t->flags & 254;
-	if (t->flags & PF_PLUS)
-		t->flags = t->flags & 247;
 	return (1);
 }
 
@@ -63,25 +61,17 @@ int	length_parser(char *str, t_params *t)
 	return (0);
 }
 
-int		ft_router(char flag, t_params *t, va_list args)
+int	ft_router(char flag, t_params *t, va_list args)
 {
-	/*printf("%c\n", (char)t->length);
-	printf("%d\n", t->precision);
-	printf("%d\n", t->width);
-	printf("%d\n", t->printed);
-	printf("%d\n", (int)t->flags);
-	if (flag && t && args)
-		return (1);
-	return (1); */
 	if (flag == 's')
 		return (t->printed += s_handler(t, args));
 	if (flag == 'c')
 		return (t->printed += c_handler(t, args));
 	if (flag == '%')
 		return (t->printed += percent_handler(t, args));
-	/*if (flag == 'd' || flag == 'i')
+	if (flag == 'd' || flag == 'i')
 		return (t->printed += d_i_handler(t, args));
-	*/if (flag == 'p')
+	if (flag == 'p')
 		return (t->printed += p_handler(t, args));
 	if (flag == 'u')
 		return (t->printed += u_handler(t, args));
@@ -91,8 +81,6 @@ int		ft_router(char flag, t_params *t, va_list args)
 		return (t->printed += x_upper_handler(t, args));
 	if (flag == 'n')
 		return (t->printed += n_handler(t, args));
-	/*if (flag == 'f')
-		return (t->printed += f_handler(t, args)); */
 	return (-1);
 }
 
