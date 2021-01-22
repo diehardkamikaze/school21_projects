@@ -6,7 +6,7 @@
 #    By: mchau <marvin@42.fr>                       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/01/18 17:26:45 by mchau             #+#    #+#              #
-#    Updated: 2021/01/22 11:00:40 by mchau            ###   ########.fr        #
+#    Updated: 2021/01/22 13:49:25 by mchau            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,7 @@ NAME = libftprintf.a
 FLAGS = -Wall -Wextra -Werror
 SOURCES = p_handler.c percent_handler.c c_handler.c ft_printf.c ft_puts.c\
 		  ft_strtol.c s_handler.c ft_parser.c ft_putnbr.c ft_strchr.c\
-		  ft_utf_codings.c n_handler.c
+		  ft_utf_codings.c n_handler.c x_x_handler.c u_handler.c
 
 # DIRS
 
