@@ -6,7 +6,7 @@
 /*   By: mchau <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/01 10:49:59 by mchau             #+#    #+#             */
-/*   Updated: 2021/01/21 17:45:03 by mchau            ###   ########.fr       */
+/*   Updated: 2021/01/22 11:01:12 by mchau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,8 @@
 # define FT_PRINTF_H
 
 # include <stdarg.h>
-# include <stdlib.h>
 # include <unistd.h>
 # include <limits.h>
-# include <stdio.h> //DEL THAT
 
 # define PF_ZERO 0b00000001
 # define PF_MINUS 0b00000010
@@ -72,5 +70,7 @@ int				u_handler(t_params *t, va_list args);
 int				x_handler(t_params *t, va_list args);
 
 int				x_upper_handler(t_params *t, va_list args);
+
+int				n_handler(t_params *t, va_list args);
 
 #endif

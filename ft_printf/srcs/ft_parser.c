@@ -6,7 +6,7 @@
 /*   By: mchau <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/21 12:39:15 by mchau             #+#    #+#             */
-/*   Updated: 2021/01/21 17:36:10 by mchau            ###   ########.fr       */
+/*   Updated: 2021/01/22 11:14:49 by mchau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,9 @@ int	ft_preprocessor(t_params *t)
 		t->flags = t->flags | PF_MINUS;
 	}
 	if (t->flags & PF_MINUS)
-        t->flags = t->flags & 254;
+		t->flags = t->flags & 254;
+	if (t->flags & PF_PLUS)
+		t->flags = t->flags & 247;
 	return (1);
 }
 
@@ -87,9 +89,10 @@ int		ft_router(char flag, t_params *t, va_list args)
 		return (t->printed += x_handler(t, args));
 	if (flag == 'X')
 		return (t->printed += x_upper_handler(t, args));
+	*/
 	if (flag == 'n')
 		return (t->printed += n_handler(t, args));
-	if (flag == 'f')
+	/*if (flag == 'f')
 		return (t->printed += f_handler(t, args)); */
 	return (-1);
 }

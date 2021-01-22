@@ -1,22 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_puts.c                                          :+:      :+:    :+:   */
+/*   n_handler.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mchau <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/01/18 14:55:56 by mchau             #+#    #+#             */
-/*   Updated: 2021/01/22 11:28:33 by mchau            ###   ########.fr       */
+/*   Created: 2021/01/22 11:02:07 by mchau             #+#    #+#             */
+/*   Updated: 2021/01/22 12:07:49 by mchau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-void	print_nchr(char c, int n)
+int	n_handler(t_params *t, va_list args)
 {
-	while (n > 0)
-	{
-		write(1, &c, 1);
-		n--;
-	}
+	void	*n;
+
+	n = va_arg(args, void *);
+	if (t->length == 'h')
+		*((short int *)n) = t->printed;
+	if (t->length == 'h' + 'h')
+		*((char *)n) = t->printed;
+	if (t->length == 'l')
+		*((long int *)n) = t->printed;
+	if (t->length == 'l' + 'l')
+		*((long long int *)n) = t->printed;
+	return (0);
 }
