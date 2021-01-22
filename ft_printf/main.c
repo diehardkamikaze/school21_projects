@@ -6,7 +6,7 @@
 /*   By: mchau <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/15 14:59:25 by mchau             #+#    #+#             */
-/*   Updated: 2021/01/22 14:24:16 by mchau            ###   ########.fr       */
+/*   Updated: 2021/01/22 16:05:07 by mchau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int main(void)
 	setlocale(LC_ALL, "");
 	//print_bits(0.125, 64);
 
-	printf("| %d\n", ft_printf("%.lu", 0));
-	printf("| %d", printf("%.lu", 0));
+	printf("| %d\n", ft_printf("%.d", 0));
+	printf("| %d", printf("%.d", 0));
 	return (0);
 }

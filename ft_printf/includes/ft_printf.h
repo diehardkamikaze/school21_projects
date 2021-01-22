@@ -6,7 +6,7 @@
 /*   By: mchau <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/01 10:49:59 by mchau             #+#    #+#             */
-/*   Updated: 2021/01/22 11:01:12 by mchau            ###   ########.fr       */
+/*   Updated: 2021/01/22 17:16:09 by mchau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,18 +38,14 @@ int				ft_vprintf(char *format, va_list args);
 
 int				ft_parser(char *str, t_params *t, va_list args);
 
-void			print_nchr(char c, int n);
+int				print_nchr(char c, int n);
 
 long			ft_strtol(const char *nptr, char **endptr, int base);
-
-char			*ft_strchr(const char *s, int c);
 
 int				ft_number_len(unsigned long long input, int radix);
 
 void			ft_putnbr_positive(unsigned long long input, int radix, \
 		char start);
-
-void			spec_handler(char flag, t_params *t);
 
 int				flag_handler(char flag, t_params *t);
 
