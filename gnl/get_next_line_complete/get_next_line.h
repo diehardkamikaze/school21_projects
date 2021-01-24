@@ -6,29 +6,23 @@
 /*   By: mchau <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/16 08:37:44 by mchau             #+#    #+#             */
-/*   Updated: 2020/11/18 17:47:10 by mchau            ###   ########.fr       */
+/*   Updated: 2020/11/24 15:54:41 by mchau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef GET_NEXT_LINE_H
 # define GET_NEXT_LINE_H
 
-#include <unistd.h>
-#include <stdlib.h>
-#include <stdio.h> //del that
+# include <unistd.h>
+# include <stdlib.h>
 
-#ifndef BUFFER_SIZE
-#define BUFFER_SIZE 1
-#endif
-
-#if BUFFER_SIZE < 0
-#undef BUFFER_SIZE
-#define BUFFER_SIZE = 1
-#endif
+# ifndef BUFFER_SIZE
+	#define BUFFER_SIZE	32
+# endif
 
 int					get_next_line(int fd, char **line);
 
-char				*ft_substr(char *s, unsigned int start, size_t len);
+char				*ft_substr(char *s, size_t start, size_t len);
 
 typedef struct		s_list
 {
@@ -37,7 +31,7 @@ typedef struct		s_list
 	int				len;
 }					t_list;
 
-t_list				*ft_lstnew(char *content, int len);
+t_list				*ft_lstnew(char *content);
 
 void				ft_lstadd_back(t_list **lst, t_list *new);
 

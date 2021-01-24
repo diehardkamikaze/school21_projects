@@ -6,7 +6,7 @@
 /*   By: mchau <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/16 08:51:25 by mchau             #+#    #+#             */
-/*   Updated: 2020/11/18 18:09:45 by mchau            ###   ########.fr       */
+/*   Updated: 2020/11/24 15:44:14 by mchau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ char	*ft_strchr(const char *s, int c)
 	return (0);
 }
 
-char	*ft_substr(char *s, unsigned int start, size_t len)
+char	*ft_substr(char *s, size_t start, size_t len)
 {
 	char	*result;
 	char		*tmp;
@@ -36,13 +36,18 @@ char	*ft_substr(char *s, unsigned int start, size_t len)
 	if (!s)
 		return (0);
 	result = 0;
+	s = s + start;
 	result = (char *)malloc(len + 1);
 	if (!result)
 		return (result);
 	result[len] = 0;
 	tmp = result;
-	while (len-- && *s != 0)
-		*tmp++ = *s++;
+	while (len--)
+	{
+		*tmp = *s;
+		s++;
+		tmp++;
+	}
 	return (result);
 }
 
@@ -64,7 +69,7 @@ int		ft_lstclear(t_list **lst)
 	return (-1);
 }
 
-t_list	*ft_lstnew(char *content, int len)
+t_list	*ft_lstnew(char *content)
 {
 	t_list	*tmp;
 
@@ -74,7 +79,6 @@ t_list	*ft_lstnew(char *content, int len)
 	{
 		tmp->content = content;
 		tmp->next = 0;
-		tmp->len = len;
 	}
 	return (tmp);
 }
