@@ -6,7 +6,7 @@
 /*   By: mchau <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/14 11:47:51 by mchau             #+#    #+#             */
-/*   Updated: 2021/01/21 16:53:26 by mchau            ###   ########.fr       */
+/*   Updated: 2021/02/20 14:22:43 by mchau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -373,6 +373,169 @@ void	start_tests()
      assert(PRINT_F("test: %*.*d", 3, -5, 155466456));
      assert(PRINT_F("test: %*.*d", -3, 5, 155466456));
 	*/
+
+ 	/* DBL f handler start */
+	double double_max = 179769313486231570814527423731704356798070567525844996598917476803157260780028538760589558632766878171540458953514382464234321326889464182768467546703537516986049910576551282076245490090389328944075868508455133942304583236903222948165808559332123348274797826204144723168738177180919299881250404026184124858368.0;
+	double normalized_min = 1.0 / 44942328371557897693232629769725618340449424473557664318357520289433168951375240783177119330601884005280028469967848339414697442203604155623211857659868531094441973356216371319075554900311523529863270738021251442209537670585615720368478277635206809290837627671146574559986811484619929076208839082406056034304.0;
+	double max_denorm = 4503599627370495.0 / 89884656743115795386465259539451236680898848947115328636715040578866337902750481566354238661203768010560056939935696678829394884407208311246423715319737062188883946712432742638151109800623047059726541476042502884419075341171231440736956555270413618581675255342293149119973622969239858152417678164812112068608.0;
+	max_denorm = max_denorm * 2.0 / 4503599627370496.0;
+	double min_denorm = 0.5 / 89884656743115795386465259539451236680898848947115328636715040578866337902750481566354238661203768010560056939935696678829394884407208311246423715319737062188883946712432742638151109800623047059726541476042502884419075341171231440736956555270413618581675255342293149119973622969239858152417678164812112068608.0   / 1125899906842624.0;
+
+	//just f
+	assert(PRINT_F("Biggest double: %f", double_max));
+	assert(PRINT_F("\nPlus zero: %f\n", +0.0));
+	assert(PRINT_F("\nMinus zero: %f\n", -0.0));
+	assert(PRINT_F("\nNormalized min: %.1022f\n", normalized_min));
+	assert(PRINT_F("\nDenorm max: %.1074f\n", max_denorm));
+	assert(PRINT_F("\nDenorm min: %.1074f\n", min_denorm));
+	assert(PRINT_F("\nnan: %f\n", 0.0 / 0.0));
+	assert(PRINT_F("\n+inf: %f\n", 1.0 / 0.0));
+	assert(PRINT_F("\n-inf: %f\n", -1.0 / 0.0));
+	assert(PRINT_F("\nrounding only fraction: %.2f\n", 0.125));
+	assert(PRINT_F("\nrounding width integer: %.5f\n", 9.9999998));
+	assert(PRINT_F("\nrounding zero precision: %.0f\n", 0.5));
+	assert(PRINT_F("\nrounding zero precision: %.0f\n", 1.5));
+
+	//just #
+	assert(PRINT_F("Biggest double: %#f", double_max));
+	assert(PRINT_F("\nPlus zero: %#f\n", +0.0));
+	assert(PRINT_F("\nMinus zero: %#f\n", -0.0));
+	assert(PRINT_F("\nNormalized min: %#.1022f\n", normalized_min));
+	assert(PRINT_F("\nDenorm max: %#.1074f\n", max_denorm));
+	assert(PRINT_F("\nDenorm min: %#.1074f\n", min_denorm));
+	assert(PRINT_F("\nnan: %#f\n", 0.0 / 0.0));
+	assert(PRINT_F("\n+inf: %#f\n", 1.0 / 0.0));
+	assert(PRINT_F("\n-inf: %#f\n", -1.0 / 0.0));
+	assert(PRINT_F("\nrounding only fraction: %#.2f\n", 0.125));
+	assert(PRINT_F("\nrounding width integer: %#.5f\n", 9.9999998));
+	assert(PRINT_F("\nrounding zero precision: %#.0f\n", 0.5));
+	assert(PRINT_F("\nrounding zero precision: %#.0f\n", 1.5));
+
+	//just +
+	assert(PRINT_F("Biggest double: %+f", double_max));
+	assert(PRINT_F("\nPlus zero: %+f\n", +0.0));
+	assert(PRINT_F("\nMinus zero: %+f\n", -0.0));
+	assert(PRINT_F("\nNormalized min: %+.1022f\n", normalized_min));
+	assert(PRINT_F("\nDenorm max: %+.1074f\n", max_denorm));
+	assert(PRINT_F("\nDenorm min: %+.1074f\n", min_denorm));
+	assert(PRINT_F("\nnan: %+f\n", 0.0 / 0.0));
+	assert(PRINT_F("\n+inf: %+f\n", 1.0 / 0.0));
+	assert(PRINT_F("\n-inf: %+f\n", -1.0 / 0.0));
+	assert(PRINT_F("\nrounding only fraction: %+.2f\n", 0.125));
+	assert(PRINT_F("\nrounding width integer: %+.5f\n", 9.9999998));
+	assert(PRINT_F("\nrounding zero precision: %+.0f\n", 0.5));
+	 assert(PRINT_F("\nrounding zero precision: %+.0f\n", 1.5));
+
+
+	//just  space
+	assert(PRINT_F("Biggest double: % f", double_max));
+	assert(PRINT_F("\nPlus zero: % f\n", +0.0));
+	assert(PRINT_F("\nMinus zero: % f\n", -0.0));
+	assert(PRINT_F("\nNormalized min: % .1022f\n", normalized_min));
+	assert(PRINT_F("\nDenorm max: % .1074f\n", max_denorm));
+	assert(PRINT_F("\nDenorm min: % .1074f\n", min_denorm));
+	assert(PRINT_F("\nnan: % f\n", 0.0 / 0.0));
+	assert(PRINT_F("\n+inf: % f\n", 1.0 / 0.0));
+	assert(PRINT_F("\n-inf: % f\n", -1.0 / 0.0));
+	assert(PRINT_F("\nrounding only fraction: % .2f\n", 0.125));
+	assert(PRINT_F("\nrounding width integer: % .5f\n", 9.9999998));
+	assert(PRINT_F("\nrounding zero precision: % .0f\n", 0.5));
+	 assert(PRINT_F("\nrounding zero precision: % .0f\n", 1.5));
+
+
+	//just width > n
+	assert(PRINT_F("Biggest double: %+329f", double_max));
+	assert(PRINT_F("\nPlus zero: %+5f\n", +0.0));
+	assert(PRINT_F("\nMinus zero: %+6f\n", -0.0));
+	assert(PRINT_F("\nNormalized min: %+1400.1022f\n", normalized_min));
+	assert(PRINT_F("\nDenorm max: %+1300.1074f\n", max_denorm));
+	assert(PRINT_F("\nDenorm min: %+1200.1074f\n", min_denorm));
+	assert(PRINT_F("\nnan: %+14f\n", 0.0 / 0.0));
+	assert(PRINT_F("\n+inf: %+22f\n", 1.0 / 0.0));
+	assert(PRINT_F("\n-inf: %+11f\n", -1.0 / 0.0));
+	assert(PRINT_F("\nrounding only fraction: %+9.2f\n", 0.125));
+	assert(PRINT_F("\nrounding width integer: %+20.5f\n", 9.9999998));
+	assert(PRINT_F("\nrounding zero precision: %+7.0f\n", 0.5));
+	assert(PRINT_F("\nrounding zero precision: %+8.0f\n", 1.5));
+
+
+	//just width <= n
+	assert(PRINT_F("Biggest double: %+66f", double_max));
+	assert(PRINT_F("\nPlus zero: %+1f\n", +0.0));
+	assert(PRINT_F("\nMinus zero: %+2f\n", -0.0));
+	assert(PRINT_F("\nNormalized min: %+1.1022f\n", normalized_min));
+	assert(PRINT_F("\nDenorm max: %+5.1074f\n", max_denorm));
+	assert(PRINT_F("\nDenorm min: %+19.1074f\n", min_denorm));
+	assert(PRINT_F("\nnan: %+2f\n", 0.0 / 0.0));
+	assert(PRINT_F("\n+inf: %+1f\n", 1.0 / 0.0));
+	assert(PRINT_F("\n-inf: %+3f\n", -1.0 / 0.0));
+	assert(PRINT_F("\nrounding only fraction: %+2.2f\n", 0.125));
+	assert(PRINT_F("\nrounding width integer: %+4.5f\n", 9.9999998));
+	assert(PRINT_F("\nrounding zero precision: %+1.0f\n", 0.5));
+	assert(PRINT_F("\nrounding zero precision: %+1.0f\n", 1.5));
+	
+	//just 0 and width > n
+	assert(PRINT_F("Biggest double: %+0329f", double_max));
+	assert(PRINT_F("\nPlus zero: %+05f\n", +0.0));
+	assert(PRINT_F("\nMinus zero: %+06f\n", -0.0));
+	assert(PRINT_F("\nNormalized min: %+01400.1022f\n", normalized_min));
+	assert(PRINT_F("\nDenorm max: %+01300.1074f\n", max_denorm));
+	assert(PRINT_F("\nDenorm min: %+01200.1074f\n", min_denorm));
+	assert(PRINT_F("\nnan: %+014f\n", 0.0 / 0.0));
+	assert(PRINT_F("\n+inf: %+022f\n", 1.0 / 0.0));
+	assert(PRINT_F("\n-inf: %+011f\n", -1.0 / 0.0));
+	assert(PRINT_F("\nrounding only fraction: %+09.2f\n", 0.125));
+	assert(PRINT_F("\nrounding width integer: %+020.5f\n", 9.9999998));
+	assert(PRINT_F("\nrounding zero precision: %+07.0f\n", 0.5));
+	assert(PRINT_F("\nrounding zero precision: %+08.0f\n", 1.5));
+
+
+	//just 0 width <= n
+	assert(PRINT_F("Biggest double: %+066f", double_max));
+	assert(PRINT_F("\nPlus zero: %+01f\n", +0.0));
+	assert(PRINT_F("\nMinus zero: %+02f\n", -0.0));
+	assert(PRINT_F("\nNormalized min: %+01.1022f\n", normalized_min));
+	assert(PRINT_F("\nDenorm max: %+05.1074f\n", max_denorm));
+	assert(PRINT_F("\nDenorm min: %+019.1074f\n", min_denorm));
+	assert(PRINT_F("\nnan: %+02f\n", 0.0 / 0.0));
+	assert(PRINT_F("\n+inf: %+01f\n", 1.0 / 0.0));
+	assert(PRINT_F("\n-inf: %+03f\n", -1.0 / 0.0));
+	assert(PRINT_F("\nrounding only fraction: %+02.2f\n", 0.125));
+	assert(PRINT_F("\nrounding width integer: %+04.5f\n", 9.9999998));
+	assert(PRINT_F("\nrounding zero precision: %+01.0f\n", 0.5));
+	assert(PRINT_F("\nrounding zero precision: %+01.0f\n", 1.5));
+
+
+	//just - and  width > n
+	assert(PRINT_F("Biggest double: %+-329f", double_max));
+	assert(PRINT_F("\nPlus zero: %-+5f\n", +0.0));
+	assert(PRINT_F("\nMinus zero: %+-6f\n", -0.0));
+	assert(PRINT_F("\nNormalized min: %+-1400.1022f\n", normalized_min));
+	assert(PRINT_F("\nDenorm max: %+-1300.1074f\n", max_denorm));
+	assert(PRINT_F("\nDenorm min: %-+1200.1074f\n", min_denorm));
+	assert(PRINT_F("\nnan: %+-14f\n", 0.0 / 0.0));
+	assert(PRINT_F("\n+inf: %+-22f\n", 1.0 / 0.0));
+	assert(PRINT_F("\n-inf: %+-11f\n", -1.0 / 0.0));
+	assert(PRINT_F("\nrounding only fraction: %+-9.2f\n", 0.125));
+	assert(PRINT_F("\nrounding width integer: %-+20.5f\n", 9.9999998));
+	assert(PRINT_F("\nrounding zero precision: %+-7.0f\n", 0.5));
+	assert(PRINT_F("\nrounding zero precision: %+-8.0f\n", 1.5));
+
+
+	//just - and width <= n
+	assert(PRINT_F("Biggest double: %-+66f", double_max));
+	assert(PRINT_F("\nPlus zero: %+-1f\n", +0.0));
+	assert(PRINT_F("\nMinus zero: %-+2f\n", -0.0));
+	assert(PRINT_F("\nNormalized min: %-+1.1022f\n", normalized_min));
+	assert(PRINT_F("\nDenorm max: %+-5.1074f\n", max_denorm));
+	assert(PRINT_F("\nDenorm min: %+-19.1074f\n", min_denorm));
+	assert(PRINT_F("\nnan: %+-2f\n", 0.0 / 0.0));
+	assert(PRINT_F("\n+inf: %+-1f\n", 1.0 / 0.0));
+	assert(PRINT_F("\n-inf: %+-3f\n", -1.0 / 0.0));
+	assert(PRINT_F("\nrounding only fraction: %+-2.2f\n", 0.125));
+	assert(PRINT_F("\nrounding width integer: %+-4.5f\n", 9.9999998));
+	assert(PRINT_F("\nrounding zero precision: %+-1.0f\n", 0.5));
+	assert(PRINT_F("\nrounding zero precision: %+-1.0f\n", 1.5));
 }
 
 int		main(void)

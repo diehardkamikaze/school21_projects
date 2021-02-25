@@ -6,7 +6,7 @@
 /*   By: mchau <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/21 12:39:15 by mchau             #+#    #+#             */
-/*   Updated: 2021/01/22 17:10:18 by mchau            ###   ########.fr       */
+/*   Updated: 2021/02/24 10:13:53 by mchau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,8 @@ int	ft_router(char flag, t_params *t, va_list args)
 		return (t->printed += x_upper_handler(t, args));
 	if (flag == 'n')
 		return (t->printed += n_handler(t, args));
+	if (flag == 'f' || flag == 'g' || flag == 'e')
+		return (t->printed += ft_fp_router(flag, t, args));
 	return (-1);
 }
 
