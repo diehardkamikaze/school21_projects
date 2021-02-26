@@ -6,7 +6,7 @@
 /*   By: mchau <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/24 09:11:57 by mchau             #+#    #+#             */
-/*   Updated: 2021/02/25 12:13:34 by mchau            ###   ########.fr       */
+/*   Updated: 2021/02/26 17:51:14 by mchau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,24 +79,10 @@ int		ft_fp_router(char specific, t_params *t, va_list args)
 		return (nan_inf_handler(t));
 	if (t->precision < 0)
 		t->precision = 6;
-	if (specific == 'g')
-	{
-		tmp.ignore_zeros = 0; //may be del that
-		if (t->precision == 0)
-			t->precision = 1;
-		if (t->precision > tmp.exp && tmp.exp >= -4)
-		{
-			specific = 'f';
-			t->precision = t->precision - tmp.exp - 1;
-		}
-		else
-		{
-			specific = 'e';
-			t->precision -= 1;
-		}
-	}
-	/*if (specific == 'e')
-		return (e_handler(t, 0));*/ 
+/*	if (specific == 'g')
+		???*/
+	if (specific == 'e')
+		return (e_handler(t, 0));
 	if (specific == 'f')
 		return (f_handler(t, 0));
 	return (-1);

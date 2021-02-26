@@ -6,7 +6,7 @@
 /*   By: mchau <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/16 10:27:54 by mchau             #+#    #+#             */
-/*   Updated: 2021/02/25 12:44:59 by mchau            ###   ########.fr       */
+/*   Updated: 2021/02/26 11:53:14 by mchau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -173,9 +173,9 @@ int		bigint_round_from(t_bigint *t, int from, int expfract)
 		n++;
 	}
 	tmp = ft_number_len(t->digits[n - 1], 10);
-	if ((n- 1) * 9 + tmp > t->dig_num)
-		t->dig_num = (n- 1) * 9 + tmp;
-	if ((n - 1) * 9 + tmp > expfract)
+	if ((n - 1) * 9 + tmp > t->dig_num)
+		t->dig_num = (n - 1) * 9 + tmp;
+	if (t->dig_num > expfract)
 	{
 		t->digits[n - 1] -= ft_binpow(10, tmp - 1);
 		t->dig_num = from;

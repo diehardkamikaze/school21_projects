@@ -6,7 +6,7 @@
 /*   By: mchau <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/01 10:49:59 by mchau             #+#    #+#             */
-/*   Updated: 2021/02/25 13:13:41 by mchau            ###   ########.fr       */
+/*   Updated: 2021/02/26 17:51:15 by mchau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,16 @@
 typedef struct	s_fpbits {
 	unsigned long	mantissa;
 	int				exp;
-	char			ignore_zeros;
 	char			sign;
 }				t_fpbits;
+
+typedef struct	s_fpsource {
+	unsigned long	mantissaing;
+	unsigned long	mantissafract;
+	int				expint;
+	int				expfract;
+	int				sign;
+}				t_fpsource;
 
 typedef struct	s_params
 {
@@ -37,7 +44,7 @@ typedef struct	s_params
 	int             printed;
 	unsigned char	length;
 	char			flags;
-	t_fpbits		*fp;
+	t_fpsource		*fp;
 }				t_params;
 
 typedef struct	s_bigint {
@@ -86,6 +93,8 @@ int				ft_fp_router(char specific, t_params *t, va_list args);
 
 int				f_handler(t_params *t, va_list args);
 
+int				e_handler(t_params *t, va_list args);
+
 t_bigint		*bigint_constructor(unsigned long value);
 
 void			bigint_print(t_bigint *t);
@@ -99,4 +108,5 @@ int				bigint_summ_short(t_bigint *t, unsigned long value);
 void			divide_and_rule(t_bigint *t, unsigned long base, int exp);
 
 int				ft_binpow(int base, int n);
+
 #endif
