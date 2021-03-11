@@ -6,7 +6,7 @@
 #    By: mchau <marvin@42.fr>                       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/03/11 14:12:05 by mchau             #+#    #+#              #
-#    Updated: 2021/03/11 15:00:14 by mchau            ###   ########.fr        #
+#    Updated: 2021/03/11 15:04:45 by mchau            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,6 +39,7 @@ all: $(NAME)
 
 $(NAME): $(OBJ_DIR) $(OBJECTS)
 	gcc $(FLAGS) $(OBJECTS) -I$(INC_DIR) -o $@
+# gcc main.c -Lminilibx_opengl -lmlx -framework OpenGL -framework AppKit -I.
 
 $(OBJ_DIR):
 	mkdir $@
