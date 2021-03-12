@@ -6,7 +6,7 @@
 #    By: mchau <marvin@42.fr>                       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/03/09 16:32:15 by mchau             #+#    #+#              #
-#    Updated: 2021/03/09 16:36:56 by mchau            ###   ########.fr        #
+#    Updated: 2021/03/09 18:48:30 by mchau            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,7 +29,7 @@ server {
     ssl_certificate_key /etc/ssl/mchau-selfsigned.key;
 
     root /var/www/html;
-    autoindex on;
+    autoindex off;
     index index.html index.htm index.nginx-debian.html index.php;
 	location / {
 		try_files $uri $uri/ =404;

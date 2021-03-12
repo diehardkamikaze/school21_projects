@@ -6,7 +6,7 @@
 #    By: mchau <marvin@42.fr>                       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/03/11 14:12:05 by mchau             #+#    #+#              #
-#    Updated: 2021/03/11 15:04:45 by mchau            ###   ########.fr        #
+#    Updated: 2021/03/12 09:22:12 by mchau            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,6 +36,9 @@ OBJECTS = $(addprefix $(OBJ_DIR)/, $(patsubst %.c, %.o, $(SOURCES)))
 ###############################################
 
 all: $(NAME)
+
+test:
+	$(MAKE) -C minilibx_opengl
 
 $(NAME): $(OBJ_DIR) $(OBJECTS)
 	gcc $(FLAGS) $(OBJECTS) -I$(INC_DIR) -o $@
