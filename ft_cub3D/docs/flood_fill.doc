@@ -1,0 +1,30 @@
+// Если игрок(N/W/E/S), 0(empty space) или 2(sprite) то закрашиваем
+// Если за пределами карты или ' ' - невалидная карта
+// Если 1, то ничего не делаем
+
+
+int flood_fill(char **map, arrlenX, arrlenY, int posX, int posY)
+{
+	if (map[posX][posY] == ' ' || 0 == posX || posX => (arrlenX - 1) || posY => (arrlenY - 1) || 0 == posY)
+		Invalid map error(message posX posY problem) and stop program with 			FREEEEEEEEE
+	if (map[posX + 1][posY] != '1' )
+	{
+		map[posX + 1][posY] == 'S';
+		flood_fill(map, posX + 1, posY);
+	}
+	if (map[posX - 1][posY] != '1' )
+	{
+		map[posX - 1][posY] == 'S';
+		flood_fill(map, posX - 1, posY);
+	}
+	if (map[posX][posY + 1] != '1' )
+	{
+		map[posX][posY + 1] == 'S';
+		flood_fill(map, posX, posY + 1);
+	}
+	if (map[posX][posY - 1]  != '1' )
+	{
+		map[posX][posY - 1] == 'S';
+		flood_fill(map, posX, posY - 1);
+	}
+}
