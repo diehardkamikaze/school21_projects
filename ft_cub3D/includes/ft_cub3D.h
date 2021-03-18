@@ -6,7 +6,7 @@
 /*   By: mchau <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/11 14:00:31 by mchau             #+#    #+#             */
-/*   Updated: 2021/03/18 15:47:04 by mchau            ###   ########.fr       */
+/*   Updated: 2021/03/18 18:28:49 by mchau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@
 #include <stdio.h>
 
 # define IS_SPACE(val) ((val >= 9 && val <= 13) || val == ' ')
+
+# define IS_MAP_CHAR(val) (val == ' ' || val == '0' )
 
 typedef struct	s_maze_params {
 	int		w_h[2];
@@ -41,7 +43,7 @@ typedef struct	s_all {
 
 void    ft_putstr(char *str);
 
-t_all	*map_parser(int fd);
+t_all	*map_file_parser(int fd);
 
 long	ft_strtol(const char *nptr, char **endptr, int base);
 
