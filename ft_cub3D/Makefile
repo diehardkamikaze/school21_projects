@@ -6,7 +6,7 @@
 #    By: mchau <marvin@42.fr>                       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/03/11 14:12:05 by mchau             #+#    #+#              #
-#    Updated: 2021/03/18 09:17:58 by mchau            ###   ########.fr        #
+#    Updated: 2021/03/18 11:31:42 by mchau            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,8 @@
 
 NAME = cub3D
 FLAGS = -Wall -Wextra -Werror
-SOURCES = cub3D.c gnl/get_next_line.c gnl/get_next_line_utils.c
+SOURCES = cub3D.c map_parser.c utils/ft_cub3D_utils_print.c utils/ft_strtol.c \
+		  gnl/get_next_line.c  gnl/get_next_line_utils.c
 
 ################################################
 # DIRS:
@@ -47,14 +48,10 @@ $(NAME): $(OBJ_DIR) $(OBJECTS)
 $(OBJ_DIR):
 	mkdir $@
 	mkdir $@/gnl
+	mkdir $@/utils
 
 $(OBJ_DIR)/%.o: %.c
-	echo $@ $<
 	gcc $(FLAGS) -I$(INC_DIR) -c $< -o $@
-
-$(OBJ_DIR)/%.o: %.с
-	@echo 'hi';
-	gcc -$(FLAGS) -I$(INC_DIR) -c $< -o $(OBJ_DIR)/$@
 
 clean:
 	rm -rf $(OBJ_DIR)
