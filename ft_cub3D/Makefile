@@ -6,7 +6,7 @@
 #    By: mchau <marvin@42.fr>                       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/03/11 14:12:05 by mchau             #+#    #+#              #
-#    Updated: 2021/03/12 09:22:12 by mchau            ###   ########.fr        #
+#    Updated: 2021/03/18 09:17:58 by mchau            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -46,12 +46,15 @@ $(NAME): $(OBJ_DIR) $(OBJECTS)
 
 $(OBJ_DIR):
 	mkdir $@
+	mkdir $@/gnl
 
-%.o:
-	echo $@
+$(OBJ_DIR)/%.o: %.c
+	echo $@ $<
+	gcc $(FLAGS) -I$(INC_DIR) -c $< -o $@
 
-$(OBJ_DIR)/%.o: %.с $(INC_DIR)/*.h
-	gcc -$(FLAGS) -I$(INC_DIR) -c $< -o $@
+$(OBJ_DIR)/%.o: %.с
+	@echo 'hi';
+	gcc -$(FLAGS) -I$(INC_DIR) -c $< -o $(OBJ_DIR)/$@
 
 clean:
 	rm -rf $(OBJ_DIR)
