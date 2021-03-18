@@ -6,7 +6,7 @@
 /*   By: mchau <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/11 14:00:31 by mchau             #+#    #+#             */
-/*   Updated: 2021/03/18 13:44:39 by mchau            ###   ########.fr       */
+/*   Updated: 2021/03/18 15:47:04 by mchau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,11 @@
 typedef struct	s_maze_params {
 	int		w_h[2];
 	int		c_f[2];
-	char	*no_txt;
-	char	*we_txt;
-	char	*ea_txt;
-	char	*so_txt;
-	char	*sprite_txt;
+	int		no_txt;
+	int 	we_txt;
+	int		ea_txt;
+	int		so_txt;
+	int		sprite_txt;
 }				t_maze_params;
 
 typedef struct	s_all {
@@ -46,5 +46,7 @@ t_all	*map_parser(int fd);
 long	ft_strtol(const char *nptr, char **endptr, int base);
 
 void    exit_with_message(char *str, t_all *t);
+
+int		ft_strncmp(const char *s1, const char *s2, size_t n);
 
 #endif

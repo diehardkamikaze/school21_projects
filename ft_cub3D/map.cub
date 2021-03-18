@@ -7,3 +7,11 @@ C ,,9
 
 F 255,255,25
 
+
+WE ./gnl/get_next_line.c
+EA ./gnl/get_next_line_utils.c
+S		./utils/ft_strncmp.c
+
+
+NO	./utils/ft_strtol.c
+SO map_parser.c

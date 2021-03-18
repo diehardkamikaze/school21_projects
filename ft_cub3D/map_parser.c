@@ -6,7 +6,7 @@
 /*   By: mchau <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/12 10:36:44 by mchau             #+#    #+#             */
-/*   Updated: 2021/03/18 13:41:57 by mchau            ###   ########.fr       */
+/*   Updated: 2021/03/18 15:46:55 by mchau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,11 @@ void	initialize_struct(t_all *t)
 	t->maze->w_h[1] = 0;
 	t->maze->c_f[0] = -1;
 	t->maze->c_f[1] = -1;
+	t->maze->no_txt = -1;
+	t->maze->we_txt = -1;
+	t->maze->ea_txt = -1;
+	t->maze->so_txt = -1;
+	t->maze->sprite_txt = -1;
 }
 
 int		r_handler(char *line, t_all *t)
@@ -83,6 +88,37 @@ int		colors_handler(char below, char *line, t_all *t)
 	return (1);
 }
 
+int		textures_handler(char character, char *line, t_all *t)
+{
+	int		fd;
+	int		*path_ptr;
+
+	path_ptr = 0;
+	if (character == 'E')
+		path_ptr = &(t->maze->ea_txt);
+	if (character == 'W')
+		path_ptr = &(t->maze->we_txt);
+	if (character == 'N')
+		path_ptr = &(t->maze->no_txt);
+	if (character == 'O')
+		path_ptr = &(t->maze->so_txt);
+	if (character == 'S')
+		path_ptr = &(t->maze->sprite_txt);
+	if (*path_ptr != -1)
+		exit_with_message("Some texture parameter is repeating!", t);
+	while (IS_SPACE(*line))
+		line++;
+	errno = 0;
+	fd = open(line, O_RDONLY);
+	if (fd == -1)
+		exit_with_message(strerror(errno), 0);
+	*path_ptr = fd;
+	// здесь сразу как-то выделяем память и считываем структуру а пока просто проверка?
+	// пути хранить нам, наверное и не понадобится
+	close(fd);
+	return (1);
+}
+
 t_all	*map_parser(int fd)
 {
 	char	*line;
@@ -105,9 +141,27 @@ t_all	*map_parser(int fd)
 			counter += r_handler(line + 1, result);
 		else if ((line[0] == 'F' || line[0] == 'C') && IS_SPACE(line[1]))
 			counter += colors_handler(line[0], line + 1, result);
+		else if (line[0] == 'S')
+		{
+			if (IS_SPACE(line[1]))
+				counter += textures_handler(line[0], line + 2, result);
+			else if (line[1] == 'O' && IS_SPACE(line[2]))
+				counter += textures_handler('O', line + 3, result);
+		}
+		else if ((!ft_strncmp("NO", line, 2) || !ft_strncmp("WE", line, 2) \
+			|| !(ft_strncmp("EA", line, 2))) && IS_SPACE(line[2]))
+			counter += textures_handler(line[0], line + 3, result);
+		else if (counter < 8)
+			exit_with_message("unknown parameter symbol", result);
 		else
-			exit_with_message("undefined parameter", result);
+			break;
+		free(line);
 	}
+	free(line);
+	line = 0;
+	printf("no texture: %d\n", result->maze->no_txt);
+	printf("ea texture: %d\n", result->maze->ea_txt);
+	printf("sprite texture: %d\n", result->maze->sprite_txt);
+	printf("we texture: %d\n", result->maze->we_txt);
 	return (result);
 }
-
