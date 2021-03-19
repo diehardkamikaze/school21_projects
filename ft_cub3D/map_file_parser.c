@@ -6,16 +6,28 @@
 /*   By: mchau <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/18 18:28:18 by mchau             #+#    #+#             */
-/*   Updated: 2021/03/19 11:01:23 by mchau            ###   ########.fr       */
+/*   Updated: 2021/03/19 15:16:40 by mchau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_cub3D.h"
 
+void	maze_error(char *str, t_all *t, char *line)
+{
+	if (line)
+		free(line);
+	exit_with_message(str, t);
+}
+
 void	initialize_struct(t_all *t)
 {
+	if (!(t = malloc(sizeof(t_all))))
+		exit_with_message("maze parse 0: malloc error!", 0);
 	t->map = 0;
+	t->maze = 0;
 	t->plr = 0;
+	t->spr = 0;
+	t->spr_len = -1;
 	t->maze->w_h[0] = 0;
 	t->maze->w_h[1] = 0;
 	t->maze->c_f[0] = -1;
@@ -25,6 +37,10 @@ void	initialize_struct(t_all *t)
 	t->maze->ea_txt = -1;
 	t->maze->so_txt = -1;
 	t->maze->sprite_txt = -1;
+	if (!(t->maze = malloc(sizeof(t_maze_params))))
+		maze_error("malloc error!", t, 0);
+	if (!(t->plr = malloc(sizeof(t_plr))))
+		maze_error("malloc error!", t, 0);
 }
 
 int		r_handler(char *line, t_all *t)
@@ -34,23 +50,21 @@ int		r_handler(char *line, t_all *t)
 	int		i;
 
 	if (t->maze->w_h[0] > 0)
-		exit_with_message("R parameter is repeating!", t);
+		maze_error("R parameter is repeating!", t, line);
 	i = 0;
-	endptr = line;
+	endptr = line + 2;
 	while (i < 2)
 	{
 		tmp = ft_strtol(endptr, &endptr, 10);
-		if (tmp == 0 && endptr == line)
-			exit_with_message("reso:enter values!", t);
 		if (tmp <= 0)
-			exit_with_message("reso:invalid value!", t);
+			maze_error("reso:invalid value!", t, line);
 		if (tmp > INT_MAX)
-			exit_with_message("reso:integer value overflow!", t);
+			maze_error("reso:integer value overflow!", t, line);
 		t->maze->w_h[i] = (int)tmp;
 		i++;
 	}
 	if (*endptr != 0)
-		exit_with_message("Bag characters after line!", t);
+		maze_error("reso: Bad characters after line!", t, line);
 	return (1);
 }
 
@@ -63,30 +77,28 @@ int		colors_handler(char below, char *line, t_all *t)
 
 	index = (below == 'C' ? 0 : 1);
 	if (t->maze->c_f[index] >= 0)
-		exit_with_message("C or F parameter is repeating!", t);
-	t->maze->c_f[index] = 0;
+		maze_error("C or F parameter is repeating!", t, line);
 	comma = 0;
 	tmp = 0;
-	endptr = line;
+	endptr = line + 2;
 	while (comma <= 2)
 	{
 		tmp = ft_strtol(endptr, &endptr, 10);
-		if (tmp == 0 && endptr == line)
-			exit_with_message("color: enter values!", t);
+		if (tmp < 0)
+			maze_error("color: invalid values!", t, line);
 		if (tmp > 255)
-			exit_with_message("color: value overflow!", t);
+			maze_error("color: value overflow!", t, line);
 		if (comma < 2)
 		{
-			ft_strtol(endptr, &endptr, 10);
-			if (*endptr != ',')
-				exit_with_message("color: where is comma!?", t);
+			if (*endptr != ',' && 0 == ft_strtol(endptr, &endptr, 10))
+				maze_error("color: where is comma!?", t, line);
 			endptr++;
 		}
 		t->maze->c_f[index] += (int)tmp << ((8 * (2 - comma)));
 		comma++;
 	}
 	if (*endptr != 0)
-		exit_with_message("Bag characters after line!", t);
+		maze_error("color: Bad characters after line!", t, line);
 	return (1);
 }
 
@@ -94,8 +106,10 @@ int		textures_handler(char character, char *line, t_all *t)
 {
 	int		fd;
 	int		*path_ptr;
+	char	*endptr;
 
 	path_ptr = 0;
+	endptr = line + 2;
 	if (character == 'E')
 		path_ptr = &(t->maze->ea_txt);
 	if (character == 'W')
@@ -107,16 +121,18 @@ int		textures_handler(char character, char *line, t_all *t)
 	if (character == 'S')
 		path_ptr = &(t->maze->sprite_txt);
 	if (*path_ptr != -1)
-		exit_with_message("Some texture parameter is repeating!", t);
-	while (IS_SPACE(*line))
-		line++;
+		maze_error("Some texture parameter is repeating!", t, line);
+	while (IS_SPACE(*endptr))
+		endptr++;
 	errno = 0;
-	fd = open(line, O_RDONLY);
+	fd = open(endptr, O_RDONLY);
 	if (fd == -1)
-		exit_with_message(strerror(errno), 0);
+		maze_error(strerror(errno), t, line);
 	*path_ptr = fd;
-	// здесь сразу как-то выделяем память и считываем структуру а пока просто проверка?
-	// пути хранить нам, наверное и не понадобится
+	/* здесь сразу как-то выделяем память и считываем
+	 * структуру а пока просто проверка?
+	 * пути хранить нам, наверное и не понадобится
+	*/
 	close(fd);
 	return (1);
 }
@@ -129,45 +145,42 @@ t_all	*map_file_parser(int fd)
 	int		i;
 
 	counter = 0;
-	if (!(result = malloc(sizeof(t_all))))
-		exit_with_message("malloc error!", 0);
-	if (!(result->maze = malloc(sizeof(t_maze_params))))
-		exit_with_message("malloc error!", result);
-	initialize_struct(result);
-	//all initialing function
-
+	initialize_struct(result = 0);
 	while ((i = get_next_line(fd, &line)))
 	{
 		if (i == -1)
-			return exit_with_message("malloc error in GNL!", result);
-		if (line[0] == 0)
-			continue;
-		if (line[0] == 'R' && IS_SPACE(line[1]))
-			counter += r_handler(line + 1, result); //добавить чистку line
-		else if ((line[0] == 'F' || line[0] == 'C') && IS_SPACE(line[1]))
-			counter += colors_handler(line[0], line + 1, result);  //добавить чистку line
-		else if (line[0] == 'S')
+			maze_error("malloc error in GNL!", result, 0);
+		if (line[0] != 0)
 		{
-			if (IS_SPACE(line[1]))
-				counter += textures_handler(line[0], line + 2, result);  //добавить чистку line
-			else if (line[1] == 'O' && IS_SPACE(line[2]))
-				counter += textures_handler('O', line + 3, result);  //добавить чистку line
+			if (line[0] == 'R' && IS_SPACE(line[1]))
+				counter += r_handler(line, result);
+			else if ((line[0] == 'F' || line[0] == 'C') && IS_SPACE(line[1]))
+				counter += colors_handler(line[0], line, result);
+			else if (line[0] == 'S')
+			{
+				if (IS_SPACE(line[1]))
+					counter += textures_handler(line[0], line, result);
+				else if (line[1] == 'O' && IS_SPACE(line[2]))
+					counter += textures_handler('O', line, result);
+			}
+			else if ((!ft_strncmp("NO", line, 2) || !ft_strncmp("WE", line, 2) \
+				|| !(ft_strncmp("EA", line, 2))) && IS_SPACE(line[2]))
+				counter += textures_handler(line[0], line, result);
+			else if (counter < 8)
+				maze_error("unknown parameter symbol", result, line);
+			else
+				break ;
 		}
-		else if ((!ft_strncmp("NO", line, 2) || !ft_strncmp("WE", line, 2) \
-			|| !(ft_strncmp("EA", line, 2))) && IS_SPACE(line[2]))
-			counter += textures_handler(line[0], line + 3, result);  //добавить чистку line
-		else if (counter < 8)
-			exit_with_message("unknown parameter symbol", result);  //добавить чистку line
-		else
-			break;
 		free(line);
 		line = 0;
 	}
 	if (line == 0)
+	{
 		if (counter < 8)
 			exit_with_message("insufficient number of parameters", result);
 		else
 			exit_with_message("map is missing", result);
+	}
 	map_parser(fd, result, line);
 	return (result);
 }

@@ -6,7 +6,7 @@
 /*   By: mchau <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/11 14:00:31 by mchau             #+#    #+#             */
-/*   Updated: 2021/03/19 12:34:02 by mchau            ###   ########.fr       */
+/*   Updated: 2021/03/19 15:12:05 by mchau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,12 @@
 
 # define IS_SPACE(val) ((val >= 9 && val <= 13) || val == ' ')
 
-# define IS_MAP_CHAR(val) (val == ' ' || val == '0' || vak == '1')
+# define IS_MAP_CHAR(val) (val == ' ' || val == '0' || var == '1')
 
 # define IS_PLR_CHAR(val) (val == 'W' || val == 'S' || val == 'N' || val == 'E')
+
+# define IS_NOT_TRUE_FORMAT(val) (argv[1][val] != 'b' || argv[1][val - 1] != 'u'\
+		|| argv[1][val - 2] != 'c' || argv[1][val - 3] != '.')
 
 typedef struct	s_maze_params {
 	int		w_h[2];
@@ -37,14 +40,6 @@ typedef struct	s_maze_params {
 	int		so_txt;
 	int		sprite_txt;
 }				t_maze_params;
-
-typedef struct	s_all {
-	char			**map;
-	t_maze_params	*maze;
-	t_plr			*plr;
-	int				*spr;
-	int				spr_len;
-}				t_all;
 
 typedef struct	s_plr {
 	float		x;
@@ -58,6 +53,14 @@ typedef struct		s_spr_list {
 	int				coords;
 	struct s_list	*next;
 }					t_spr_list;
+
+typedef struct	s_all {
+	char			**map;
+	t_maze_params	*maze;
+	t_plr			*plr;
+	int				*spr;
+	int				spr_len;
+}				t_all;
 
 typedef struct		s_compose {
 	t_all		*result;
@@ -77,7 +80,7 @@ void    exit_with_message(char *str, t_all *t);
 
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
 
-void    flood_fill(&t, int pos_x, int pos_y);
+void    flood_fill(t_compose *t, int pos_x, int pos_y);
 
 void	map_parser(int fd, t_all *result, char *line);
 

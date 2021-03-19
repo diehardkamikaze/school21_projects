@@ -6,32 +6,39 @@
 /*   By: mchau <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/11 13:59:25 by mchau             #+#    #+#             */
-/*   Updated: 2021/03/19 12:29:42 by mchau            ###   ########.fr       */
+/*   Updated: 2021/03/19 14:26:49 by mchau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_cub3D.h"
 
-void	exit_with_message(char *str, t_all *t)
+void	free_wrapper(t_all *t)
 {
 	int i;
 
-	write(1, "Error\n", 6);
 	if (t)
 	{
-		if (plr)
-			free(plr);
-		if (maze)
-			free(maze);
-		if (map)
+		if (t->plr)
+			free(t->plr);
+		if (t->maze)
+			free(t->maze);
+		if (t->spr)
+			free(t->spr);
+		if (t->map)
 		{
 			i = 0;
-			while (map[i])
-				free(map[i]);
-			free(map);
+			while (t->map[i])
+				free(t->map[i]);
+			free(t->map);
 		}
 		free(t);
 	}
+}
+
+void	exit_with_message(char *str, t_all *t)
+{
+	write(1, "Error\n", 6);
+	free_wrapper(t);
 	ft_putstr(str);
 	exit(0);
 }
@@ -47,17 +54,19 @@ int main(int argc, char **argv)
 	i = 0;
 	while (*(argv[1] + i) != 0)
 		i++;
-	if (i < 4 || argv[1][i - 1] != 'b' || argv[1][i - 2] != 'u'\
-			|| argv[1][i - 3] != 'c' || argv[1][i - 4] != '.')
+	if (i < 4 || IS_NOT_TRUE_FORMAT(i - 1))
 		exit_with_message("Invalid map format\n", 0);
 	errno = 0;
 	fd = open(argv[1], O_RDONLY);
 	if (fd == -1)
 		exit_with_message(strerror(errno), 0);
 	t = map_file_parser(fd);
-	/*/close(fd) 1into map_parser??! after reading? into parser?
-	// HERE --save FLAG implementation!
-	/if (argc < 3 && argv[2] == "--save")
-	 do somethin 
-*/	return (0);
+	close(fd);
+	if (argc >= 3 && ft_strncmp(argv[2], "--save", 6) == 0)
+	{
+		printf("Here implementation of --save flag");
+	}
+	//game logic
+	//эта функция уже никогда не завершиться, так что чисти все при --save и escape/[x]
+	return (0);
 }

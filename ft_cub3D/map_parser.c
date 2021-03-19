@@ -6,7 +6,7 @@
 /*   By: mchau <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/18 18:32:51 by mchau             #+#    #+#             */
-/*   Updated: 2021/03/19 12:33:43 by mchau            ###   ########.fr       */
+/*   Updated: 2021/03/19 15:13:58 by mchau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,9 @@ void	init_map_vars(t_compose *t, t_all *result)
 	t->result->plr->dir = -1;
 	t->map_struct = 0;
 	t->spr_struct = 0;
-	t->map_x = -1;
-	t->map_y = -1;
+	t->max_x = -1;
+	t->max_y = -1;
 }
-
 
 void	map_error(char *str, t_compose *t, char *line)
 {
@@ -35,13 +34,17 @@ void	map_error(char *str, t_compose *t, char *line)
 	while (t->spr_struct)
 	{
 		tmp = t->spr_struct;
-		spr_struct = spr_struct->next;
+		t->spr_struct = t->spr_struct->next;
 		free (tmp);
 	}
 	exit_with_messsage(str, t->result);
 }
 
-void map_parser(int fd, t_all *result, char *line)
+void	player_handler()
+{
+}
+
+void	map_parser(int fd, t_all *result, char *line)
 {
 	int i;
 	int j;
@@ -67,7 +70,7 @@ void map_parser(int fd, t_all *result, char *line)
 			{
 				if (!(tmp = malloc(sizeof(s_spr_list))))
 					map_error("MAP: Error on spr malloc", &t, line);
-				tmp->coords = x * 1000 + y;
+				tmp->coords = i * 1000 + j;
 				tmp->next = t.spr_struct;
 				t.spr_struct = tmp;
 			}

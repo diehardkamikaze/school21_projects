@@ -6,13 +6,13 @@
 /*   By: mchau <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/19 12:19:04 by mchau             #+#    #+#             */
-/*   Updated: 2021/03/19 12:26:49 by mchau            ###   ########.fr       */
+/*   Updated: 2021/03/19 14:17:28 by mchau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_cub3D.h"
 
-void	flood_fill(&t, int pos_x, int pos_y)
+void	flood_fill(t_compose *t, int pos_x, int pos_y)
 {
 	if (0 > pos_x || pos_x > (t->max_x - 1) \
 			|| pos_y > (max_y - 1) || 0 > pos_y || t->result->map[pos_x][pos_y] == ' ')
