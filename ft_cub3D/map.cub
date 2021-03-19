@@ -1,9 +1,9 @@
 
+C ,,9
 
 R 1940 		434
 
 
-C ,,9
 
 F 255,255,25
 
@@ -11,7 +11,15 @@ F 255,255,25
 WE ./gnl/get_next_line.c
 EA ./gnl/get_next_line_utils.c
 S		./utils/ft_strncmp.c
-
+S
 
 NO	./utils/ft_strtol.c
 SO map_parser.c
+
+
+
+
+
+112222222222222222222111111
+12222W11
+111112

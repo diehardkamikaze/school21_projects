@@ -6,7 +6,7 @@
 /*   By: mchau <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/18 18:28:18 by mchau             #+#    #+#             */
-/*   Updated: 2021/03/19 15:16:40 by mchau            ###   ########.fr       */
+/*   Updated: 2021/03/19 16:32:42 by mchau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,28 +19,33 @@ void	maze_error(char *str, t_all *t, char *line)
 	exit_with_message(str, t);
 }
 
-void	initialize_struct(t_all *t)
+t_all	*initialize_struct(void)
 {
+	t_all *t;
+
 	if (!(t = malloc(sizeof(t_all))))
 		exit_with_message("maze parse 0: malloc error!", 0);
 	t->map = 0;
 	t->maze = 0;
 	t->plr = 0;
 	t->spr = 0;
-	t->spr_len = -1;
-	t->maze->w_h[0] = 0;
-	t->maze->w_h[1] = 0;
-	t->maze->c_f[0] = -1;
-	t->maze->c_f[1] = -1;
+	t->spr_len = 0;
+	if (!(t->maze = malloc(sizeof(t_maze_params))))
+		maze_error("malloc error!", t, 0);
+	t->maze->w_h = 0;
+ 	t->maze->c_f[0] = -1;
+ 	t->maze->c_f[1] = -1;
 	t->maze->no_txt = -1;
 	t->maze->we_txt = -1;
 	t->maze->ea_txt = -1;
 	t->maze->so_txt = -1;
 	t->maze->sprite_txt = -1;
-	if (!(t->maze = malloc(sizeof(t_maze_params))))
-		maze_error("malloc error!", t, 0);
 	if (!(t->plr = malloc(sizeof(t_plr))))
 		maze_error("malloc error!", t, 0);
+	t->plr->x = 0; //проверь в player_hander'е
+	t->plr->y = 0;
+	t->plr->dir = 0;
+	return (t);
 }
 
 int		r_handler(char *line, t_all *t)
@@ -49,7 +54,7 @@ int		r_handler(char *line, t_all *t)
 	long	tmp;
 	int		i;
 
-	if (t->maze->w_h[0] > 0)
+	if (t->maze->w_h > 0)
 		maze_error("R parameter is repeating!", t, line);
 	i = 0;
 	endptr = line + 2;
@@ -60,7 +65,7 @@ int		r_handler(char *line, t_all *t)
 			maze_error("reso:invalid value!", t, line);
 		if (tmp > INT_MAX)
 			maze_error("reso:integer value overflow!", t, line);
-		t->maze->w_h[i] = (int)tmp;
+		t->maze->w_h = t->maze->w_h * 1000000 + (int)tmp;
 		i++;
 	}
 	if (*endptr != 0)
@@ -145,7 +150,7 @@ t_all	*map_file_parser(int fd)
 	int		i;
 
 	counter = 0;
-	initialize_struct(result = 0);
+	result = initialize_struct();
 	while ((i = get_next_line(fd, &line)))
 	{
 		if (i == -1)

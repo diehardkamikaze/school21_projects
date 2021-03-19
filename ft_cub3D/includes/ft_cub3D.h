@@ -6,7 +6,7 @@
 /*   By: mchau <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/11 14:00:31 by mchau             #+#    #+#             */
-/*   Updated: 2021/03/19 15:12:05 by mchau            ###   ########.fr       */
+/*   Updated: 2021/03/19 16:38:54 by mchau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
 
 # define IS_SPACE(val) ((val >= 9 && val <= 13) || val == ' ')
 
-# define IS_MAP_CHAR(val) (val == ' ' || val == '0' || var == '1')
+# define IS_MAP_CHAR(val) (val == ' ' || val == '0' || val == '1')
 
 # define IS_PLR_CHAR(val) (val == 'W' || val == 'S' || val == 'N' || val == 'E')
 
@@ -32,7 +32,7 @@
 		|| argv[1][val - 2] != 'c' || argv[1][val - 3] != '.')
 
 typedef struct	s_maze_params {
-	int		w_h[2];
+	long	w_h;
 	int		c_f[2];
 	int		no_txt;
 	int 	we_txt;
@@ -50,8 +50,8 @@ typedef struct	s_plr {
 }				t_plr;
 
 typedef struct		s_spr_list {
-	int				coords;
-	struct s_list	*next;
+	int					coords;
+	struct s_spr_list	*next;
 }					t_spr_list;
 
 typedef struct	s_all {
@@ -83,5 +83,11 @@ int		ft_strncmp(const char *s1, const char *s2, size_t n);
 void    flood_fill(t_compose *t, int pos_x, int pos_y);
 
 void	map_parser(int fd, t_all *result, char *line);
+
+void    sprite_array_maker(t_compose *t);
+
+void    map_maker(t_compose *t);
+
+void    map_error(char *str, t_compose *t, char *line);
 
 #endif

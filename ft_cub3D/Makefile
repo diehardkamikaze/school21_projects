@@ -6,7 +6,7 @@
 #    By: mchau <marvin@42.fr>                       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/03/11 14:12:05 by mchau             #+#    #+#              #
-#    Updated: 2021/03/19 12:25:30 by mchau            ###   ########.fr        #
+#    Updated: 2021/03/19 16:23:26 by mchau            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,10 +15,10 @@
 #################################################
 
 NAME = cub3D
-FLAGS = -Wall -Wextra -Werror
-SOURCES = cub3D.c map_file_parser.c map_parser.c flood_fill.c \
-		  utils/ft_strncmp.c utils/ft_cub3D_utils_print.c utils/ft_strtol.c  \
-		  gnl/get_next_line.c gnl/get_next_line_utils.c
+FLAGS = -Wall -Wextra -Werror -fsanitize=address -g
+SOURCES = cub_starter.c map_file_parser.c map_makers.c map_parser.c \
+		  flood_fill.c utils/ft_strncmp.c utils/ft_cub3D_utils_print.c \
+		  utils/ft_strtol.c gnl/get_next_line.c gnl/get_next_line_utils.c
 
 ################################################
 # DIRS:

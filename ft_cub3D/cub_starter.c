@@ -6,7 +6,7 @@
 /*   By: mchau <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/11 13:59:25 by mchau             #+#    #+#             */
-/*   Updated: 2021/03/19 14:26:49 by mchau            ###   ########.fr       */
+/*   Updated: 2021/03/19 16:28:33 by mchau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,11 +43,11 @@ void	exit_with_message(char *str, t_all *t)
 	exit(0);
 }
 
-int main(int argc, char **argv)
+int		main(int argc, char **argv)
 {
 	int				i;
 	int				fd;
-	t_all 			*t;
+	t_all			*t;
 
 	if (argc < 2)
 		exit_with_message("Map file is missing\n", 0);
@@ -67,6 +67,7 @@ int main(int argc, char **argv)
 		printf("Here implementation of --save flag");
 	}
 	//game logic
-	//эта функция уже никогда не завершиться, так что чисти все при --save и escape/[x]
+	//эта функция уже никогда не завершиться,
+	//так что чисти все при --save и escape/[x]
 	return (0);
 }
