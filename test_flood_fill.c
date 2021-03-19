@@ -6,27 +6,29 @@
 /*   By: mchau <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/18 20:26:39 by mchau             #+#    #+#             */
-/*   Updated: 2021/03/18 21:01:20 by mchau            ###   ########.fr       */
+/*   Updated: 2021/03/19 09:47:29 by mchau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdio.h>
+#include <stdlib.h>
 
-int	flood_fill(char map[10][10], int len_x, int len_y, int pos_x, int pos_y)
+void	flood_fill(char map[10][10], int len_x, int len_y, int pos_x, int pos_y)
 {
-	if (0 == pos_x || pos_x == (len_x - 1) \
-			|| pos_y == (len_y - 1) || 0 == pos_y || map[pos_x][pos_y] == ' ')
-		printf("Error in first if");
-	map[pos_x][pos_y] = 'S';
-	if (map[pos_x + 1][pos_y] != '1' && map[pos_x + 1][pos_y] != 'S' )
+	if (0 > pos_x || pos_x > (len_x - 1) \
+			|| pos_y > (len_y - 1) || 0 > pos_y || map[pos_x][pos_y] == ' ')
+	{
+		printf("map is invalid in pos %d : %d", pos_x, pos_y);
+		exit(0);
+	}
+	if (map[pos_x][pos_y] != '1' && map[pos_x][pos_y] != 'S' )
+		map[pos_x][pos_y] = 'S';
+	else return;
 		flood_fill(map, 10, 10, pos_x + 1, pos_y);
-	if (map[pos_x - 1][pos_y] != '1' && map[pos_x - 1][pos_y] != 'S')
 		flood_fill(map, 10, 10, pos_x - 1, pos_y);
-	if (map[pos_x][pos_y + 1] != '1' && map[pos_x][pos_y + 1] != 'S')
 		flood_fill(map, 10, 10, pos_x, pos_y + 1);
-	if (map[pos_x][pos_y - 1]  != '1' && map[pos_x][pos_y - 1] != 'S')
 		flood_fill(map, 10, 10, pos_x, pos_y - 1);
-	return (1);
+	return ;
 }
 
 int main (void)
@@ -36,13 +38,13 @@ int main (void)
 						{'1','0','0','0','0','0','0','0','0','1'},
 						{'1','0','0','0','0','0','0','0','0','1'},
 						{'1','0','0','0','0','0','0','0','0','1'},
-						{'1','0','0','0','2','0','0','0','0','1'},
-						{'1','0','1','0','0','0','0','0','W','1'},
+						{'1','1','1','1','1','1','1','1','1','1'},
+						{'1','0','0','0','2','0','0','0','W','1'},
+						{'1','0','1','1','1','1','1','1','1','1'},
+						{'1','0','0','2','0','0','0','2','0','1'},
 						{'1','0','1','0','0','0','0','0','0','1'},
-						{'1','0','1','0','0','0','0','2','0','1'},
-						{'1','0','1','0','0','0','0','0','0','1'},
-						{'1','1','1','1','1','1','1','1','0','1'}
+						{'1','1','1','1','1','1','1','0','1','1'}
 						};
-	flood_fill(test, 10, 10, 8, 8);
+	flood_fill(test, 10, 10, 5, 8);
 	return (0);
 }
