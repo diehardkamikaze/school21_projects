@@ -6,7 +6,7 @@
 /*   By: mchau <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/11 13:59:25 by mchau             #+#    #+#             */
-/*   Updated: 2021/03/18 18:22:14 by mchau            ###   ########.fr       */
+/*   Updated: 2021/03/19 12:29:42 by mchau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,22 @@
 
 void	exit_with_message(char *str, t_all *t)
 {
+	int i;
+
 	write(1, "Error\n", 6);
 	if (t)
 	{
-		//end free structs and arrays into t
+		if (plr)
+			free(plr);
+		if (maze)
+			free(maze);
+		if (map)
+		{
+			i = 0;
+			while (map[i])
+				free(map[i]);
+			free(map);
+		}
 		free(t);
 	}
 	ft_putstr(str);
@@ -42,8 +54,8 @@ int main(int argc, char **argv)
 	fd = open(argv[1], O_RDONLY);
 	if (fd == -1)
 		exit_with_message(strerror(errno), 0);
-	t = map_parser(fd);
-	/*/close(fd) into map_parser??! after reading? into parser?
+	t = map_file_parser(fd);
+	/*/close(fd) 1into map_parser??! after reading? into parser?
 	// HERE --save FLAG implementation!
 	/if (argc < 3 && argv[2] == "--save")
 	 do somethin 

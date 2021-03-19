@@ -6,7 +6,7 @@
 /*   By: mchau <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/18 18:28:18 by mchau             #+#    #+#             */
-/*   Updated: 2021/03/18 19:03:46 by mchau            ###   ########.fr       */
+/*   Updated: 2021/03/19 11:01:23 by mchau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 void	initialize_struct(t_all *t)
 {
+	t->map = 0;
+	t->plr = 0;
 	t->maze->w_h[0] = 0;
 	t->maze->w_h[1] = 0;
 	t->maze->c_f[0] = -1;
@@ -166,6 +168,6 @@ t_all	*map_file_parser(int fd)
 			exit_with_message("insufficient number of parameters", result);
 		else
 			exit_with_message("map is missing", result);
-	map_handler(fd, result, line);
+	map_parser(fd, result, line);
 	return (result);
 }
