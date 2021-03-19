@@ -6,7 +6,7 @@
 /*   By: mchau <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/18 18:32:51 by mchau             #+#    #+#             */
-/*   Updated: 2021/03/19 16:38:52 by mchau            ###   ########.fr       */
+/*   Updated: 2021/03/19 18:34:12 by mchau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,8 @@ void	map_parser(int fd, t_all *result, char *line)
 	i = 1;
 	while (i && !(j = 0))
 	{
+		if (line[j] == 0)
+			map_error("MAP: empty line", &t, line);
 		while (line[j])
 		{
 			if (IS_PLR_CHAR(line[j]))
@@ -86,8 +88,9 @@ void	map_parser(int fd, t_all *result, char *line)
 		if ((i = get_next_line(fd, &line)) == -1)
 			map_error("MAP: GNL error!", &t, 0);
 	}
+	if (t.result->plr->x <= 0)
+		map_error("MAP: no player on map", &t, line);
 	sprite_array_maker(&t);
-/*	map_maker(&t);
-	flood_fill(&t, t.result->plr->x, t.result->plr->y);
-*/
+	map_maker(&t);
+	flood_fill(&t, t.result->plr->x, t.result->plr->y);// если что ты тут флоатами оперируешь :D
 }

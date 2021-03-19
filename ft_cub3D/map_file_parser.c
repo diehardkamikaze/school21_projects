@@ -6,7 +6,7 @@
 /*   By: mchau <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/18 18:28:18 by mchau             #+#    #+#             */
-/*   Updated: 2021/03/19 16:32:42 by mchau            ###   ########.fr       */
+/*   Updated: 2021/03/19 18:06:24 by mchau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ t_all	*initialize_struct(void)
 	t->maze->sprite_txt = -1;
 	if (!(t->plr = malloc(sizeof(t_plr))))
 		maze_error("malloc error!", t, 0);
-	t->plr->x = 0; //проверь в player_hander'е
+	t->plr->x = 0;
 	t->plr->y = 0;
 	t->plr->dir = 0;
 	return (t);
