@@ -6,7 +6,7 @@
 /*   By: mchau <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/18 18:28:18 by mchau             #+#    #+#             */
-/*   Updated: 2021/03/19 18:06:24 by mchau            ###   ########.fr       */
+/*   Updated: 2021/03/20 08:04:35 by mchau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -179,13 +179,8 @@ t_all	*map_file_parser(int fd)
 		free(line);
 		line = 0;
 	}
-	if (line == 0)
-	{
-		if (counter < 8)
+	if (counter < 8)
 			exit_with_message("insufficient number of parameters", result);
-		else
-			exit_with_message("map is missing", result);
-	}
 	map_parser(fd, result, line);
 	return (result);
 }

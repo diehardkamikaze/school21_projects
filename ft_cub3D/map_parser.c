@@ -6,7 +6,7 @@
 /*   By: mchau <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/18 18:32:51 by mchau             #+#    #+#             */
-/*   Updated: 2021/03/19 18:34:12 by mchau            ###   ########.fr       */
+/*   Updated: 2021/03/20 08:07:25 by mchau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,34 +60,42 @@ void	sprite_handler(int coords, t_compose *t, char *line)
 	t->spr_struct = tmp;
 }
 
+void	map_parser_iteration(int i, char *line, t_compose *t)
+{
+	int j;
+
+	j = 0;
+	if (line[j] == 0)
+		map_error("MAP: empty line", t, line);
+	while (line[j])
+	{
+		if (IS_PLR_CHAR(line[j]))
+			player_handler(i, j, t, line);
+		else if (line[j] == '2')
+			sprite_handler(1000 * t->max_x + j, t, line);
+		else if (!IS_MAP_CHAR(line[j]))
+			map_error("MAP: Unknown symbol", t, line);
+		j++;
+	}
+	ft_lstadd_back(&(t->map_struct), ft_lstnew(line));
+	t->max_x++;
+	t->max_y = t->max_y < j ? j : t->max_y;
+}
+
 void	map_parser(int fd, t_all *result, char *line)
 {
 	int i;
-	int j;
 	t_compose t;
 
 	init_map_vars(&t, result);
 	i = 1;
-	while (i && !(j = 0))
+	while (i)
 	{
-		if (line[j] == 0)
-			map_error("MAP: empty line", &t, line);
-		while (line[j])
-		{
-			if (IS_PLR_CHAR(line[j]))
-				player_handler(i, j, &t, line);
-			else if (line[j] == '2')
-				sprite_handler(1000 * t.max_x + j, &t, line);
-			else if (!IS_MAP_CHAR(line[j]))
-				map_error("MAP: Unknown symbol", &t, line);
-			j++;
-		}
-		ft_lstadd_back(&(t.map_struct), ft_lstnew(line));
-		t.max_x++;
-		t.max_y = t.max_y < j ? j : t.max_y;
+		map_parser_iteration(i, line, &t);
 		if ((i = get_next_line(fd, &line)) == -1)
 			map_error("MAP: GNL error!", &t, 0);
 	}
+	map_parser_iteration(i, line, &t);
 	if (t.result->plr->x <= 0)
 		map_error("MAP: no player on map", &t, line);
 	sprite_array_maker(&t);
