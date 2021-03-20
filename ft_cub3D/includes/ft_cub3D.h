@@ -6,7 +6,7 @@
 /*   By: mchau <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/11 14:00:31 by mchau             #+#    #+#             */
-/*   Updated: 2021/03/19 18:31:24 by mchau            ###   ########.fr       */
+/*   Updated: 2021/03/20 08:18:12 by mchau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 #include <fcntl.h>
 #include <limits.h>
 #include <stdio.h>
+#include "mlx.h"
 
 # define IS_SPACE(val) ((val >= 9 && val <= 13) || val == ' ')
 

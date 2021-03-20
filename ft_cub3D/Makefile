@@ -6,7 +6,7 @@
 #    By: mchau <marvin@42.fr>                       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/03/11 14:12:05 by mchau             #+#    #+#              #
-#    Updated: 2021/03/19 16:23:26 by mchau            ###   ########.fr        #
+#    Updated: 2021/03/20 08:17:02 by mchau            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,12 +39,12 @@ OBJECTS = $(addprefix $(OBJ_DIR)/, $(patsubst %.c, %.o, $(SOURCES)))
 
 all: $(NAME)
 
-test:
+makelib:
 	$(MAKE) -C minilibx_opengl
 
-$(NAME): $(OBJ_DIR) $(OBJECTS)
-	gcc $(FLAGS) $(OBJECTS) -I$(INC_DIR) -o $@
-# gcc main.c -Lminilibx_opengl -lmlx -framework OpenGL -framework AppKit -I.
+$(NAME): makelib $(OBJ_DIR) $(OBJECTS)
+	#gcc $(FLAGS) $(OBJECTS) -I$(INC_DIR) -o $@
+	gcc $(FLAGS) $(OBJECTS) -I$(INC_DIR) -Lminilibx_opengl -lmlx -framework OpenGL -framework AppKit -o $@
 
 $(OBJ_DIR):
 	mkdir $@

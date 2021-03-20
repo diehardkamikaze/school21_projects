@@ -6,7 +6,7 @@
 /*   By: mchau <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/18 18:32:51 by mchau             #+#    #+#             */
-/*   Updated: 2021/03/20 08:07:25 by mchau            ###   ########.fr       */
+/*   Updated: 2021/03/20 09:58:18 by mchau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,8 @@ void	player_handler(int i, int j, t_compose *t, char *line)
 	if (t->result->plr->dir >= 0)
 		map_error("MAP: More than one player", t, line);
 	t->result->plr->dir = (int)line[j];
-	t->result->plr->x = i;
-	t->result->plr->y = j;
+	t->result->plr->x = (float)i;
+	t->result->plr->y = (float)j;
 }
 
 void	sprite_handler(int coords, t_compose *t, char *line)
@@ -60,7 +60,7 @@ void	sprite_handler(int coords, t_compose *t, char *line)
 	t->spr_struct = tmp;
 }
 
-void	map_parser_iteration(int i, char *line, t_compose *t)
+void	map_parser_iteration(char *line, t_compose *t)
 {
 	int j;
 
@@ -70,7 +70,7 @@ void	map_parser_iteration(int i, char *line, t_compose *t)
 	while (line[j])
 	{
 		if (IS_PLR_CHAR(line[j]))
-			player_handler(i, j, t, line);
+			player_handler(t->max_x, j, t, line);
 		else if (line[j] == '2')
 			sprite_handler(1000 * t->max_x + j, t, line);
 		else if (!IS_MAP_CHAR(line[j]))
@@ -91,14 +91,14 @@ void	map_parser(int fd, t_all *result, char *line)
 	i = 1;
 	while (i)
 	{
-		map_parser_iteration(i, line, &t);
+		map_parser_iteration(line, &t);
 		if ((i = get_next_line(fd, &line)) == -1)
 			map_error("MAP: GNL error!", &t, 0);
 	}
-	map_parser_iteration(i, line, &t);
+	map_parser_iteration(line, &t);
 	if (t.result->plr->x <= 0)
 		map_error("MAP: no player on map", &t, line);
 	sprite_array_maker(&t);
 	map_maker(&t);
-	flood_fill(&t, t.result->plr->x, t.result->plr->y);// если что ты тут флоатами оперируешь :D
+	flood_fill(&t, (int)t.result->plr->x, (int)t.result->plr->y);// если что ты тут флоатами оперируешь :D
 }
