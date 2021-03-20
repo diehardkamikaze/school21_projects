@@ -6,7 +6,7 @@
 /*   By: mchau <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/11 13:59:25 by mchau             #+#    #+#             */
-/*   Updated: 2021/03/20 09:58:12 by mchau            ###   ########.fr       */
+/*   Updated: 2021/03/20 12:23:30 by mchau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,8 @@ void	exit_with_message(char *str, t_all *t)
 {
 	write(1, "Error\n", 6);
 	free_wrapper(t);
-	ft_putstr(str);
+	if (str)
+		ft_putstr(str);
 	exit(0);
 }
 
@@ -65,27 +66,8 @@ int		main(int argc, char **argv)
 	{
 		printf("Here implementation of --save flag");
 	}
-	//go_game_logic()!!!;
-	void *mlx = 0;
-	void *win = 0;
+	go_game_logic(t);
 
-	int x = -1;
-	int y;
-	int g;
-	int g2;
-	mlx = mlx_init();
-	win = mlx_new_window(mlx, 250, 200, "MCHAAAAAAAAAAAAAAAAAAAAAAAAAau");
-
-	while (t->map[++x] && (y = -1))
-		while (t->map[x][++y])
-			if (t->map[x][y] == '1' && (g = -1))
-				while (++g < 20 && (g2 = -1))
-					while(++g2 < 20)
-						mlx_pixel_put(mlx, win, y*20 + g, x*20 + g2, 0xFFFFFF);
-
-	mlx_loop(mlx);
-	//game logic
-	//эта функция уже никогда не завершиться,
-	//так что чисти все при --save и escape/[x]
+	//чисти все при --save и escape/[x]
 	return (0);
 }

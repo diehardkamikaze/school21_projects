@@ -643,7 +643,7 @@ int get_mouse_button(NSEventType eventtype)
 
 
 // mlx API
- 
+
 
 void *mlx_new_window(mlx_ptr_t *mlx_ptr, int size_x, int size_y, char *title)
 {

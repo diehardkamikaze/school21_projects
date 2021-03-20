@@ -6,7 +6,7 @@
 /*   By: mchau <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/11 14:00:31 by mchau             #+#    #+#             */
-/*   Updated: 2021/03/20 08:18:12 by mchau            ###   ########.fr       */
+/*   Updated: 2021/03/20 12:24:39 by mchau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,19 @@
 
 # define IS_PLR_CHAR(val) (val == 'W' || val == 'S' || val == 'N' || val == 'E')
 
-# define IS_NOT_TRUE_FORMAT(val) (argv[1][val] != 'b' || argv[1][val - 1] != 'u'\
-		|| argv[1][val - 2] != 'c' || argv[1][val - 3] != '.')
+# define IS_NOT_TRUE_FORMAT(val) (argv[1][val] != 'b' || argv[1][val - 1] \
+		!= 'u' || argv[1][val - 2] != 'c' || argv[1][val - 3] != '.')
+
+typedef struct	s_win
+{
+	void		*mlx;
+	void		*win;
+	void		*img;
+	void		*addr;
+	int			line_l;
+	int			bpp;
+	int			en;
+}				  t_win;
 
 typedef struct	s_maze_params {
 	long	w_h;
@@ -56,6 +67,7 @@ typedef struct		s_spr_list {
 }					t_spr_list;
 
 typedef struct	s_all {
+	t_win			*game;
 	char			**map;
 	t_maze_params	*maze;
 	t_plr			*plr;
@@ -77,8 +89,6 @@ t_all	*map_file_parser(int fd);
 
 long	ft_strtol(const char *nptr, char **endptr, int base);
 
-void    exit_with_message(char *str, t_all *t);
-
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
 
 void    flood_fill(t_compose *t, int pos_x, int pos_y);
@@ -87,8 +97,22 @@ void	map_parser(int fd, t_all *result, char *line);
 
 void    sprite_array_maker(t_compose *t);
 
+void    free_wrapper(t_all *t);
+
+void    exit_with_message(char *str, t_all *t);
+
 void    map_maker(t_compose *t);
 
 void    map_error(char *str, t_compose *t, char *line);
+
+void    go_game_logic(t_all *t);
+
+int test_handler(int keycode, void *param);
+
+int x_handler(void *param);
+
+int the_handler(void *param);
+
+void    show_map(t_all *t);
 
 #endif

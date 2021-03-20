@@ -6,7 +6,7 @@
 /*   By: mchau <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/18 18:28:18 by mchau             #+#    #+#             */
-/*   Updated: 2021/03/20 08:04:35 by mchau            ###   ########.fr       */
+/*   Updated: 2021/03/20 10:22:14 by mchau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,14 +24,14 @@ t_all	*initialize_struct(void)
 	t_all *t;
 
 	if (!(t = malloc(sizeof(t_all))))
-		exit_with_message("maze parse 0: malloc error!", 0);
+		exit_with_message("t_all init: malloc error!", 0);
 	t->map = 0;
 	t->maze = 0;
 	t->plr = 0;
 	t->spr = 0;
 	t->spr_len = 0;
 	if (!(t->maze = malloc(sizeof(t_maze_params))))
-		maze_error("malloc error!", t, 0);
+		maze_error("t_all init maze: malloc error!", t, 0);
 	t->maze->w_h = 0;
  	t->maze->c_f[0] = -1;
  	t->maze->c_f[1] = -1;
@@ -41,7 +41,7 @@ t_all	*initialize_struct(void)
 	t->maze->so_txt = -1;
 	t->maze->sprite_txt = -1;
 	if (!(t->plr = malloc(sizeof(t_plr))))
-		maze_error("malloc error!", t, 0);
+		maze_error("t_all init plr: malloc error!", t, 0);
 	t->plr->x = 0;
 	t->plr->y = 0;
 	t->plr->dir = 0;
