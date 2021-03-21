@@ -6,7 +6,7 @@
 /*   By: mchau <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/11 14:00:31 by mchau             #+#    #+#             */
-/*   Updated: 2021/03/20 12:24:39 by mchau            ###   ########.fr       */
+/*   Updated: 2021/03/21 12:03:48 by mchau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,12 @@
 #include "get_next_line.h"
 #include <errno.h>
 #include <string.h>
+#include <math.h>
 #include <fcntl.h>
 #include <limits.h>
 #include <stdio.h>
-#include "mlx.h"
+#include "../minilibx_opengl/mlx.h"
+#include "../minilibx_opengl/mlx.h"
 
 # define IS_SPACE(val) ((val >= 9 && val <= 13) || val == ' ')
 
@@ -37,7 +39,7 @@ typedef struct	s_win
 	void		*mlx;
 	void		*win;
 	void		*img;
-	void		*addr;
+	unsigned int		*addr;
 	int			line_l;
 	int			bpp;
 	int			en;
@@ -113,6 +115,9 @@ int x_handler(void *param);
 
 int the_handler(void *param);
 
-void    show_map(t_all *t);
+void    fill_image_by_map(t_all *t);
+
+
+void    bmp_maker(t_all *t);
 
 #endif

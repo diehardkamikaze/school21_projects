@@ -6,7 +6,7 @@
 /*   By: mchau <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/11 13:59:25 by mchau             #+#    #+#             */
-/*   Updated: 2021/03/20 12:23:30 by mchau            ###   ########.fr       */
+/*   Updated: 2021/03/21 12:14:39 by mchau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,13 +60,15 @@ int		main(int argc, char **argv)
 	fd = open(argv[1], O_RDONLY);
 	if (fd == -1)
 		exit_with_message(strerror(errno), 0);
-	t = map_file_parser(fd);
+	t = map_file_parser(fd); // забываешь всюду закрыть fd в случае парсинга;
 	close(fd);
 	if (argc >= 3 && ft_strncmp(argv[2], "--save", 6) == 0)
 	{
 		printf("Here implementation of --save flag");
+		bmp_maker(t);
 	}
-	go_game_logic(t);
+	else
+		go_game_logic(t);
 
 	//чисти все при --save и escape/[x]
 	return (0);

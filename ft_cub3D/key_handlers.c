@@ -6,7 +6,7 @@
 /*   By: mchau <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/20 10:44:35 by mchau             #+#    #+#             */
-/*   Updated: 2021/03/20 12:39:12 by mchau            ###   ########.fr       */
+/*   Updated: 2021/03/21 11:35:33 by mchau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	test_handler(int keycode, void *param)
 
 	if (keycode == 53)
 	{
-		//mlx_destroy_image(t.game->mlx, t.game->img);
+		mlx_destroy_image(t->game->mlx, t->game->img);
 		mlx_destroy_window(t->game->mlx, t->game->win);
 		free (t->game->mlx);
 		free_wrapper(t);
@@ -32,8 +32,8 @@ int	test_handler(int keycode, void *param)
 		t->plr->x -= 1.0;
 	if (keycode == 1)
 		t->plr->x += 1.0;
-	mlx_clear_window(t->game->mlx, t->game->win);
-	show_map(t);
+	mlx_destroy_image(t->game->mlx, t->game->img);
+	fill_image_by_map(t);//получается перерисовываешь при нажатии любой клавиши - чего делать ненужно
 	// -> == 124, -< == 123, W== 13 , A == 0, S == 1, D == 2
 	return (1);
 }
