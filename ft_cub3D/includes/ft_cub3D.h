@@ -6,7 +6,7 @@
 /*   By: mchau <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/11 14:00:31 by mchau             #+#    #+#             */
-/*   Updated: 2021/03/21 12:03:48 by mchau            ###   ########.fr       */
+/*   Updated: 2021/03/21 18:09:04 by mchau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@
 #include <stdio.h>
 #include "../minilibx_opengl/mlx.h"
 #include "../minilibx_opengl/mlx.h"
+
+# define PI 3.14159265
 
 # define IS_SPACE(val) ((val >= 9 && val <= 13) || val == ' ')
 

@@ -6,13 +6,17 @@
 /*   By: mchau <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/20 10:03:28 by mchau             #+#    #+#             */
-/*   Updated: 2021/03/21 12:01:37 by mchau            ###   ########.fr       */
+/*   Updated: 2021/03/21 17:43:32 by mchau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_cub3D.h"
 
 void    scale_pixel(t_all *t, int x, int y, int color);
+
+void	draw_line()
+{
+}
 
 void	fill_image_by_map(t_all *t)
 {
@@ -32,14 +36,39 @@ void	fill_image_by_map(t_all *t)
 		j = 0;
 		while (t->map[i][j])
 		{
-			if ((int)t->plr->x == i && (int)t->plr->y == j)
-				scale_pixel(t, i, j, 0xcd6889);
-			else if (t->map[i][j] == '1')
+			/*if ((int)t->plr->x == i && (int)t->plr->y == j)
+				scale_pixel(t, i, j, 0xcd6889);*/
+			if (t->map[i][j] == '1')
 				scale_pixel(t, i, j, 0xffc0cb);
 			j++;
 		}
 		i++;
 	}
+	//пробрасываем первый луч
+	float c = 0;
+	float z = 0.1;
+	float floatRayX;
+	float floatRayY;
+	float k = 0;
+	while (z < PI/3)
+	{
+		c = 0;
+		k = t->plr->dir + z;
+		while (c < 20)
+		{
+			floatRayX = t->plr->x + c*cos(k);
+			floatRayY = t->plr->y + c*sin(k);
+			c+= 0.05;
+			if ((int)floatRayX > 0)
+			{
+				if (t->map[(int)floatRayX][(int)floatRayY] !='S')
+					break;
+				else t->game->addr[((int)(floatRayX*20.0) * t->maze->w_h / 1000000) + (int)(floatRayY * 20.0) ] = 0xFFFFFF;
+			}
+		}
+		z+= 0.002;
+	}
+
 	mlx_put_image_to_window(t->game->mlx, t->game->win, t->game->img, 0, 0);
 }
 
