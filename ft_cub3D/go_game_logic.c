@@ -6,17 +6,11 @@
 /*   By: mchau <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/20 10:03:28 by mchau             #+#    #+#             */
-/*   Updated: 2021/03/22 14:50:54 by mchau            ###   ########.fr       */
+/*   Updated: 2021/03/22 16:48:30 by mchau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_cub3D.h"
-
-void    scale_pixel(t_all *t, int x, int y, int color);
-
-void	draw_line()
-{
-}
 
 void	fill_image_by_map(t_all *t)
 {
@@ -114,14 +108,14 @@ void	fill_image_by_map(t_all *t)
       //draw the pixels of the stripe as a vertical line
 	  int g = 0;
 	  while (g++ < drawStart)
-		  t->game->addr[g * w + x] = 0xC400AB;
+		  t->game->addr[g * w + x] = t->maze->c_f[0];
 	  while (drawStart < drawEnd)
 	  {
 			t->game->addr[drawStart * w + x] = color;
 			drawStart++;
 	  }
 	  while (drawEnd++ < h - 1)
-		  t->game->addr[drawEnd * w + x] = 0x61de2a;
+		  t->game->addr[drawEnd * w + x] = t->maze->c_f[1];
 	  x++;
 	}
 

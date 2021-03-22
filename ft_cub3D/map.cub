@@ -1,17 +1,17 @@
 
-C ,,9
+C ,245,
 
 R 2000 		1200
 
 
 
-F 255,255,25
+F 127,111,27
 
 
 WE ./gnl/get_next_line.c
 EA ./gnl/get_next_line_utils.c
 S		./utils/ft_strncmp.c
-S
+
 
 NO	./utils/ft_strtol.c
 SO map_parser.c
