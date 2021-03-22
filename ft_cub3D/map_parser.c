@@ -6,7 +6,7 @@
 /*   By: mchau <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/18 18:32:51 by mchau             #+#    #+#             */
-/*   Updated: 2021/03/20 09:58:18 by mchau            ###   ########.fr       */
+/*   Updated: 2021/03/22 16:14:21 by mchau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ void	init_map_vars(t_compose *t, t_all *result)
 	t->result = result;
 	if (!(t->result->plr = malloc(sizeof(t_plr))))
 		exit_with_message("Malloc error in init_map: plr_struct", t->result);
-	t->result->plr->dir = -1;
 	t->map_struct = 0;
 	t->spr_struct = 0;
 	t->max_x = 0;
@@ -42,11 +41,32 @@ void	map_error(char *str, t_compose *t, char *line)
 
 void	player_handler(int i, int j, t_compose *t, char *line)
 {
-	if (t->result->plr->dir >= 0)
+	if (t->result->plr->dirX >= 0) //неверно
 		map_error("MAP: More than one player", t, line);
-	t->result->plr->dir = (int)line[j];
+	if (line[j] == 'N')
+	{
+		t->result->plr->dirX = -1.0;
+		t->result->plr->dirY = 0;
+	}
+	else if (line[j] == 'E')
+	{
+		t->result->plr->dirX = 1.0;
+		t->result->plr->dirY = 0;
+	}
+	else if (line[j] == 'W')
+	{
+		t->result->plr->dirX = 0;
+		t->result->plr->dirY = -1.0;
+	}
+	else
+	{
+		t->result->plr->dirX = 0;
+		t->result->plr->dirY = 1.0;
+	}
 	t->result->plr->x = (float)i;
 	t->result->plr->y = (float)j;
+	t->result->plr->planeX = 0.0;
+	t->result->plr->planeY = 0.66;
 }
 
 void	sprite_handler(int coords, t_compose *t, char *line)
