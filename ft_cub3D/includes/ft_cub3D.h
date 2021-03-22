@@ -6,7 +6,7 @@
 /*   By: mchau <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/11 14:00:31 by mchau             #+#    #+#             */
-/*   Updated: 2021/03/21 18:09:04 by mchau            ###   ########.fr       */
+/*   Updated: 2021/03/22 14:19:43 by mchau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,9 +60,10 @@ typedef struct	s_maze_params {
 typedef struct	s_plr {
 	float		x;
 	float		y;
-	float		dir;
-	float		start;
-	float		end;
+	float		dirX;
+	float		dirY;
+	float		planeX;
+	float		planeY;
 }				t_plr;
 
 typedef struct		s_spr_list {

@@ -6,7 +6,7 @@
 /*   By: mchau <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/18 18:28:18 by mchau             #+#    #+#             */
-/*   Updated: 2021/03/21 17:07:52 by mchau            ###   ########.fr       */
+/*   Updated: 2021/03/22 14:15:17 by mchau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ t_all	*initialize_struct(void)
 		maze_error("t_all init plr: malloc error!", t, 0);
 	t->plr->x = 0;
 	t->plr->y = 0;
-	t->plr->dir = 0;
 	return (t);
 }
 

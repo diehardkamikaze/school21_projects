@@ -6,7 +6,7 @@
 /*   By: mchau <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/20 10:03:28 by mchau             #+#    #+#             */
-/*   Updated: 2021/03/21 17:43:32 by mchau            ###   ########.fr       */
+/*   Updated: 2021/03/22 14:50:54 by mchau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,45 +28,101 @@ void	fill_image_by_map(t_all *t)
 	int endian;
 
 	t->game->addr = (unsigned int *)(mlx_get_data_addr(t->game->img, &bpp, &size_line, &endian)); // polu4aem buffer
-	int i = 0;
-	int j;
+	float posX = t->plr->x;
+	float posY = t->plr->y;
+	float dirX = t->plr->dirX;
+	float dirY = t->plr->dirY;
+	float planeX = t->plr->planeX;
+	float planeY = t->plr->planeY;
 
-	while (t->map[i])
+	int x = 0;
+	int w = t->maze->w_h / 1000000;
+	int h =	t->maze->w_h % 1000000;
+	while (x < w)
 	{
-		j = 0;
-		while (t->map[i][j])
-		{
-			/*if ((int)t->plr->x == i && (int)t->plr->y == j)
-				scale_pixel(t, i, j, 0xcd6889);*/
-			if (t->map[i][j] == '1')
-				scale_pixel(t, i, j, 0xffc0cb);
-			j++;
-		}
-		i++;
-	}
-	//пробрасываем первый луч
-	float c = 0;
-	float z = 0.1;
-	float floatRayX;
-	float floatRayY;
-	float k = 0;
-	while (z < PI/3)
-	{
-		c = 0;
-		k = t->plr->dir + z;
-		while (c < 20)
-		{
-			floatRayX = t->plr->x + c*cos(k);
-			floatRayY = t->plr->y + c*sin(k);
-			c+= 0.05;
-			if ((int)floatRayX > 0)
-			{
-				if (t->map[(int)floatRayX][(int)floatRayY] !='S')
-					break;
-				else t->game->addr[((int)(floatRayX*20.0) * t->maze->w_h / 1000000) + (int)(floatRayY * 20.0) ] = 0xFFFFFF;
-			}
-		}
-		z+= 0.002;
+		float cameraX = 2 * x / (float)w - 1;
+		float rayDirX = dirX + cameraX * planeX;
+		float rayDirY = dirY + cameraX * planeY;
+		int mapX = (int)posX;
+		int mapY = (int)posY;
+
+
+		float sideDistX;
+    	float sideDistY;
+		float deltaDistX = fabs(1 / rayDirX);
+		float deltaDistY = fabs(1 / rayDirY);
+		float perpWallDist;
+
+		int stepX;
+      	int stepY;
+
+		int hit = 0;
+      	int side;
+		if(rayDirX < 0)
+      {
+        stepX = -1;
+        sideDistX = (posX - mapX) * deltaDistX;
+      }
+      else
+      {
+        stepX = 1;
+        sideDistX = (mapX + 1.0 - posX) * deltaDistX;
+      }
+      if(rayDirY < 0)
+      {
+        stepY = -1;
+        sideDistY = (posY - mapY) * deltaDistY;
+      }
+      else
+      {
+        stepY = 1;
+        sideDistY = (mapY + 1.0 - posY) * deltaDistY;
+      }
+	  while (hit == 0)
+      {
+        //jump to next map square, OR in x-direction, OR in y-direction
+        if(sideDistX < sideDistY)
+        {
+          sideDistX += deltaDistX;
+          mapX += stepX;
+          side = 0;
+        }
+        else
+        {
+          sideDistY += deltaDistY;
+          mapY += stepY;
+          side = 1;
+        }
+        //Check if ray has hit a wall
+        if (t->map[mapX][mapY] == '1') hit = 1;
+      }
+	  if(side == 0) perpWallDist = (mapX - posX + (1 - stepX) / 2) / rayDirX;
+      else          perpWallDist = (mapY - posY + (1 - stepY) / 2) / rayDirY;
+
+      int lineHeight = (int)(h / perpWallDist);
+
+      //calculate lowest and highest pixel to fill in current stripe
+      int drawStart = -lineHeight / 2 + h / 2;
+      if(drawStart < 0)drawStart = 0;
+      int drawEnd = lineHeight / 2 + h / 2;
+      if(drawEnd >= h)drawEnd = h - 1;
+
+	  int color;
+	  if (side == 1)
+		color = 0xFFFF00;
+	  else color = 0x800000;
+      //draw the pixels of the stripe as a vertical line
+	  int g = 0;
+	  while (g++ < drawStart)
+		  t->game->addr[g * w + x] = 0xC400AB;
+	  while (drawStart < drawEnd)
+	  {
+			t->game->addr[drawStart * w + x] = color;
+			drawStart++;
+	  }
+	  while (drawEnd++ < h - 1)
+		  t->game->addr[drawEnd * w + x] = 0x61de2a;
+	  x++;
 	}
 
 	mlx_put_image_to_window(t->game->mlx, t->game->win, t->game->img, 0, 0);

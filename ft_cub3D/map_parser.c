@@ -6,7 +6,7 @@
 /*   By: mchau <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/18 18:32:51 by mchau             #+#    #+#             */
-/*   Updated: 2021/03/22 16:14:21 by mchau            ###   ########.fr       */
+/*   Updated: 2021/03/22 16:44:49 by mchau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,32 +41,37 @@ void	map_error(char *str, t_compose *t, char *line)
 
 void	player_handler(int i, int j, t_compose *t, char *line)
 {
+	t->result->plr->planeX = 0.0;
+	t->result->plr->planeY = 0.66;
 	if (t->result->plr->dirX >= 0) //неверно
 		map_error("MAP: More than one player", t, line);
 	if (line[j] == 'N')
 	{
 		t->result->plr->dirX = -1.0;
-		t->result->plr->dirY = 0;
+		t->result->plr->dirY = 0.0;
 	}
 	else if (line[j] == 'E')
 	{
-		t->result->plr->dirX = 1.0;
-		t->result->plr->dirY = 0;
+		t->result->plr->planeX = 0.66;
+		t->result->plr->planeY = 0;
+		t->result->plr->dirX = 0.0;
+		t->result->plr->dirY = 1.0;
 	}
 	else if (line[j] == 'W')
 	{
-		t->result->plr->dirX = 0;
+		t->result->plr->planeX = -0.66;
+		t->result->plr->planeY = 0;
+		t->result->plr->dirX = 0.0;
 		t->result->plr->dirY = -1.0;
 	}
 	else
 	{
-		t->result->plr->dirX = 0;
-		t->result->plr->dirY = 1.0;
+		t->result->plr->planeY = -0.66;
+		t->result->plr->dirX = 1.0;
+		t->result->plr->dirY = 0.0;
 	}
 	t->result->plr->x = (float)i;
 	t->result->plr->y = (float)j;
-	t->result->plr->planeX = 0.0;
-	t->result->plr->planeY = 0.66;
 }
 
 void	sprite_handler(int coords, t_compose *t, char *line)
