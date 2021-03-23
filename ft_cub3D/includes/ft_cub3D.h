@@ -6,7 +6,7 @@
 /*   By: mchau <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/11 14:00:31 by mchau             #+#    #+#             */
-/*   Updated: 2021/03/22 14:19:43 by mchau            ###   ########.fr       */
+/*   Updated: 2021/03/23 11:39:29 by mchau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,10 @@
 
 # define PI 3.14159265
 
+# define MOVE_SPEED 0.1f
+
+# define ROT_SPEED 0.05f
+
 # define IS_SPACE(val) ((val >= 9 && val <= 13) || val == ' ')
 
 # define IS_MAP_CHAR(val) (val == ' ' || val == '0' || val == '1')
@@ -35,6 +39,15 @@
 
 # define IS_NOT_TRUE_FORMAT(val) (argv[1][val] != 'b' || argv[1][val - 1] \
 		!= 'u' || argv[1][val - 2] != 'c' || argv[1][val - 3] != '.')
+
+typedef struct		s_key_state {
+	int	key_w;
+	int	key_a;
+	int	key_s;
+	int	key_d;
+	int	key_arrow_left;
+	int	key_arrow_right;
+}					t_key_state;
 
 typedef struct	s_win
 {
@@ -78,6 +91,7 @@ typedef struct	s_all {
 	t_plr			*plr;
 	int				*spr;
 	int				spr_len;
+	t_key_state		pressed;
 }				t_all;
 
 typedef struct		s_compose {
@@ -112,14 +126,21 @@ void    map_error(char *str, t_compose *t, char *line);
 
 void    go_game_logic(t_all *t);
 
-int test_handler(int keycode, void *param);
+int		key_press_handler(int keycode, void *param);
 
-int x_handler(void *param);
+int		key_release_handler(int keycode, void *param);
 
-int the_handler(void *param);
+int		exit_handler(void *param);
 
 void    fill_image_by_map(t_all *t);
 
+int		key_state_checker(void *param);
+
+int		handle_moving_ws(int dir, t_all *t);
+
+int		handle_moving_ad(float dir, t_all *t);
+
+int		handle_rotating(int dir, t_all *t);
 
 void    bmp_maker(t_all *t);
 

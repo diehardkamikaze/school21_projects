@@ -6,7 +6,7 @@
 /*   By: mchau <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/20 10:03:28 by mchau             #+#    #+#             */
-/*   Updated: 2021/03/22 16:48:30 by mchau            ###   ########.fr       */
+/*   Updated: 2021/03/23 11:39:27 by mchau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,7 +149,9 @@ void	go_game_logic(t_all *t)
 					(int)(t->maze->w_h % 1000000), "mchau")))
 		exit_with_message("GAME: mlx_new_window malloc error", t);
 	fill_image_by_map(t);
-	mlx_hook(game.win, 17, 0, x_handler, t); // [x] push
-	mlx_hook(game.win, 2, (1L << 0), test_handler, t);
+	mlx_hook(game.win, 17, 0, exit_handler, t);
+	mlx_hook(game.win, 2, 0, &key_handler, t);
+	mlx_hook(game.win, 3, 0, &key_handler2, t);
+	mlx_loop_hook(game.mlx, key_state_checker, t);
 	mlx_loop(game.mlx);
 }
