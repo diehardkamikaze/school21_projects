@@ -6,7 +6,7 @@
 /*   By: mchau <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/11 14:00:31 by mchau             #+#    #+#             */
-/*   Updated: 2021/03/23 16:03:49 by mchau            ###   ########.fr       */
+/*   Updated: 2021/03/23 17:09:07 by mchau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@
 
 # define MOVE_SPEED 0.1f
 
-# define ROT_SPEED 0.05f
+# define ROT_SPEED 0.08f
 
 # define IS_SPACE(val) ((val >= 9 && val <= 13) || val == ' ')
 

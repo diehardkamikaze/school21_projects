@@ -6,11 +6,48 @@
 /*   By: mchau <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/20 10:03:28 by mchau             #+#    #+#             */
-/*   Updated: 2021/03/23 16:27:54 by mchau            ###   ########.fr       */
+/*   Updated: 2021/03/23 17:07:25 by mchau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_cub3D.h"
+
+unsigned int *get_world_side_txt(t_all *t, int side, float dir_x, float dir_y, int *wi, int *hi)
+{
+	int num;
+
+	if (dir_x > 0 && dir_y >= 0)
+	{
+		if (side == 1)
+			num = EA_TXT;
+		else
+			num = SO_TXT;
+	}
+	if (dir_x >= 0 && dir_y < 0)
+	{
+		if (side == 1)
+			num = WE_TXT;
+		else
+			num = SO_TXT;
+	}
+	if (dir_x < 0 && dir_y <= 0)
+	{
+		if (side == 1)
+			num = WE_TXT;
+		else
+			num = NO_TXT;
+	}
+
+	if (dir_x <= 0 && dir_y > 0)
+	{
+		if (side == 1)
+			num = EA_TXT;
+		else
+			num = NO_TXT;
+	}
+
+	return ((unsigned int *)mlx_get_data_addr_main(t->txt_img[num], wi, hi));
+}
 
 void	fill_image_by_map(t_all *t)
 {
@@ -113,7 +150,8 @@ void	fill_image_by_map(t_all *t)
 
 	int texWidth;
 	int texHight;
-	unsigned int *texture = (unsigned int *)mlx_get_data_addr_main(t->txt_img[0], &texWidth, &texHight);
+	 unsigned int *texture;
+	  texture = get_world_side_txt(t, side, rayDirX, rayDirY, &texWidth, &texHight);
 
       int texX = (int)(wallX * (double)texWidth);
 
@@ -125,11 +163,10 @@ void	fill_image_by_map(t_all *t)
       double texPos = (drawStart - h / 2 + lineHeight / 2) * step;
       while(drawStart < drawEnd)
       {
-        // Cast the texture coordinate to integer, and mask with (texHeight - 1) in case of overflow
         int texY = (int)texPos & (texHight - 1);
         texPos += step;
         unsigned int color = texture[texHight * texY + texX];
-        //make color darker for y-sides: R, G and B byte each divided through two with a "shift" and an "and"
+
         if(side == 1) color = (color >> 1) & 8355711;
         t->game->addr[drawStart * w + x] = color;
 		drawStart++;
