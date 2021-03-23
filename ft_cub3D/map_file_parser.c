@@ -6,7 +6,7 @@
 /*   By: mchau <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/18 18:28:18 by mchau             #+#    #+#             */
-/*   Updated: 2021/03/23 10:44:18 by mchau            ###   ########.fr       */
+/*   Updated: 2021/03/23 16:08:35 by mchau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,11 +35,8 @@ t_all	*initialize_struct(void)
 	t->maze->w_h = 0;
  	t->maze->c_f[0] = -1;
  	t->maze->c_f[1] = -1;
-	t->maze->no_txt = -1;
-	t->maze->we_txt = -1;
-	t->maze->ea_txt = -1;
-	t->maze->so_txt = -1;
-	t->maze->sprite_txt = -1;
+	ft_bzero(t->maze->textures, 5 * sizeof(char *));
+	ft_bzero(t->txt_img, 5 * sizeof(void *));
 	if (!(t->plr = malloc(sizeof(t_plr))))
 		maze_error("t_all init plr: malloc error!", t, 0);
 	t->plr->x = 0;
@@ -50,7 +47,7 @@ t_all	*initialize_struct(void)
 	t->pressed.key_d = 0;
 	t->pressed.key_arrow_left = 0;
 	t->pressed.key_arrow_right = 0;
-	return (t);
+    return (t);
 }
 
 int		r_handler(char *line, t_all *t)
@@ -114,36 +111,27 @@ int		colors_handler(char below, char *line, t_all *t)
 
 int		textures_handler(char character, char *line, t_all *t)
 {
-	int		fd;
-	int		*path_ptr;
+	int		current_tex;
 	char	*endptr;
 
-	path_ptr = 0;
 	endptr = line + 2;
-	if (character == 'E')
-		path_ptr = &(t->maze->ea_txt);
+	if (!(errno = 0) && character == 'E')
+		 current_tex = EA_TXT;
 	if (character == 'W')
-		path_ptr = &(t->maze->we_txt);
+		current_tex = WE_TXT;
 	if (character == 'N')
-		path_ptr = &(t->maze->no_txt);
+		current_tex = NO_TXT;
 	if (character == 'O')
-		path_ptr = &(t->maze->so_txt);
+		current_tex = SO_TXT;
 	if (character == 'S')
-		path_ptr = &(t->maze->sprite_txt);
-	if (*path_ptr != -1)
+		current_tex = SPR_TXT;
+	if (t->maze->textures[current_tex] != 0)
 		maze_error("Some texture parameter is repeating!", t, line);
 	while (IS_SPACE(*endptr))
 		endptr++;
-	errno = 0;
-	fd = open(endptr, O_RDONLY);
-	if (fd == -1)
+	t->maze->textures[current_tex] = ft_strdup(endptr);
+	if (!(t->maze->textures[current_tex]))
 		maze_error(strerror(errno), t, line);
-	*path_ptr = fd;
-	/* здесь сразу как-то выделяем память и считываем
-	 * структуру а пока просто проверка?
-	 * пути хранить нам, наверное и не понадобится
-	*/
-	close(fd);
 	return (1);
 }
 

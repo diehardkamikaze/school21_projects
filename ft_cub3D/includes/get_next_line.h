@@ -6,7 +6,7 @@
 /*   By: mchau <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/16 08:37:44 by mchau             #+#    #+#             */
-/*   Updated: 2021/03/19 10:40:57 by mchau            ###   ########.fr       */
+/*   Updated: 2021/03/23 15:47:34 by mchau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@
 # endif
 
 int					get_next_line(int fd, char **line);
+
+size_t				ft_strlen(const char *s);
 
 char				*ft_substr(char *s, size_t start, size_t len);
 

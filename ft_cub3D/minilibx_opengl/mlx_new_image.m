@@ -103,6 +103,13 @@ char    *mlx_get_data_addr(mlx_img_list_t *img_ptr, int *bits_per_pixel, int *si
   return (img_ptr->buffer);
 }
 
+char    *mlx_get_data_addr_main(mlx_img_list_t *img_ptr, int *width, int *height)
+{
+    *width = img_ptr->width;
+    *height = img_ptr->height;
+    return (img_ptr->buffer);
+}
+
 unsigned int    mlx_get_color_value(mlx_ptr_t *mlx_ptr, int color)
 {
   return (color);

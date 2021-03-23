@@ -6,7 +6,7 @@
 /*   By: mchau <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/23 10:13:15 by mchau             #+#    #+#             */
-/*   Updated: 2021/03/23 11:39:26 by mchau            ###   ########.fr       */
+/*   Updated: 2021/03/23 14:37:32 by mchau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,11 @@ int	exit_handler(void *param)
 	t_all   *t;
 
 	t = (t_all *)param;
+
+	mlx_destroy_image(t->game->mlx, t->game->img);
 	mlx_destroy_window(t->game->mlx, t->game->win);
-	free (t->game->mlx);
 	free_wrapper(t);
-	exit(0);
+	exit(1);
 	return (1);
 }
 
@@ -31,7 +32,6 @@ int	key_state_checker(void *param)
 
 	t = (t_all *)param;
 	pressed = &(t->pressed);
-	printf("%d", pressed->key_w);
 	if (pressed->key_w)
 		handle_moving_ws(1, t);
 	if (pressed->key_a)
@@ -41,9 +41,9 @@ int	key_state_checker(void *param)
 	if (pressed->key_d)
 		handle_moving_ad(-PI/2, t);
 	if (pressed->key_arrow_left)
-		handle_rotating(-1, t);
-	if (pressed->key_arrow_right)
 		handle_rotating(1, t);
+	if (pressed->key_arrow_right)
+		handle_rotating(-1, t);
 	return (1);
 }
 
@@ -51,6 +51,7 @@ int	key_press_handler(int keycode, void *param)
 {
 	t_all	*t;
 	t = (t_all *)param;
+
 	if (keycode == 53)
 		exit_handler(param);
 	if (keycode == 2)

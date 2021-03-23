@@ -6,7 +6,7 @@
 /*   By: mchau <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/20 10:03:28 by mchau             #+#    #+#             */
-/*   Updated: 2021/03/23 11:39:27 by mchau            ###   ########.fr       */
+/*   Updated: 2021/03/23 16:27:54 by mchau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,19 +101,44 @@ void	fill_image_by_map(t_all *t)
       int drawEnd = lineHeight / 2 + h / 2;
       if(drawEnd >= h)drawEnd = h - 1;
 
-	  int color;
-	  if (side == 1)
-		color = 0xFFFF00;
-	  else color = 0x800000;
-      //draw the pixels of the stripe as a vertical line
 	  int g = 0;
 	  while (g++ < drawStart)
 		  t->game->addr[g * w + x] = t->maze->c_f[0];
-	  while (drawStart < drawEnd)
+
+	  double wallX;
+      if(side == 0) wallX = posY + perpWallDist * rayDirY;
+      else          wallX = posX + perpWallDist * rayDirX;
+      wallX -= floor((wallX));
+
+
+	int texWidth;
+	int texHight;
+	unsigned int *texture = (unsigned int *)mlx_get_data_addr_main(t->txt_img[0], &texWidth, &texHight);
+
+      int texX = (int)(wallX * (double)texWidth);
+
+      if(side == 0 && rayDirX > 0) texX = texWidth - texX - 1;
+      if(side == 1 && rayDirY < 0) texX = texWidth - texX - 1;
+
+	  double step = 1.0 * texHight / lineHeight;
+      // Starting texture coordinate
+      double texPos = (drawStart - h / 2 + lineHeight / 2) * step;
+      while(drawStart < drawEnd)
+      {
+        // Cast the texture coordinate to integer, and mask with (texHeight - 1) in case of overflow
+        int texY = (int)texPos & (texHight - 1);
+        texPos += step;
+        unsigned int color = texture[texHight * texY + texX];
+        //make color darker for y-sides: R, G and B byte each divided through two with a "shift" and an "and"
+        if(side == 1) color = (color >> 1) & 8355711;
+        t->game->addr[drawStart * w + x] = color;
+		drawStart++;
+      }
+	  /*	  while (drawStart < drawEnd)
 	  {
 			t->game->addr[drawStart * w + x] = color;
 			drawStart++;
-	  }
+	  } */
 	  while (drawEnd++ < h - 1)
 		  t->game->addr[drawEnd * w + x] = t->maze->c_f[1];
 	  x++;
@@ -122,21 +147,27 @@ void	fill_image_by_map(t_all *t)
 	mlx_put_image_to_window(t->game->mlx, t->game->win, t->game->img, 0, 0);
 }
 
-void	scale_pixel(t_all *t, int x, int y, int color)
+void init_text_array(t_all *t)
 {
 	int i;
-	int j;
-	int size;
+	int width;
+	int height;
 
-	size = 20;
-	x = size * x;
-	y = size * y;
-	i = -1;
-	j = -1;
-	while (++i < size && (j = -1))
-		while (++j < size)
-			t->game->addr[(x + i) * t->maze->w_h / 1000000 + (y + j)] = color;
+	i = 1;
+	t->txt_img[0] = mlx_xpm_file_to_image(t->game->mlx, \
+			t->maze->textures[i], t->txt_size, t->txt_size + 1);
+	while (i < 5)
+	{
+		t->txt_img[i] = mlx_xpm_file_to_image(t->game->mlx, \
+				t->maze->textures[i], &width, &height);
+		if (t->txt_img[i] == 0)
+			exit_with_message("Invalid texture", t);
+		if (width != t->txt_size[0] || height != t->txt_size[1])
+			exit_with_message("Problem with texture sizes", t);
+		i++;
+	}
 }
+
 void	go_game_logic(t_all *t)
 {
 	t_win game;
@@ -148,10 +179,11 @@ void	go_game_logic(t_all *t)
 	if (!(game.win = mlx_new_window(game.mlx, (int)(t->maze->w_h / 1000000),\
 					(int)(t->maze->w_h % 1000000), "mchau")))
 		exit_with_message("GAME: mlx_new_window malloc error", t);
+	init_text_array(t);
 	fill_image_by_map(t);
 	mlx_hook(game.win, 17, 0, exit_handler, t);
-	mlx_hook(game.win, 2, 0, &key_handler, t);
-	mlx_hook(game.win, 3, 0, &key_handler2, t);
+	mlx_hook(game.win, 2, 0, key_press_handler, t);
+	mlx_hook(game.win, 3, 0, key_release_handler, t);
 	mlx_loop_hook(game.mlx, key_state_checker, t);
 	mlx_loop(game.mlx);
 }

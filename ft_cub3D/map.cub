@@ -8,13 +8,12 @@ R 2000 		1200
 F 127,111,27
 
 
-WE ./gnl/get_next_line.c
-EA ./gnl/get_next_line_utils.c
-S		./utils/ft_strncmp.c
+WE ./textures/ryan.xpm
+EA ./textures/ryan.xpm
+S		./textures/ryan.xpm
 
-
-NO	./utils/ft_strtol.c
-SO map_parser.c
+NO	./textures/ryan.xpm
+SO ./textures/ryan.xpm
 
     
  11111111111111

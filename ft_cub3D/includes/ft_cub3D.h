@@ -6,7 +6,7 @@
 /*   By: mchau <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/11 14:00:31 by mchau             #+#    #+#             */
-/*   Updated: 2021/03/23 11:39:29 by mchau            ###   ########.fr       */
+/*   Updated: 2021/03/23 16:03:49 by mchau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,16 @@
 #include <stdio.h>
 #include "../minilibx_opengl/mlx.h"
 #include "../minilibx_opengl/mlx.h"
+
+# define SPR_TXT 0
+
+# define NO_TXT	1
+
+# define WE_TXT 2
+
+# define SO_TXT 3
+
+# define EA_TXT 4
 
 # define PI 3.14159265
 
@@ -63,11 +73,7 @@ typedef struct	s_win
 typedef struct	s_maze_params {
 	long	w_h;
 	int		c_f[2];
-	int		no_txt;
-	int 	we_txt;
-	int		ea_txt;
-	int		so_txt;
-	int		sprite_txt;
+	char	*textures[5];
 }				t_maze_params;
 
 typedef struct	s_plr {
@@ -92,6 +98,8 @@ typedef struct	s_all {
 	int				*spr;
 	int				spr_len;
 	t_key_state		pressed;
+	void			*txt_img[5];
+	int				txt_size[2];
 }				t_all;
 
 typedef struct		s_compose {
@@ -109,6 +117,10 @@ t_all	*map_file_parser(int fd);
 long	ft_strtol(const char *nptr, char **endptr, int base);
 
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
+
+void	ft_bzero(void *s, size_t n);
+
+char	*ft_strdup(const char *);
 
 void    flood_fill(t_compose *t, int pos_x, int pos_y);
 

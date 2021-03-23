@@ -153,4 +153,6 @@ int	mlx_do_sync(void *mlx_ptr);
 //my function
 void	mlx_get_screen_size(int *, int *);
 
+char    *mlx_get_data_addr_main(void *img_ptr, int *width, int *height);
+
 #endif /* MLX_H */

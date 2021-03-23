@@ -6,7 +6,7 @@
 /*   By: mchau <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/11 13:59:25 by mchau             #+#    #+#             */
-/*   Updated: 2021/03/21 12:14:39 by mchau            ###   ########.fr       */
+/*   Updated: 2021/03/23 16:09:38 by mchau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,18 @@ void	free_wrapper(t_all *t)
 		if (t->plr)
 			free(t->plr);
 		if (t->maze)
+		{
+			i = 0;
+			while (i < 5)
+			{
+				if (t->maze->textures[i])
+					free(t->maze->textures[i]);
+				if (t->txt_img[i])
+					free(t->txt_img[i]);
+				i++;
+			}
 			free(t->maze);
+		}
 		if (t->spr)
 			free(t->spr);
 		if (t->map)
