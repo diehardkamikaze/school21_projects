@@ -6,7 +6,7 @@
 /*   By: mchau <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/18 18:32:51 by mchau             #+#    #+#             */
-/*   Updated: 2021/03/22 16:47:45 by mchau            ###   ########.fr       */
+/*   Updated: 2021/03/23 09:27:19 by mchau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,8 +70,8 @@ void	player_handler(int i, int j, t_compose *t, char *line)
 		t->result->plr->dirX = 1.0;
 		t->result->plr->dirY = 0.0;
 	}
-	t->result->plr->x = (float)i;
-	t->result->plr->y = (float)j;
+	t->result->plr->x = (float)i + 0.5;
+	t->result->plr->y = (float)j + 0.5;
 }
 
 void	sprite_handler(int coords, t_compose *t, char *line)
