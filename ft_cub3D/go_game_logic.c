@@ -6,7 +6,7 @@
 /*   By: mchau <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/20 10:03:28 by mchau             #+#    #+#             */
-/*   Updated: 2021/03/23 17:07:25 by mchau            ###   ########.fr       */
+/*   Updated: 2021/03/23 18:40:04 by mchau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,14 +51,14 @@ unsigned int *get_world_side_txt(t_all *t, int side, float dir_x, float dir_y, i
 
 void	fill_image_by_map(t_all *t)
 {
-	if(!(t->game->img = mlx_new_image(t->game->mlx, t->maze->w_h / 1000000, t->maze->w_h % 1000000)))
+	if(!(t->game.img = mlx_new_image(t->game.mlx, t->maze->w_h / 1000000, t->maze->w_h % 1000000)))
 		exit_with_message("GAME: mlx_image_init malloc error", t);
 
 	int bpp;
 	int size_line;
 	int endian;
 
-	t->game->addr = (unsigned int *)(mlx_get_data_addr(t->game->img, &bpp, &size_line, &endian)); // polu4aem buffer
+	t->game.addr = (unsigned int *)(mlx_get_data_addr(t->game.img, &bpp, &size_line, &endian)); // polu4aem buffer
 	float posX = t->plr->x;
 	float posY = t->plr->y;
 	float dirX = t->plr->dirX;
@@ -140,7 +140,7 @@ void	fill_image_by_map(t_all *t)
 
 	  int g = 0;
 	  while (g++ < drawStart)
-		  t->game->addr[g * w + x] = t->maze->c_f[0];
+		  t->game.addr[g * w + x] = t->maze->c_f[0];
 
 	  double wallX;
       if(side == 0) wallX = posY + perpWallDist * rayDirY;
@@ -168,34 +168,33 @@ void	fill_image_by_map(t_all *t)
         unsigned int color = texture[texHight * texY + texX];
 
         if(side == 1) color = (color >> 1) & 8355711;
-        t->game->addr[drawStart * w + x] = color;
+        t->game.addr[drawStart * w + x] = color;
 		drawStart++;
       }
 	  /*	  while (drawStart < drawEnd)
 	  {
-			t->game->addr[drawStart * w + x] = color;
+			t->game.addr[drawStart * w + x] = color;
 			drawStart++;
 	  } */
 	  while (drawEnd++ < h - 1)
-		  t->game->addr[drawEnd * w + x] = t->maze->c_f[1];
+		  t->game.addr[drawEnd * w + x] = t->maze->c_f[1];
 	  x++;
 	}
-
-	mlx_put_image_to_window(t->game->mlx, t->game->win, t->game->img, 0, 0);
 }
 
-void init_text_array(t_all *t)
+
+void init_txt_array(t_all *t)
 {
 	int i;
 	int width;
 	int height;
 
 	i = 1;
-	t->txt_img[0] = mlx_xpm_file_to_image(t->game->mlx, \
+	t->txt_img[0] = mlx_xpm_file_to_image(t->game.mlx, \
 			t->maze->textures[i], t->txt_size, t->txt_size + 1);
 	while (i < 5)
 	{
-		t->txt_img[i] = mlx_xpm_file_to_image(t->game->mlx, \
+		t->txt_img[i] = mlx_xpm_file_to_image(t->game.mlx, \
 				t->maze->textures[i], &width, &height);
 		if (t->txt_img[i] == 0)
 			exit_with_message("Invalid texture", t);
@@ -205,22 +204,24 @@ void init_text_array(t_all *t)
 	}
 }
 
+void	init_game (t_all *t)
+{
+	if (!(t->game.mlx = mlx_init()))
+		exit_with_message("GAME: mlx_init malloc error", t);
+	init_txt_array(t);
+	fill_image_by_map(t);
+}
+
+
 void	go_game_logic(t_all *t)
 {
-	t_win game;
-
-	t->game = &game;
-	if (!(game.mlx = mlx_init()))
-		exit_with_message("GAME: mlx_init malloc error", t);
-	//preprocess window reso situation
-	if (!(game.win = mlx_new_window(game.mlx, (int)(t->maze->w_h / 1000000),\
+	if (!(t->game.win = mlx_new_window(t->game.mlx, (int)(t->maze->w_h / 1000000),\
 					(int)(t->maze->w_h % 1000000), "mchau")))
 		exit_with_message("GAME: mlx_new_window malloc error", t);
-	init_text_array(t);
-	fill_image_by_map(t);
-	mlx_hook(game.win, 17, 0, exit_handler, t);
-	mlx_hook(game.win, 2, 0, key_press_handler, t);
-	mlx_hook(game.win, 3, 0, key_release_handler, t);
-	mlx_loop_hook(game.mlx, key_state_checker, t);
-	mlx_loop(game.mlx);
+	mlx_put_image_to_window(t->game.mlx, t->game.win, t->game.img, 0, 0);
+	mlx_hook(t->game.win, 17, 0, exit_handler, t);
+	mlx_hook(t->game.win, 2, 0, key_press_handler, t);
+	mlx_hook(t->game.win, 3, 0, key_release_handler, t);
+	mlx_loop_hook(t->game.mlx, key_state_checker, t);
+	mlx_loop(t->game.mlx);
 }

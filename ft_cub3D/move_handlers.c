@@ -6,7 +6,7 @@
 /*   By: mchau <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/23 10:40:32 by mchau             #+#    #+#             */
-/*   Updated: 2021/03/23 11:20:27 by mchau            ###   ########.fr       */
+/*   Updated: 2021/03/24 08:51:55 by mchau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,18 +14,30 @@
 
 int	handle_moving_ws(int dir, t_all *t)
 {
-		t->plr->y += t->plr->dirY * MOVE_SPEED * dir;
-		t->plr->x += t->plr->dirX * MOVE_SPEED * dir;
-		fill_image_by_map(t);
-		return (1);
+	float tmp_y = t->plr->y + t->plr->dirY * MOVE_SPEED * dir;
+	float tmp_x = t->plr->x + t->plr->dirX * MOVE_SPEED * dir;
+
+	if (t->map[(int)tmp_x][(int)t->plr->y] == 'S')
+		t->plr->x = tmp_x;
+	if (t->map[(int)t->plr->x][(int)tmp_y] == 'S')
+		t->plr->y = tmp_y;
+	fill_image_by_map(t);
+	mlx_put_image_to_window(t->game.mlx, t->game.win, t->game.img, 0, 0);
+	return (1);
 }
 
 int	handle_moving_ad(float dir, t_all *t)
 {
-		t->plr->y += (t->plr->dirX * sin(dir) + t->plr->dirY * cos(dir)) * MOVE_SPEED;
-		t->plr->x += (t->plr->dirX * cos(dir) - t->plr->dirY * sin(dir)) * MOVE_SPEED;
-		fill_image_by_map(t);
-		return (1);
+	float tmp_y = t->plr->y + (t->plr->dirX * dir) * MOVE_SPEED;
+	float tmp_x = t->plr->x + (-t->plr->dirY * dir) * MOVE_SPEED;
+
+	if (t->map[(int)tmp_x][(int)t->plr->y] == 'S')
+		t->plr->x = tmp_x;
+	if (t->map[(int)t->plr->x][(int)tmp_y] == 'S')
+		t->plr->y = tmp_y;
+	fill_image_by_map(t);
+	mlx_put_image_to_window(t->game.mlx, t->game.win, t->game.img, 0, 0);
+	return (1);
 }
 
 int handle_rotating(int dir, t_all *t)
@@ -42,5 +54,6 @@ int handle_rotating(int dir, t_all *t)
 	t->plr->planeX = t->plr->planeX * cos(angle) - t->plr->planeY * sin(angle);
     t->plr->planeY = old_plane_x * sin(angle) + t->plr->planeY * cos(angle);
 	fill_image_by_map(t);
+	mlx_put_image_to_window(t->game.mlx, t->game.win, t->game.img, 0, 0);
 	return (1);
 }

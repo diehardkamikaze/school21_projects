@@ -1,0 +1,28 @@
+
+C ,245,
+
+R 2000 		1200
+
+
+
+F 127,111,27
+
+
+WE ./textures/wood.xpm
+EA ./textures/mossy.xpm
+S		./textures/bluestone.xpm
+
+NO	./textures/eagle.xpm
+SO ./textures/bluestone.xpm
+
+    
+011111111111111
+1N0000000000001
+10111111111111
+10000000000001
+10000000000001
+10000000000001
+10000000000001
+10000011100001
+11110000000111
+1111111111111

@@ -6,7 +6,7 @@
 /*   By: mchau <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/11 14:00:31 by mchau             #+#    #+#             */
-/*   Updated: 2021/03/23 17:09:07 by mchau            ###   ########.fr       */
+/*   Updated: 2021/03/23 19:11:15 by mchau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ typedef struct		s_spr_list {
 }					t_spr_list;
 
 typedef struct	s_all {
-	t_win			*game;
+	t_win			game;
 	char			**map;
 	t_maze_params	*maze;
 	t_plr			*plr;
@@ -155,5 +155,7 @@ int		handle_moving_ad(float dir, t_all *t);
 int		handle_rotating(int dir, t_all *t);
 
 void    bmp_maker(t_all *t);
+
+void    init_game (t_all *t);
 
 #endif

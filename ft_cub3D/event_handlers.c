@@ -6,7 +6,7 @@
 /*   By: mchau <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/23 10:13:15 by mchau             #+#    #+#             */
-/*   Updated: 2021/03/23 14:37:32 by mchau            ###   ########.fr       */
+/*   Updated: 2021/03/23 18:04:05 by mchau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@ int	exit_handler(void *param)
 
 	t = (t_all *)param;
 
-	mlx_destroy_image(t->game->mlx, t->game->img);
-	mlx_destroy_window(t->game->mlx, t->game->win);
+	mlx_destroy_image(t->game.mlx, t->game.img);
+	mlx_destroy_window(t->game.mlx, t->game.win);
 	free_wrapper(t);
 	exit(1);
 	return (1);
