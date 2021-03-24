@@ -6,7 +6,7 @@
 /*   By: mchau <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/18 18:28:18 by mchau             #+#    #+#             */
-/*   Updated: 2021/03/23 16:08:35 by mchau            ###   ########.fr       */
+/*   Updated: 2021/03/24 18:59:25 by mchau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,7 @@ int		textures_handler(char character, char *line, t_all *t)
 
 	endptr = line + 2;
 	if (!(errno = 0) && character == 'E')
-		 current_tex = EA_TXT;
+		current_tex = EA_TXT;
 	if (character == 'W')
 		current_tex = WE_TXT;
 	if (character == 'N')

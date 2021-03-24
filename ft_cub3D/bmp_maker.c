@@ -6,18 +6,18 @@
 /*   By: mchau <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/21 11:36:13 by mchau             #+#    #+#             */
-/*   Updated: 2021/03/24 13:53:06 by mchau            ###   ########.fr       */
+/*   Updated: 2021/03/24 14:17:34 by mchau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_cub3D.h"
 
-unsigned int get_color(int el, unsigned int *addr)
+unsigned int	get_color(int el, unsigned int *addr)
 {
-	return addr[el];
+	return (addr[el]);
 }
 
-void	bitmap_bmp_meta(int fd, t_all *t, int offset)
+void			bitmap_bmp_meta(int fd, t_all *t, int offset)
 {
 	unsigned char	meta[54];
 	int				width;
@@ -43,12 +43,12 @@ void	bitmap_bmp_meta(int fd, t_all *t, int offset)
 	}
 }
 
-void	bitmap_bmp_pixels(int fd, t_all *t, int offset)
+void			bitmap_bmp_pixels(int fd, t_all *t, int offset)
 {
-	int height;
-	int width;
-	int i;
-	char adding[4];
+	int		height;
+	int		width;
+	int		i;
+	char	adding[4];
 
 	width = t->maze->w_h / 1000000;
 	height = t->maze->w_h % 1000000;
@@ -66,7 +66,7 @@ void	bitmap_bmp_pixels(int fd, t_all *t, int offset)
 		}
 }
 
-void	bmp_maker(t_all *t)
+void			bmp_maker(t_all *t)
 {
 	int fd;
 	int he;
@@ -76,7 +76,6 @@ void	bmp_maker(t_all *t)
 	fd = open("sceenshot.bmp", O_CREAT | O_TRUNC | O_WRONLY, S_IRWXU);
 	if (fd == -1)
 		exit_with_message("SAVE: Can't work with file", t);
-
 	he = t->maze->w_h % 1000000;
 	wi = t->maze->w_h / 1000000;
 	offset = (4 - (t->maze->w_h * 3) % 4) % 4;

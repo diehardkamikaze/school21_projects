@@ -6,7 +6,7 @@
 /*   By: mchau <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/23 10:40:32 by mchau             #+#    #+#             */
-/*   Updated: 2021/03/24 10:48:03 by mchau            ###   ########.fr       */
+/*   Updated: 2021/03/24 14:12:55 by mchau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,9 @@ int	handle_moving_ws(int dir, t_all *t)
 	float tmp_y = t->plr->y + t->plr->dirY * MOVE_SPEED * dir;
 	float tmp_x = t->plr->x + t->plr->dirX * MOVE_SPEED * dir;
 
-	if (t->map[(int)tmp_x][(int)t->plr->y] == 'S' && (changed = 1))
+	if (t->map[(int)tmp_x][(int)t->plr->y] == 'L' && (changed = 1))
 		t->plr->x = tmp_x;
-	if (t->map[(int)t->plr->x][(int)tmp_y] == 'S' && (changed = 1))
+	if (t->map[(int)t->plr->x][(int)tmp_y] == 'L' && (changed = 1))
 		t->plr->y = tmp_y;
 	if (changed)
 		return (dir);
@@ -36,9 +36,9 @@ int	handle_moving_ad(float dir, t_all *t)
 	float tmp_x = t->plr->x + (-t->plr->dirY * dir) * MOVE_SPEED;
 
 	changed = 0;
-	if (t->map[(int)tmp_x][(int)t->plr->y] == 'S' && (changed = 1))
+	if (t->map[(int)tmp_x][(int)t->plr->y] == 'L' && (changed = 1))
 		t->plr->x = tmp_x;
-	if (t->map[(int)t->plr->x][(int)tmp_y] == 'S' && (changed = 1))
+	if (t->map[(int)t->plr->x][(int)tmp_y] == 'L' && (changed = 1))
 		t->plr->y = tmp_y;
 	if (changed)
 		return (10 * (int)dir);

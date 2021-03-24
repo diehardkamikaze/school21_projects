@@ -6,7 +6,7 @@
 /*   By: mchau <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/19 12:19:04 by mchau             #+#    #+#             */
-/*   Updated: 2021/03/20 09:58:32 by mchau            ###   ########.fr       */
+/*   Updated: 2021/03/24 14:12:31 by mchau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@ void	flood_fill(t_compose *t, int pos_x, int pos_y)
 			|| 0 > pos_y || t->result->map[pos_x][pos_y] == ' ')
 		exit_with_message("FF: hole in wall!", t->result);
 	if (t->result->map[pos_x][pos_y] != '1' && \
-			t->result->map[pos_x][pos_y] != 'S')
-		t->result->map[pos_x][pos_y] = 'S';
+			t->result->map[pos_x][pos_y] != 'L')
+		t->result->map[pos_x][pos_y] = 'L';
 	else
 		return ;
 	flood_fill(t, pos_x + 1, pos_y);

@@ -6,12 +6,17 @@
 /*   By: mchau <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/20 10:03:28 by mchau             #+#    #+#             */
-/*   Updated: 2021/03/24 10:48:41 by mchau            ###   ########.fr       */
+/*   Updated: 2021/03/24 19:01:13 by mchau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_cub3D.h"
-
+/*
+void	sort_all_sprites(int *sprite_order, int *sprite_distance, int len)
+{
+	// do normal fast sort
+}
+*/
 unsigned int *get_world_side_txt(t_all *t, int side, float dir_x, float dir_y, int *wi, int *hi)
 {
 	int num;
@@ -57,6 +62,7 @@ void	fill_image_by_map(t_all *t)
 	float dirY = t->plr->dirY;
 	float planeX = t->plr->planeX;
 	float planeY = t->plr->planeY;
+	float z_buffer[t->maze->w_h / 1000000];
 
 	int x = 0;
 	int w = t->maze->w_h / 1000000;
@@ -174,7 +180,72 @@ void	fill_image_by_map(t_all *t)
 			  t->game.addr[drawEnd * w + x] = t->maze->c_f[1];
 			  drawEnd++;
 	  	}
+	  z_buffer[x] = perpWallDist;
 	  x++;
+	}
+	int i = 0;
+	int sprite_order[t->spr_len];
+	float sprite_distance[t->spr_len];
+	while (i < t->spr_len)
+    {
+		sprite_order[i] = i;
+		sprite_distance[i] = ((posX - t->spr[i] / 1000) * (posX - t->spr[i] / 1000) + (posY - t->spr[i] % 1000) * (posY - t->spr[i] % 1000));
+		i++;
+	}
+	//sort_all_sprites(sprite_order, sprite_distance, t->spr_len);
+	i = 0;
+	while (i < t->spr_len)
+	{
+		float sprite_x = t->spr[sprite_order[i]] / 1000 + 0.5 - posX;
+		float sprite_y = t->spr[sprite_order[i]] % 1000 + 0.5 - posY;
+		float invDet = 1.0 / (planeX * dirY - dirX * planeY);
+		float transformX = invDet * (dirY * sprite_x - dirX * sprite_y);
+		float transformY = invDet * (-planeY * sprite_x + planeX * sprite_y);
+		int spriteScreenX = (int)((w / 2) * (1 + transformX / transformY));
+		#define uDiv 1
+     	#define vDiv 1
+      	#define vMove 0.0
+		int vMoveScreen = (int)(vMove / transformY);
+		int spriteHeight = abs((int)(h / (transformY))) / vDiv;
+
+		int drawStartY = -spriteHeight / 2 + h / 2 + vMoveScreen;
+      	if (drawStartY < 0)
+			drawStartY = 0;
+		int drawEndY = spriteHeight / 2 + h / 2 + vMoveScreen;
+        if (drawEndY >= h)
+			drawEndY = h - 1;
+		int spriteWidth = abs((int) (h / (transformY))) / uDiv;
+
+		int drawStartX = -spriteWidth / 2 + spriteScreenX;
+		if (drawStartX < 0)
+			drawStartX = 0;
+      int drawEndX = spriteWidth / 2 + spriteScreenX;
+	  	if (drawEndX >= w)
+			drawEndX = w - 1;
+		for (int stripe = drawStartX; stripe < drawEndX; stripe++)
+		{
+        int texX = (int)(256 * (stripe - (-spriteWidth / 2 + spriteScreenX)) * t->txt_size[0] / spriteWidth) / 256;
+        //the conditions in the if are:
+        //1) it's in front of camera plane so you don't see things behind you
+        //2) it's on the screen (left)
+        //3) it's on the screen (right)
+        //4) ZBuffer, with perpendicular distance
+        	if (transformY > 0 && stripe > 0 && stripe < w && transformY < z_buffer[stripe])
+			{
+        		for (int y = drawStartY; y < drawEndY; y++) //for every pixel of the current stripe
+        		{
+        		int d = (y-vMoveScreen) * 256 - h * 128 + spriteHeight * 128; //256 and 128 factors to avoid floats
+          		int texY = ((d * t->txt_size[1]) / spriteHeight) / 256;
+
+				int z[3];
+				unsigned int *tmp =  (unsigned int *)(mlx_get_data_addr(t->txt_img[SPR_TXT], z, z+1, z+2));
+          		unsigned int color = tmp[t->txt_size[0] * texY + texX]; //get current color from the texture
+				if((color & 0x00FFFFFF) != 0)
+					t->game.addr[y * w + stripe] = color; //paint pixel if it isn't black, black is the invisible color
+				}
+			}
+      }
+	  i++;
 	}
 }
 
@@ -185,8 +256,8 @@ void init_txt_array(t_all *t)
 	int width;
 	int height;
 
-	i = 1;
-	t->txt_img[0] = mlx_xpm_file_to_image(t->game.mlx, \
+	i = 0;
+	t->txt_img[i] = mlx_xpm_file_to_image(t->game.mlx, \
 			t->maze->textures[i], t->txt_size, t->txt_size + 1);
 	while (i < 5)
 	{
