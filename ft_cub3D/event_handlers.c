@@ -6,7 +6,7 @@
 /*   By: mchau <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/23 10:13:15 by mchau             #+#    #+#             */
-/*   Updated: 2021/03/23 18:04:05 by mchau            ###   ########.fr       */
+/*   Updated: 2021/03/24 09:44:51 by mchau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,21 +29,28 @@ int	key_state_checker(void *param)
 {
 	t_all		*t;
 	t_key_state	*pressed;
+	int rerender;
 
+	rerender = 0;
 	t = (t_all *)param;
 	pressed = &(t->pressed);
 	if (pressed->key_w)
-		handle_moving_ws(1, t);
+		rerender +=handle_moving_ws(1, t);
 	if (pressed->key_a)
-		handle_moving_ad(PI/2, t);
+		rerender +=handle_moving_ad(1, t);
 	if (pressed->key_s)
-		handle_moving_ws(-1, t);
+		rerender +=handle_moving_ws(-1, t);
 	if (pressed->key_d)
-		handle_moving_ad(-PI/2, t);
+		rerender +=handle_moving_ad(-1, t);
 	if (pressed->key_arrow_left)
-		handle_rotating(1, t);
+		rerender +=handle_rotating(1, t);
 	if (pressed->key_arrow_right)
-		handle_rotating(-1, t);
+		rerender +=handle_rotating(-1, t);
+	if (rerender)
+	{
+		fill_image_by_map(t);
+		mlx_put_image_to_window(t->game.mlx, t->game.win, t->game.img, 0, 0);
+	}
 	return (1);
 }
 

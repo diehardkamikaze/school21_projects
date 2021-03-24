@@ -6,7 +6,7 @@
 /*   By: mchau <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/20 10:03:28 by mchau             #+#    #+#             */
-/*   Updated: 2021/03/23 18:40:04 by mchau            ###   ########.fr       */
+/*   Updated: 2021/03/24 10:03:36 by mchau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,14 +51,6 @@ unsigned int *get_world_side_txt(t_all *t, int side, float dir_x, float dir_y, i
 
 void	fill_image_by_map(t_all *t)
 {
-	if(!(t->game.img = mlx_new_image(t->game.mlx, t->maze->w_h / 1000000, t->maze->w_h % 1000000)))
-		exit_with_message("GAME: mlx_image_init malloc error", t);
-
-	int bpp;
-	int size_line;
-	int endian;
-
-	t->game.addr = (unsigned int *)(mlx_get_data_addr(t->game.img, &bpp, &size_line, &endian)); // polu4aem buffer
 	float posX = t->plr->x;
 	float posY = t->plr->y;
 	float dirX = t->plr->dirX;
@@ -176,8 +168,12 @@ void	fill_image_by_map(t_all *t)
 			t->game.addr[drawStart * w + x] = color;
 			drawStart++;
 	  } */
-	  while (drawEnd++ < h - 1)
-		  t->game.addr[drawEnd * w + x] = t->maze->c_f[1];
+	  if (drawEnd >= 0)
+	  	while (drawEnd < h)
+	  	{
+			  t->game.addr[drawEnd * w + x] = t->maze->c_f[1];
+			  drawEnd++;
+	  	}
 	  x++;
 	}
 }
@@ -206,8 +202,16 @@ void init_txt_array(t_all *t)
 
 void	init_game (t_all *t)
 {
+	int	bpp;
+	int	size_line;
+	int	endian;
+
 	if (!(t->game.mlx = mlx_init()))
 		exit_with_message("GAME: mlx_init malloc error", t);
+	if(!(t->game.img = mlx_new_image(t->game.mlx, t->maze->w_h / 1000000, t->maze->w_h % 1000000)))
+		exit_with_message("GAME: mlx_image_init malloc error", t);
+
+	t->game.addr = (unsigned int *)(mlx_get_data_addr(t->game.img, &bpp, &size_line, &endian)); 
 	init_txt_array(t);
 	fill_image_by_map(t);
 }
