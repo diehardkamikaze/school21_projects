@@ -6,7 +6,7 @@
 /*   By: mchau <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/23 10:40:32 by mchau             #+#    #+#             */
-/*   Updated: 2021/03/24 09:41:00 by mchau            ###   ########.fr       */
+/*   Updated: 2021/03/24 10:48:03 by mchau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	handle_moving_ws(int dir, t_all *t)
 	if (t->map[(int)t->plr->x][(int)tmp_y] == 'S' && (changed = 1))
 		t->plr->y = tmp_y;
 	if (changed)
-		return (1);
+		return (dir);
 	return (0);
 }
 
@@ -41,7 +41,7 @@ int	handle_moving_ad(float dir, t_all *t)
 	if (t->map[(int)t->plr->x][(int)tmp_y] == 'S' && (changed = 1))
 		t->plr->y = tmp_y;
 	if (changed)
-		return (1);
+		return (10 * (int)dir);
 	return (0);
 }
 
@@ -58,5 +58,5 @@ int handle_rotating(int dir, t_all *t)
 	t->plr->dirY = old_dir_x * sin(angle) + t->plr->dirY * cos(angle);
 	t->plr->planeX = t->plr->planeX * cos(angle) - t->plr->planeY * sin(angle);
     t->plr->planeY = old_plane_x * sin(angle) + t->plr->planeY * cos(angle);
-	return (1);
+	return (dir * 5);
 }

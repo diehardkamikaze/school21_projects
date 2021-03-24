@@ -6,77 +6,81 @@
 /*   By: mchau <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/21 11:36:13 by mchau             #+#    #+#             */
-/*   Updated: 2021/03/21 14:06:03 by mchau            ###   ########.fr       */
+/*   Updated: 2021/03/24 13:53:06 by mchau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_cub3D.h"
 
-typedef union	u_bm {
-	int	num;
-	char c[4];
-}				t_bm;
-
-void	bitmap_file_header(int fd, t_all *t)
+unsigned int get_color(int el, unsigned int *addr)
 {
-	t_bm tmp;
+	return addr[el];
+}
 
-	tmp.c[0] = 0x42;
-	tmp.c[1] = 0x4d;
-	write (fd, tmp.c, 2);
+void	bitmap_bmp_meta(int fd, t_all *t, int offset)
+{
+	unsigned char	meta[54];
+	int				width;
+	int				height;
 
-	tmp.num = (t->maze->w_h / 1000000 * 4) * t->maze->w_h % 1000000 + 54; // filesize
+	bzero(meta, 54);
+	width = t->maze->w_h / 1000000;
+	height = t->maze->w_h % 1000000;
+	meta[0] = 0x42;
+	meta[1] = 0x4d;
+	*(int *)(meta + 2) = (width * 3 + offset) * height + 54;
+	meta[10] = 0x36;
+	meta[14] = 0x28;
+	*(int *)(meta + 18) = width;
+	*(int *)(meta + 22) = height;
+	meta[26] = 0x1;
+	meta[28] = 0x18;
+	errno = 0;
+	if (write(fd, meta, 54) == -1)
+	{
+		close(fd);
+		exit_with_message(strerror(errno), t);
+	}
+}
 
-	write(fd, tmp.c, 4);
-	tmp.num = 0;
-	write(fd, tmp.c, 4);
-	write(fd, tmp.c, 2);
-	write(fd, tmp.c, 2);
-	tmp.num = 0x36; //pixeDataOffset
-	write(fd, tmp.c, 4);
-	tmp.num = 40; // HeaderSize
-	write(fd, tmp.c, 4);
-	tmp.num = t->maze->w_h / 1000000; // img width
-	write(fd, tmp.c, 4);
-	tmp.num = t->maze->w_h % 1000000; // img height
-	write(fd, tmp.c, 4);
-	tmp.num = 1; //color plane?
-	write(fd, tmp.c, 4);
-	tmp.num = 32;// BitsPerPixel
-	write(fd, tmp.c, 4);
-	tmp.num = 0;
-	write(fd, tmp.c, 4);
-	write(fd, tmp.c, 4);
-	write(fd, tmp.c, 4);
-	write(fd, tmp.c, 4);
+void	bitmap_bmp_pixels(int fd, t_all *t, int offset)
+{
+	int height;
+	int width;
+	int i;
+	char adding[4];
 
+	width = t->maze->w_h / 1000000;
+	height = t->maze->w_h % 1000000;
+	while (--height >= 0 && !(i = 0))
+		while (i < width)
+		{
+			*(unsigned int *)adding = get_color(height * width + i,
+					t->game.addr);
+			if (write(fd, adding, 3) == -1 || write(fd, "\0\0\0", offset) == -1)
+			{
+				close(fd);
+				exit_with_message(strerror(errno), t);
+			}
+			i++;
+		}
 }
 
 void	bmp_maker(t_all *t)
 {
 	int fd;
-	t_bm tmp;
-	tmp.num = 0;
-	// не забывай закрывать fd при ошибках
-	// возможно красивый вывод этапов на экран?
-	fd = open("sceenshot.bmp", O_CREAT | O_TRUNC | O_WRONLY , S_IRWXU);
+	int he;
+	int wi;
+	int offset;
+
+	fd = open("sceenshot.bmp", O_CREAT | O_TRUNC | O_WRONLY, S_IRWXU);
 	if (fd == -1)
 		exit_with_message("SAVE: Can't work with file", t);
-	// сохранение различных хедеров
-	//BITMAPFILEHEADER + BITMAPINFOHEADER + COLOR TABLE;
-	bitmap_file_header(fd, t);
-	//BITMAPINFOHEADER
-	//COLOR TABLE
 
-	/* pixel_data(fd); */
-	int i = 0;
-	int hei = t->maze->w_h % 1000000;
-	int wei = (t->maze->w_h / 1000000);
-	while (hei-- && !(i = 0))
-		while (i < wei)
-		{
-			write(fd, tmp.c, 4);
-			i++;
-		}
+	he = t->maze->w_h % 1000000;
+	wi = t->maze->w_h / 1000000;
+	offset = (4 - (t->maze->w_h * 3) % 4) % 4;
+	bitmap_bmp_meta(fd, t, offset);
+	bitmap_bmp_pixels(fd, t, offset);
 	close(fd);
 }

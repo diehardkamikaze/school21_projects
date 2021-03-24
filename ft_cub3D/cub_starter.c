@@ -6,7 +6,7 @@
 /*   By: mchau <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/11 13:59:25 by mchau             #+#    #+#             */
-/*   Updated: 2021/03/23 18:01:06 by mchau            ###   ########.fr       */
+/*   Updated: 2021/03/24 10:52:40 by mchau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,13 +75,11 @@ int		main(int argc, char **argv)
 	close(fd);
 	init_game(t);
 	if (argc >= 3 && ft_strncmp(argv[2], "--save", 6) == 0)
-	{
-		printf("Here implementation of --save flag");
 		bmp_maker(t);
-	}
 	else
 		go_game_logic(t);
 
+	free_wrapper(t);
 	//чисти все при --save и escape/[x]
 	return (0);
 }
