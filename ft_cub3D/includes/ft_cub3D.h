@@ -6,7 +6,7 @@
 /*   By: mchau <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/11 14:00:31 by mchau             #+#    #+#             */
-/*   Updated: 2021/03/24 18:57:17 by mchau            ###   ########.fr       */
+/*   Updated: 2021/03/25 18:07:27 by mchau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,6 @@ typedef struct	s_all {
 	int				spr_len;
 	t_key_state		pressed;
 	void			*txt_img[5];
-	int				txt_size[2];
 }				t_all;
 
 typedef struct		s_compose {
