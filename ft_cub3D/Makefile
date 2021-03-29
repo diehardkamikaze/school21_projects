@@ -6,7 +6,7 @@
 #    By: mchau <marvin@42.fr>                       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/03/11 14:12:05 by mchau             #+#    #+#              #
-#    Updated: 2021/03/23 14:13:20 by mchau            ###   ########.fr        #
+#    Updated: 2021/03/28 18:15:41 by mchau            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,7 @@
 NAME = cub3D
 FLAGS = -Wall -Wextra -Werror -fsanitize=address -g
 SOURCES = cub_starter.c bmp_maker.c map_file_parser.c map_makers.c map_parser.c\
-		  flood_fill.c event_handlers.c move_handlers.c \
+		  flood_fill.c event_handlers.c move_handlers.c map_render.c \
 		  go_game_logic.c utils/ft_strncmp.c utils/ft_bzero.c \
 		  utils/ft_cub3D_utils_print.c utils/ft_strtol.c utils/ft_strdup.c \
 		  gnl/get_next_line.c gnl/get_next_line_utils.c

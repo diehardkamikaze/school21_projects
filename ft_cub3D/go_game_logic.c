@@ -6,7 +6,7 @@
 /*   By: mchau <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/20 10:03:28 by mchau             #+#    #+#             */
-/*   Updated: 2021/03/25 18:11:18 by mchau            ###   ########.fr       */
+/*   Updated: 2021/03/29 10:07:53 by mchau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -205,7 +205,9 @@ void	fill_image_by_map(t_all *t)
 	  z_buffer[x] = perpWallDist;
 	  x++;
 	}
-	int i = 0;
+/*	if (t->game.win)
+		mlx_put_image_to_window(t->game.mlx, t->game.win, t->game.img, 0, 0);
+*/	int i = 0;
 	int sprite_order[t->spr_len];
 	float sprite_distance[t->spr_len];
 	while (i < t->spr_len)
@@ -249,7 +251,7 @@ void	fill_image_by_map(t_all *t)
 			int tex_width;
 			int tex_height;
 			unsigned int *tmp =  (unsigned int *)(mlx_get_data_addr_main(t->txt_img[SPR_TXT], &tex_width, &tex_height));
-        int texX = (int)(256 * (stripe - (-spriteWidth / 2 + spriteScreenX)) * tex_width / spriteWidth) / 256;
+        long texX = (int)(256 * (stripe - (-spriteWidth / 2 + spriteScreenX)) * tex_width / spriteWidth) / 256;
         //the conditions in the if are:
         //1) it's in front of camera plane so you don't see things behind you
         //2) it's on the screen (left)
@@ -259,13 +261,11 @@ void	fill_image_by_map(t_all *t)
 			{
         		for (int y = drawStartY; y < drawEndY; y++) //for every pixel of the current stripe
         		{
-        		int d = (y-vMoveScreen) * 256 - h * 128 + spriteHeight * 128; //256 and 128 factors to avoid floats
-          		int texY = ((d * tex_height) / spriteHeight) / 256;
-
-				
-          		unsigned int color = tmp[tex_width * texY + texX]; //get current color from the texture
-				if((color & 0x00FFFFFF) != 0)
-					t->game.addr[y * w + stripe] = color; //paint pixel if it isn't black, black is the invisible color
+        			int d = (y - vMoveScreen) * 256 - h * 128 + spriteHeight * 128; //256 and 128 factors to avoid floats
+          			long texY = ((d * tex_height) / spriteHeight) / 256;
+					unsigned int color = tmp[tex_width * texY + texX]; //get current color from the texture
+					if ((color & 0x00FFFFFF) != 0)
+						t->game.addr[y * w + stripe] = color + (128 << 24); //paint pixel if it isn't black, black is the invisible color
 				}
 			}
       }
@@ -303,6 +303,7 @@ void	init_game (t_all *t)
 		exit_with_message("GAME: mlx_image_init malloc error", t);
 
 	t->game.addr = (unsigned int *)(mlx_get_data_addr(t->game.img, &bpp, &size_line, &endian)); 
+	t->game.win = 0;
 	init_txt_array(t);
 	fill_image_by_map(t);
 }
@@ -313,10 +314,12 @@ void	go_game_logic(t_all *t)
 	if (!(t->game.win = mlx_new_window(t->game.mlx, (int)(t->maze->w_h / 1000000),\
 					(int)(t->maze->w_h % 1000000), "mchau")))
 		exit_with_message("GAME: mlx_new_window malloc error", t);
+	mlx_do_key_autorepeatoff(t->game.mlx);
 	mlx_put_image_to_window(t->game.mlx, t->game.win, t->game.img, 0, 0);
 	mlx_hook(t->game.win, 17, 0, exit_handler, t);
-	mlx_hook(t->game.win, 2, 0, key_press_handler, t);
-	mlx_hook(t->game.win, 3, 0, key_release_handler, t);
+	mlx_hook(t->game.win, 2, 0, key_handler, t);
+	mlx_hook(t->game.win, 3, 0, key_handler, t);
+	//mlx_hook(t->game.win, 3, 0, key_release_handler, t);
 	mlx_loop_hook(t->game.mlx, key_state_checker, t);
 	mlx_loop(t->game.mlx);
 }

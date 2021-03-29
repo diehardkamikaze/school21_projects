@@ -6,7 +6,7 @@
 /*   By: mchau <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/23 10:13:15 by mchau             #+#    #+#             */
-/*   Updated: 2021/03/24 10:30:21 by mchau            ###   ########.fr       */
+/*   Updated: 2021/03/29 10:10:40 by mchau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,11 +50,13 @@ int	key_state_checker(void *param)
 	{
 		fill_image_by_map(t);
 		mlx_put_image_to_window(t->game.mlx, t->game.win, t->game.img, 0, 0);
+		render_map(t);
+		mlx_put_image_to_window(t->game.mlx, t->game.win, t->game.img, 0, 0);
 	}
 	return (1);
 }
 
-int	key_press_handler(int keycode, void *param)
+int	key_handler(int keycode, void *param)
 {
 	t_all	*t;
 	t = (t_all *)param;
@@ -62,36 +64,16 @@ int	key_press_handler(int keycode, void *param)
 	if (keycode == 53)
 		exit_handler(param);
 	if (keycode == 2)
-		t->pressed.key_d = 1;
+		t->pressed.key_d ^= 1;
 	if (keycode == 0)
-		t->pressed.key_a = 1;
+		t->pressed.key_a ^= 1;
 	if (keycode == 13)
-		t->pressed.key_w = 1;
+		t->pressed.key_w ^= 1;
 	if (keycode == 1)
-		t->pressed.key_s = 1;
+		t->pressed.key_s ^= 1;
 	if (keycode == 123)
-		t->pressed.key_arrow_left = 1;
+		t->pressed.key_arrow_left ^= 1;
 	if (keycode == 124)
-		t->pressed.key_arrow_right = 1;
-	return (1);
-}
-
-int	key_release_handler(int keycode, void *param)
-{
-	t_all	*t;
-	t = (t_all *)param;
-
-	if (keycode == 2)
-		t->pressed.key_d = 0;
-	if (keycode == 0)
-		t->pressed.key_a = 0;
-	if (keycode == 13)
-		t->pressed.key_w = 0;
-	if (keycode == 1)
-		t->pressed.key_s = 0;
-	if (keycode == 123)
-		t->pressed.key_arrow_left = 0;
-	if (keycode == 124)
-		t->pressed.key_arrow_right = 0;
+		t->pressed.key_arrow_right ^= 1;
 	return (1);
 }

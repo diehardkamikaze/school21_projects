@@ -40,11 +40,11 @@ mlx_img_ctx_t	*add_img_to_ctx(mlx_img_list_t *img, mlx_win_list_t *win)
 
   imgctx = win->img_list;
   while (imgctx)
-    {
+  {
       if (imgctx->img == img)
 	return (imgctx);
       imgctx = imgctx->next;
-    }
+  }
 
   imgctx = malloc(sizeof(*imgctx));
   imgctx->img = img;

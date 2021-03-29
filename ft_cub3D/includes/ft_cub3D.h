@@ -6,7 +6,7 @@
 /*   By: mchau <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/11 14:00:31 by mchau             #+#    #+#             */
-/*   Updated: 2021/03/25 18:07:27 by mchau            ###   ########.fr       */
+/*   Updated: 2021/03/29 10:29:17 by mchau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,9 +137,7 @@ void    map_error(char *str, t_compose *t, char *line);
 
 void    go_game_logic(t_all *t);
 
-int		key_press_handler(int keycode, void *param);
-
-int		key_release_handler(int keycode, void *param);
+int		key_handler(int keycode, void *param);
 
 int		exit_handler(void *param);
 
@@ -156,5 +154,7 @@ int		handle_rotating(int dir, t_all *t);
 void    bmp_maker(t_all *t);
 
 void    init_game (t_all *t);
+
+int     render_map(t_all *t);
 
 #endif
