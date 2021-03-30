@@ -6,7 +6,7 @@
 /*   By: mchau <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/18 18:28:18 by mchau             #+#    #+#             */
-/*   Updated: 2021/03/25 09:43:13 by mchau            ###   ########.fr       */
+/*   Updated: 2021/03/30 10:28:56 by mchau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,10 +41,13 @@ t_all	*initialize_struct(void)
 		maze_error("t_all init plr: malloc error!", t, 0);
 	t->plr->x = 0;
 	t->plr->y = 0;
+	t->plr->vertical = 0;
 	t->pressed.key_w = 0;
 	t->pressed.key_a = 0;
 	t->pressed.key_s = 0;
 	t->pressed.key_d = 0;
+	t->pressed.key_arrow_bottom = 0;
+	t->pressed.key_arrow_top = 0;
 	t->pressed.key_arrow_left = 0;
 	t->pressed.key_arrow_right = 0;
     return (t);

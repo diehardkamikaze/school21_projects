@@ -6,7 +6,7 @@
 /*   By: mchau <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/11 14:00:31 by mchau             #+#    #+#             */
-/*   Updated: 2021/03/29 10:29:17 by mchau            ###   ########.fr       */
+/*   Updated: 2021/03/30 10:28:54 by mchau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,8 @@ typedef struct		s_key_state {
 	int	key_d;
 	int	key_arrow_left;
 	int	key_arrow_right;
+	int key_arrow_top;
+	int key_arrow_bottom;
 }					t_key_state;
 
 typedef struct	s_win
@@ -83,6 +85,7 @@ typedef struct	s_plr {
 	float		dirY;
 	float		planeX;
 	float		planeY;
+	float		vertical;
 }				t_plr;
 
 typedef struct		s_spr_list {
@@ -156,5 +159,7 @@ void    bmp_maker(t_all *t);
 void    init_game (t_all *t);
 
 int     render_map(t_all *t);
+
+int		handle_vertical_rotation(int , t_all *);
 
 #endif

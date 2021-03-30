@@ -6,7 +6,7 @@
 /*   By: mchau <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/18 18:32:51 by mchau             #+#    #+#             */
-/*   Updated: 2021/03/25 09:42:24 by mchau            ###   ########.fr       */
+/*   Updated: 2021/03/30 10:32:42 by mchau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,6 @@
 void	init_map_vars(t_compose *t, t_all *result)
 {
 	t->result = result;
-	if (!(t->result->plr = malloc(sizeof(t_plr))))
-		exit_with_message("Malloc error in init_map: plr_struct", t->result);
 	t->map_struct = 0;
 	t->spr_struct = 0;
 	t->max_x = 0;

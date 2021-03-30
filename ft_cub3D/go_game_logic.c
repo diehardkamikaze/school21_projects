@@ -6,7 +6,7 @@
 /*   By: mchau <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/20 10:03:28 by mchau             #+#    #+#             */
-/*   Updated: 2021/03/29 10:07:53 by mchau            ###   ########.fr       */
+/*   Updated: 2021/03/30 10:51:04 by mchau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,18 +153,25 @@ void	fill_image_by_map(t_all *t)
       int lineHeight = (int)(h / perpWallDist);
 
       //calculate lowest and highest pixel to fill in current stripe
-      int drawStart = -lineHeight / 2 + h / 2;
-      if(drawStart < 0)drawStart = 0;
-      int drawEnd = lineHeight / 2 + h / 2;
-      if(drawEnd >= h)drawEnd = h - 1;
+	  int testTop = t->plr->vertical * h / 2;
+      int drawStart = -lineHeight / 2 + h / 2 + testTop;
+      if (drawStart < 0)
+		  drawStart = 0;
+	  if (drawStart > h)
+		  drawStart = h - 1;
+      int drawEnd = lineHeight / 2 + h / 2 + testTop;
+      if (drawEnd >= h)
+		  drawEnd = h - 1;
 
 	  int g = 0;
 	  while (g++ < drawStart)
 		  t->game.addr[g * w + x] = t->maze->c_f[0];
 
 	  double wallX;
-      if(side == 0) wallX = posY + perpWallDist * rayDirY;
-      else          wallX = posX + perpWallDist * rayDirX;
+      if (side == 0)
+		  wallX = posY + perpWallDist * rayDirY;
+      else 
+		  wallX = posX + perpWallDist * rayDirX;
       wallX -= floor((wallX));
 
 
@@ -180,7 +187,7 @@ void	fill_image_by_map(t_all *t)
 
 	  double step = 1.0 * texHight / lineHeight;
       // Starting texture coordinate
-      double texPos = (drawStart - h / 2 + lineHeight / 2) * step;
+      double texPos = (drawStart - h / 2 + lineHeight / 2 - testTop) * step;
       while(drawStart < drawEnd)
       {
         int texY = (int)texPos & (texHight - 1);

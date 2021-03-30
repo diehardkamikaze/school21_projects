@@ -6,7 +6,7 @@
 /*   By: mchau <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/23 10:40:32 by mchau             #+#    #+#             */
-/*   Updated: 2021/03/29 10:08:12 by mchau            ###   ########.fr       */
+/*   Updated: 2021/03/30 10:45:20 by mchau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,4 +59,15 @@ int handle_rotating(int dir, t_all *t)
 	t->plr->planeX = t->plr->planeX * cos(angle) - t->plr->planeY * sin(angle);
     t->plr->planeY = old_plane_x * sin(angle) + t->plr->planeY * cos(angle);
 	return (dir * 5);
+}
+
+int	handle_vertical_rotation(int dir, t_all *t)
+{
+	float tmp = t->plr->vertical + 0.1 * dir;
+	if (tmp <= 0.8 && tmp >= -0.8)
+	{
+		t->plr->vertical = tmp;
+		return (100 * dir);
+	}
+	return (0);
 }

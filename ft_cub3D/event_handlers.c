@@ -6,7 +6,7 @@
 /*   By: mchau <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/23 10:13:15 by mchau             #+#    #+#             */
-/*   Updated: 2021/03/29 10:10:40 by mchau            ###   ########.fr       */
+/*   Updated: 2021/03/30 10:40:38 by mchau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,10 @@ int	key_state_checker(void *param)
 		rerender +=handle_moving_ws(-1, t);
 	if (pressed->key_d)
 		rerender +=handle_moving_ad(-1, t);
+	if (pressed->key_arrow_top)
+		rerender += handle_vertical_rotation(1, t);
+	if (pressed->key_arrow_bottom)
+		rerender += handle_vertical_rotation(-1, t);
 	if (pressed->key_arrow_left)
 		rerender +=handle_rotating(1, t);
 	if (pressed->key_arrow_right)
@@ -50,8 +54,8 @@ int	key_state_checker(void *param)
 	{
 		fill_image_by_map(t);
 		mlx_put_image_to_window(t->game.mlx, t->game.win, t->game.img, 0, 0);
-		render_map(t);
-		mlx_put_image_to_window(t->game.mlx, t->game.win, t->game.img, 0, 0);
+//		render_map(t);
+//		mlx_put_image_to_window(t->game.mlx, t->game.win, t->game.img, 0, 0);
 	}
 	return (1);
 }
@@ -75,5 +79,9 @@ int	key_handler(int keycode, void *param)
 		t->pressed.key_arrow_left ^= 1;
 	if (keycode == 124)
 		t->pressed.key_arrow_right ^= 1;
+	if (keycode == 126)
+		t->pressed.key_arrow_top ^= 1;
+	if (keycode == 125)
+		t->pressed.key_arrow_bottom ^= 1;
 	return (1);
 }
