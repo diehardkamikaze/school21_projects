@@ -6,7 +6,7 @@
 /*   By: mchau <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/16 13:52:52 by mchau             #+#    #+#             */
-/*   Updated: 2021/04/16 17:22:00 by mchau            ###   ########.fr       */
+/*   Updated: 2021/04/16 17:25:19 by mchau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,11 @@ void	before_exit(int sig)
 	exit(1);
 }
 
+void	window_edited(int sig)
+{
+	printf("window size edited?");
+}
+
 int		main(void)
 {
 	int c;
@@ -30,6 +35,12 @@ int		main(void)
 	sigemptyset(&(action.sa_mask));
 	action.sa_flags = 0;
 	sigaction(SIGINT, &action, 0);
+
+	struct sigaction action2;
+	action2.sa_handler = window_edited;
+	sigemptyset(&(action2.sa_mask));
+	action2.sa_flags = 0;
+	sigaction(SIGWINCH, &action2, 0);
 	while((c=fgetc(stdin)) !=EOF) {
 		printf("%c", c);
 	}
