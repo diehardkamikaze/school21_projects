@@ -6,7 +6,7 @@
 /*   By: mchau <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/20 10:03:28 by mchau             #+#    #+#             */
-/*   Updated: 2021/03/30 10:51:04 by mchau            ###   ########.fr       */
+/*   Updated: 2021/04/16 09:08:09 by mchau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,7 @@ void	fill_image_by_map(t_all *t)
 	int x = 0;
 	int w = t->maze->w_h / 1000000;
 	int h =	t->maze->w_h % 1000000;
+	 int testTop = t->plr->vertical * h / 2;
 	while (x < w)
 	{
 		float cameraX = 2 * x / (float)w - 1;
@@ -153,7 +154,6 @@ void	fill_image_by_map(t_all *t)
       int lineHeight = (int)(h / perpWallDist);
 
       //calculate lowest and highest pixel to fill in current stripe
-	  int testTop = t->plr->vertical * h / 2;
       int drawStart = -lineHeight / 2 + h / 2 + testTop;
       if (drawStart < 0)
 		  drawStart = 0;
@@ -236,15 +236,20 @@ void	fill_image_by_map(t_all *t)
 		#define uDiv 1
      	#define vDiv 1
       	#define vMove 0.0
-		int vMoveScreen = (int)(vMove / transformY);
+		int vMoveScreen = testTop; //(int)(0.0 / transformY);
+//		printf("%f\n", transformY);
 		int spriteHeight = abs((int)(h / (transformY))) / vDiv;
 
 		int drawStartY = -spriteHeight / 2 + h / 2 + vMoveScreen;
       	if (drawStartY < 0)
 			drawStartY = 0;
+		if (drawStartY >= h)
+			drawStartY = h - 1;
 		int drawEndY = spriteHeight / 2 + h / 2 + vMoveScreen;
         if (drawEndY >= h)
 			drawEndY = h - 1;
+        if (drawEndY < 0)
+			drawEndY = 0;
 		int spriteWidth = abs((int) (h / (transformY))) / uDiv;
 
 		int drawStartX = -spriteWidth / 2 + spriteScreenX;
@@ -255,26 +260,26 @@ void	fill_image_by_map(t_all *t)
 			drawEndX = w - 1;
 		for (int stripe = drawStartX; stripe < drawEndX; stripe++)
 		{
-			int tex_width;
-			int tex_height;
-			unsigned int *tmp =  (unsigned int *)(mlx_get_data_addr_main(t->txt_img[SPR_TXT], &tex_width, &tex_height));
-        long texX = (int)(256 * (stripe - (-spriteWidth / 2 + spriteScreenX)) * tex_width / spriteWidth) / 256;
+		int tex_width;
+		int tex_height;
+		unsigned int *tmp =  (unsigned int *)(mlx_get_data_addr_main(t->txt_img[SPR_TXT], &tex_width, &tex_height));
+       	long texX = (int)(256 * (stripe - (-spriteWidth / 2 + spriteScreenX)) * tex_width / spriteWidth) / 256;
         //the conditions in the if are:
         //1) it's in front of camera plane so you don't see things behind you
         //2) it's on the screen (left)
         //3) it's on the screen (right)
         //4) ZBuffer, with perpendicular distance
-        	if (transformY > 0 && stripe > 0 && stripe < w && transformY < z_buffer[stripe])
-			{
-        		for (int y = drawStartY; y < drawEndY; y++) //for every pixel of the current stripe
-        		{
-        			int d = (y - vMoveScreen) * 256 - h * 128 + spriteHeight * 128; //256 and 128 factors to avoid floats
-          			long texY = ((d * tex_height) / spriteHeight) / 256;
-					unsigned int color = tmp[tex_width * texY + texX]; //get current color from the texture
-					if ((color & 0x00FFFFFF) != 0)
-						t->game.addr[y * w + stripe] = color + (128 << 24); //paint pixel if it isn't black, black is the invisible color
-				}
+        if (transformY > 0 && stripe > 0 && stripe < w && transformY < z_buffer[stripe])
+		{
+        	for (int y = drawStartY; y < drawEndY; y++) //for every pixel of the current stripe
+        	{
+        		int d = (y - vMoveScreen) * 256 - h * 128 + spriteHeight * 128; //256 and 128 factors to avoid floats
+          		long texY = ((d * tex_height) / spriteHeight) / 256;
+			unsigned int color = tmp[tex_width * texY + texX]; //get current color from the texture
+			if ((color & 0x00FFFFFF) != 0)
+				t->game.addr[y * w + stripe] = color; //paint pixel if it isn't black, black is the invisible color
 			}
+		}
       }
 	  i++;
 	}
@@ -322,11 +327,12 @@ void	go_game_logic(t_all *t)
 					(int)(t->maze->w_h % 1000000), "mchau")))
 		exit_with_message("GAME: mlx_new_window malloc error", t);
 	mlx_do_key_autorepeatoff(t->game.mlx);
+	mlx_mouse_show();
 	mlx_put_image_to_window(t->game.mlx, t->game.win, t->game.img, 0, 0);
 	mlx_hook(t->game.win, 17, 0, exit_handler, t);
 	mlx_hook(t->game.win, 2, 0, key_handler, t);
 	mlx_hook(t->game.win, 3, 0, key_handler, t);
-	//mlx_hook(t->game.win, 3, 0, key_release_handler, t);
+	mlx_hook(t->game.win, 6, 4, mouse_motion, t);
 	mlx_loop_hook(t->game.mlx, key_state_checker, t);
 	mlx_loop(t->game.mlx);
 }

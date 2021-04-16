@@ -6,7 +6,7 @@
 /*   By: mchau <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/11 14:00:31 by mchau             #+#    #+#             */
-/*   Updated: 2021/03/30 10:28:54 by mchau            ###   ########.fr       */
+/*   Updated: 2021/04/01 11:20:12 by mchau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,5 +161,7 @@ void    init_game (t_all *t);
 int     render_map(t_all *t);
 
 int		handle_vertical_rotation(int , t_all *);
+
+int		mouse_motion(int x, int y,void *t);
 
 #endif

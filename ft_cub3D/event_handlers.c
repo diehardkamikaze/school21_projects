@@ -6,7 +6,7 @@
 /*   By: mchau <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/23 10:13:15 by mchau             #+#    #+#             */
-/*   Updated: 2021/03/30 10:40:38 by mchau            ###   ########.fr       */
+/*   Updated: 2021/04/01 11:24:36 by mchau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,5 +83,12 @@ int	key_handler(int keycode, void *param)
 		t->pressed.key_arrow_top ^= 1;
 	if (keycode == 125)
 		t->pressed.key_arrow_bottom ^= 1;
+	return (1);
+}
+
+int	mouse_motion(int x, int y, void *t)
+{
+	if (t)
+		printf("%d %d\n", x, y);
 	return (1);
 }
