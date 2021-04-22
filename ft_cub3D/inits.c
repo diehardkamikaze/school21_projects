@@ -6,7 +6,7 @@
 /*   By: mchau <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/22 18:10:25 by mchau             #+#    #+#             */
-/*   Updated: 2021/04/22 18:12:27 by mchau            ###   ########.fr       */
+/*   Updated: 2021/04/22 18:39:17 by mchau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ void	init_game(t_all *t)
 	int rubbish[3];
 	int screen_w_h[2];
 
-		mlx_get_screen_size(screen_w_h, screen_w_h + 1);
+	mlx_get_screen_size(screen_w_h, screen_w_h + 1);
 	if (screen_w_h[0] < t->maze->w_h[0])
 		t->maze->w_h[0] = screen_w_h[0];
 	if (screen_w_h[1] < t->maze->w_h[1])

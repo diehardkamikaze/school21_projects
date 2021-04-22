@@ -6,7 +6,7 @@
 /*   By: mchau <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/21 11:36:13 by mchau             #+#    #+#             */
-/*   Updated: 2021/04/22 17:50:10 by mchau            ###   ########.fr       */
+/*   Updated: 2021/04/22 19:05:11 by mchau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@ void			bitmap_bmp_meta(int fd, t_all *t, int offset)
 	int				height;
 
 	bzero(meta, 54);
-	width = t->maze->w_h[0];
-	height = t->maze->w_h[1];
+	width = (int)t->maze->w_h[0];
+	height = (int)t->maze->w_h[1];
 	meta[0] = 0x42;
 	meta[1] = 0x4d;
 	*(int *)(meta + 2) = (width * 3 + offset) * height + 54;
@@ -50,20 +50,26 @@ void			bitmap_bmp_pixels(int fd, t_all *t, int offset)
 	int		i;
 	char	adding[4];
 
-	width = t->maze->w_h[0];
-	height = t->maze->w_h[1];
+	width = (int)t->maze->w_h[0];
+	height = (int)t->maze->w_h[1];
 	while (--height >= 0 && !(i = 0))
+	{
 		while (i < width)
 		{
 			*(unsigned int *)adding = get_color(height * width + i,
 					t->game.addr);
-			if (write(fd, adding, 3) == -1 || write(fd, "\0\0\0", offset) == -1)
+			if ((i += 1) && write(fd, adding, 3) == -1)
 			{
 				close(fd);
 				exit_with_message(strerror(errno), t);
 			}
-			i++;
 		}
+		if ((offset > 0) && write(fd, "\0\0\0", offset) == -1)
+		{
+			close(fd);
+			exit_with_message(strerror(errno), t);
+		}
+	}
 }
 
 void			bmp_maker(t_all *t)
@@ -79,7 +85,7 @@ void			bmp_maker(t_all *t)
 		exit_with_message(strerror(errno), t);
 	he = t->maze->w_h[1];
 	wi = t->maze->w_h[0];
-	offset = (4 - (t->maze->w_h[0] * 3) % 4) % 4;
+	offset = (4 - ((int)t->maze->w_h[0] * 3) % 4) % 4;
 	bitmap_bmp_meta(fd, t, offset);
 	bitmap_bmp_pixels(fd, t, offset);
 	close(fd);

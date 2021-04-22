@@ -6,7 +6,7 @@
 #    By: mchau <marvin@42.fr>                       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/03/11 14:12:05 by mchau             #+#    #+#              #
-#    Updated: 2021/04/22 18:06:09 by mchau            ###   ########.fr        #
+#    Updated: 2021/04/22 18:30:20 by mchau            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -42,11 +42,8 @@ OBJECTS = $(addprefix $(OBJ_DIR)/, $(patsubst %.c, %.o, $(SOURCES)))
 
 all: $(NAME)
 
-makelib:
+$(NAME): $(OBJ_DIR) $(OBJECTS) includes/ft_cub3d.h includes/get_next_line.h
 	$(MAKE) -C minilibx_opengl
-
-$(NAME): makelib $(OBJ_DIR) $(OBJECTS)
-	#gcc $(FLAGS) $(OBJECTS) -I$(INC_DIR) -o $@
 	gcc $(FLAGS) $(OBJECTS) -I$(INC_DIR) -Lminilibx_opengl -lmlx -framework OpenGL -framework AppKit -o $@
 
 $(OBJ_DIR):
@@ -59,6 +56,7 @@ $(OBJ_DIR)/%.o: %.c
 
 clean:
 	rm -rf $(OBJ_DIR)
+	make clean -C minilibx_opengl
 
 fclean: clean
 	rm -rf $(NAME)

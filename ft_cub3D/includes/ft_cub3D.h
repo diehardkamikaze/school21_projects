@@ -6,7 +6,7 @@
 /*   By: mchau <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/22 17:49:27 by mchau             #+#    #+#             */
-/*   Updated: 2021/04/22 17:49:30 by mchau            ###   ########.fr       */
+/*   Updated: 2021/04/22 18:19:14 by mchau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@
 # include <fcntl.h>
 # include <limits.h>
 # include <stdio.h>
-# include "../minilibx_opengl/mlx.h"
 # include "../minilibx_opengl/mlx.h"
 
 # define SPR_TXT 0
