@@ -6,17 +6,17 @@
 /*   By: mchau <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/19 16:17:51 by mchau             #+#    #+#             */
-/*   Updated: 2021/03/19 18:12:37 by mchau            ###   ########.fr       */
+/*   Updated: 2021/04/22 17:55:14 by mchau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_cub3D.h"
+#include "ft_cub3d.h"
 
 void	sprite_array_maker(t_compose *t)
 {
 	t_spr_list	*spr;
 	t_spr_list	*tmp;
-	int i;
+	int			i;
 
 	tmp = t->spr_struct;
 	spr = t->spr_struct;
@@ -35,11 +35,11 @@ void	sprite_array_maker(t_compose *t)
 	}
 }
 
-void	map_maker(t_compose *t)
+void	map_array_maker(t_compose *t)
 {
-	t_list *tmp;
-	int i;
-	int j;
+	t_list	*tmp;
+	int		i;
+	int		j;
 
 	i = 0;
 	tmp = t->map_struct;
@@ -49,21 +49,11 @@ void	map_maker(t_compose *t)
 	while (t->map_struct)
 	{
 		if (!(t->result->map[i] = malloc(sizeof(char *) * (t->max_y + 1))))
-		{
-			i--;
-			while (i-- >= 0)
-				free(t->result->map[i]);
-			free(t->result->map);
-			t->result->map = 0;
-			map_error("MAP: map maker error 2!", t, 0);
-		}
+			map_malloc_error(i - 1, t);
 		t->result->map[i][t->max_y] = 0;
-		j = 0;
-		while (t->map_struct->content[j])
-		{
+		j = -1;
+		while (t->map_struct->content[++j])
 			t->result->map[i][j] = t->map_struct->content[j];
-			j++;
-		}
 		while (j < t->max_y)
 			t->result->map[i][j++] = ' ';
 		i++;

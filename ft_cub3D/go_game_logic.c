@@ -6,325 +6,102 @@
 /*   By: mchau <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/20 10:03:28 by mchau             #+#    #+#             */
-/*   Updated: 2021/04/16 09:08:09 by mchau            ###   ########.fr       */
+/*   Updated: 2021/04/22 17:54:03 by mchau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_cub3D.h"
+#include "ft_cub3d.h"
 
-void	sort_all_sprites(int *sprite_order, float *sprite_distance, int len)
+void	init_raycasting_vars(t_draw *d)
 {
-	int i;
-	int j;
-	float tmp;
-
-	i = 1;
-	while (i <= len)
+	d->camera_x = 2 * d->x / (double)d->width - 1;
+	d->raydir_x = d->dir_x + d->camera_x * d->plane_x;
+	d->raydir_y = d->dir_y + d->camera_x * d->plane_y;
+	d->map_x = (int)d->pos_x;
+	d->map_y = (int)d->pos_y;
+	d->delta_dist_x = fabs(1 / d->raydir_x);
+	d->delta_dist_y = fabs(1 / d->raydir_y);
+	if (d->raydir_x < 0 && (d->step_x = -1))
+		d->side_dist_x = (d->pos_x - d->map_x) * d->delta_dist_x;
+	else
 	{
-		j = 0;
-		while (j < len - i)
+		d->step_x = 1;
+		d->side_dist_x = (d->map_x + 1.0 - d->pos_x) * d->delta_dist_x;
+	}
+	if (d->raydir_y < 0 && (d->step_y = -1))
+		d->side_dist_y = (d->pos_y - d->map_y) * d->delta_dist_y;
+	else
+	{
+		d->step_y = 1;
+		d->side_dist_y = (d->map_y + 1.0 - d->pos_y) * d->delta_dist_y;
+	}
+}
+
+void	ray_casting_cycle(t_all *t, t_draw *d)
+{
+	while (1)
+	{
+		if (d->side_dist_x < d->side_dist_y)
 		{
-			if (sprite_distance[j] < sprite_distance[j + 1])
-			{
-				tmp = sprite_distance[j];
-				sprite_distance[j] = sprite_distance[j + 1];
-				sprite_distance[j + 1] = tmp;
-				sprite_order[j] = sprite_order[j] ^ sprite_order[j + 1];
-				sprite_order[j + 1] = sprite_order[j] ^ sprite_order[j + 1];
-				sprite_order[j] = sprite_order[j] ^ sprite_order[j + 1];
-			}
-			j++;
+			d->side_dist_x += d->delta_dist_x;
+			d->map_x += d->step_x;
+			d->side = 0;
 		}
-		i++;
-	}
-}
-
-unsigned int *get_world_side_txt(t_all *t, int side, float dir_x, float dir_y, int *wi, int *hi)
-{
-	int num;
-
-	if (dir_x > 0 && dir_y >= 0)
-	{
-		if (side == 1)
-			num = EA_TXT;
 		else
-			num = SO_TXT;
-	}
-	if (dir_x >= 0 && dir_y < 0)
-	{
-		if (side == 1)
-			num = WE_TXT;
-		else
-			num = SO_TXT;
-	}
-	if (dir_x < 0 && dir_y <= 0)
-	{
-		if (side == 1)
-			num = WE_TXT;
-		else
-			num = NO_TXT;
-	}
-
-	if (dir_x <= 0 && dir_y > 0)
-	{
-		if (side == 1)
-			num = EA_TXT;
-		else
-			num = NO_TXT;
-	}
-
-	return ((unsigned int *)mlx_get_data_addr_main(t->txt_img[num], wi, hi));
-}
-
-void	fill_image_by_map(t_all *t)
-{
-	float posX = t->plr->x;
-	float posY = t->plr->y;
-	float dirX = t->plr->dirX;
-	float dirY = t->plr->dirY;
-	float planeX = t->plr->planeX;
-	float planeY = t->plr->planeY;
-	float z_buffer[t->maze->w_h / 1000000];
-
-	int x = 0;
-	int w = t->maze->w_h / 1000000;
-	int h =	t->maze->w_h % 1000000;
-	 int testTop = t->plr->vertical * h / 2;
-	while (x < w)
-	{
-		float cameraX = 2 * x / (float)w - 1;
-		float rayDirX = dirX + cameraX * planeX;
-		float rayDirY = dirY + cameraX * planeY;
-		int mapX = (int)posX;
-		int mapY = (int)posY;
-
-
-		float sideDistX;
-    	float sideDistY;
-		float deltaDistX = fabs(1 / rayDirX);
-		float deltaDistY = fabs(1 / rayDirY);
-		float perpWallDist;
-
-		int stepX;
-      	int stepY;
-
-		int hit = 0;
-      	int side;
-		if(rayDirX < 0)
-      {
-        stepX = -1;
-        sideDistX = (posX - mapX) * deltaDistX;
-      }
-      else
-      {
-        stepX = 1;
-        sideDistX = (mapX + 1.0 - posX) * deltaDistX;
-      }
-      if(rayDirY < 0)
-      {
-        stepY = -1;
-        sideDistY = (posY - mapY) * deltaDistY;
-      }
-      else
-      {
-        stepY = 1;
-        sideDistY = (mapY + 1.0 - posY) * deltaDistY;
-      }
-	  while (hit == 0)
-      {
-        //jump to next map square, OR in x-direction, OR in y-direction
-        if(sideDistX < sideDistY)
-        {
-          sideDistX += deltaDistX;
-          mapX += stepX;
-          side = 0;
-        }
-        else
-        {
-          sideDistY += deltaDistY;
-          mapY += stepY;
-          side = 1;
-        }
-        //Check if ray has hit a wall
-        if (t->map[mapX][mapY] == '1') hit = 1;
-      }
-	  if(side == 0) perpWallDist = (mapX - posX + (1 - stepX) / 2) / rayDirX;
-      else          perpWallDist = (mapY - posY + (1 - stepY) / 2) / rayDirY;
-
-      int lineHeight = (int)(h / perpWallDist);
-
-      //calculate lowest and highest pixel to fill in current stripe
-      int drawStart = -lineHeight / 2 + h / 2 + testTop;
-      if (drawStart < 0)
-		  drawStart = 0;
-	  if (drawStart > h)
-		  drawStart = h - 1;
-      int drawEnd = lineHeight / 2 + h / 2 + testTop;
-      if (drawEnd >= h)
-		  drawEnd = h - 1;
-
-	  int g = 0;
-	  while (g++ < drawStart)
-		  t->game.addr[g * w + x] = t->maze->c_f[0];
-
-	  double wallX;
-      if (side == 0)
-		  wallX = posY + perpWallDist * rayDirY;
-      else 
-		  wallX = posX + perpWallDist * rayDirX;
-      wallX -= floor((wallX));
-
-
-	int texWidth;
-	int texHight;
-	 unsigned int *texture;
-	  texture = get_world_side_txt(t, side, rayDirX, rayDirY, &texWidth, &texHight);
-
-      int texX = (int)(wallX * (double)texWidth);
-
-      if(side == 0 && rayDirX > 0) texX = texWidth - texX - 1;
-      if(side == 1 && rayDirY < 0) texX = texWidth - texX - 1;
-
-	  double step = 1.0 * texHight / lineHeight;
-      // Starting texture coordinate
-      double texPos = (drawStart - h / 2 + lineHeight / 2 - testTop) * step;
-      while(drawStart < drawEnd)
-      {
-        int texY = (int)texPos & (texHight - 1);
-        texPos += step;
-        unsigned int color = texture[texHight * texY + texX];
-
-        if(side == 1) color = (color >> 1) & 8355711;
-        t->game.addr[drawStart * w + x] = color;
-		drawStart++;
-      }
-	  /*	  while (drawStart < drawEnd)
-	  {
-			t->game.addr[drawStart * w + x] = color;
-			drawStart++;
-	  } */
-	  if (drawEnd >= 0)
-	  	while (drawEnd < h)
-	  	{
-			  t->game.addr[drawEnd * w + x] = t->maze->c_f[1];
-			  drawEnd++;
-	  	}
-	  z_buffer[x] = perpWallDist;
-	  x++;
-	}
-/*	if (t->game.win)
-		mlx_put_image_to_window(t->game.mlx, t->game.win, t->game.img, 0, 0);
-*/	int i = 0;
-	int sprite_order[t->spr_len];
-	float sprite_distance[t->spr_len];
-	while (i < t->spr_len)
-    {
-		sprite_order[i] = i;
-		sprite_distance[i] = ((posX - t->spr[i] / 1000) * (posX - t->spr[i] / 1000) + (posY - t->spr[i] % 1000) * (posY - t->spr[i] % 1000));
-		i++;
-	}
-	sort_all_sprites(sprite_order, sprite_distance, t->spr_len);
-	i = 0;
-	while (i < t->spr_len)
-	{
-		float sprite_x = t->spr[sprite_order[i]] / 1000 + 0.5 - posX;
-		float sprite_y = t->spr[sprite_order[i]] % 1000 + 0.5 - posY;
-		float invDet = 1.0 / (planeX * dirY - dirX * planeY);
-		float transformX = invDet * (dirY * sprite_x - dirX * sprite_y);
-		float transformY = invDet * (-planeY * sprite_x + planeX * sprite_y);
-		int spriteScreenX = (int)((w / 2) * (1 + transformX / transformY));
-		#define uDiv 1
-     	#define vDiv 1
-      	#define vMove 0.0
-		int vMoveScreen = testTop; //(int)(0.0 / transformY);
-//		printf("%f\n", transformY);
-		int spriteHeight = abs((int)(h / (transformY))) / vDiv;
-
-		int drawStartY = -spriteHeight / 2 + h / 2 + vMoveScreen;
-      	if (drawStartY < 0)
-			drawStartY = 0;
-		if (drawStartY >= h)
-			drawStartY = h - 1;
-		int drawEndY = spriteHeight / 2 + h / 2 + vMoveScreen;
-        if (drawEndY >= h)
-			drawEndY = h - 1;
-        if (drawEndY < 0)
-			drawEndY = 0;
-		int spriteWidth = abs((int) (h / (transformY))) / uDiv;
-
-		int drawStartX = -spriteWidth / 2 + spriteScreenX;
-		if (drawStartX < 0)
-			drawStartX = 0;
-      int drawEndX = spriteWidth / 2 + spriteScreenX;
-	  	if (drawEndX >= w)
-			drawEndX = w - 1;
-		for (int stripe = drawStartX; stripe < drawEndX; stripe++)
 		{
-		int tex_width;
-		int tex_height;
-		unsigned int *tmp =  (unsigned int *)(mlx_get_data_addr_main(t->txt_img[SPR_TXT], &tex_width, &tex_height));
-       	long texX = (int)(256 * (stripe - (-spriteWidth / 2 + spriteScreenX)) * tex_width / spriteWidth) / 256;
-        //the conditions in the if are:
-        //1) it's in front of camera plane so you don't see things behind you
-        //2) it's on the screen (left)
-        //3) it's on the screen (right)
-        //4) ZBuffer, with perpendicular distance
-        if (transformY > 0 && stripe > 0 && stripe < w && transformY < z_buffer[stripe])
-		{
-        	for (int y = drawStartY; y < drawEndY; y++) //for every pixel of the current stripe
-        	{
-        		int d = (y - vMoveScreen) * 256 - h * 128 + spriteHeight * 128; //256 and 128 factors to avoid floats
-          		long texY = ((d * tex_height) / spriteHeight) / 256;
-			unsigned int color = tmp[tex_width * texY + texX]; //get current color from the texture
-			if ((color & 0x00FFFFFF) != 0)
-				t->game.addr[y * w + stripe] = color; //paint pixel if it isn't black, black is the invisible color
-			}
+			d->side_dist_y += d->delta_dist_y;
+			d->map_y += d->step_y;
+			d->side = 1;
 		}
-      }
-	  i++;
+		if (t->map[d->map_x][d->map_y] == '1')
+			return ;
 	}
 }
 
-
-void init_txt_array(t_all *t)
+void	wall_dist_to_wall_height(t_draw *d)
 {
-	int i;
-	int width;
-	int height;
+	if (d->side == 0)
+		d->wall_dist = (d->map_x - d->pos_x +\
+				(1 - d->step_x) / 2) / d->raydir_x;
+	else
+		d->wall_dist = (d->map_y - d->pos_y +\
+				(1 - d->step_y) / 2) / d->raydir_y;
+	d->line_height = (int)(d->width * 0.75 / d->wall_dist);
+	d->draw_start = -d->line_height / 2 + d->height / 2 + d->vert_pos;
+	if (d->draw_start < 0)
+		d->draw_start = 0;
+	if (d->draw_start > d->height)
+		d->draw_start = d->height - 1;
+	d->draw_end = d->line_height / 2 + d->height / 2 + d->vert_pos;
+	if (d->draw_end >= d->height)
+		d->draw_end = d->height - 1;
+}
 
-	i = 0;
-	while (i < 5)
+int		fill_image_by_game(t_all *t)
+{
+	t_draw	d;
+	double	z_buffer[t->maze->w_h[0]];
+
+	init_draw_vars(&d, t);
+	while (d.x < d.width)
 	{
-		t->txt_img[i] = mlx_xpm_file_to_image(t->game.mlx, \
-				t->maze->textures[i], &width, &height);
-		if (t->txt_img[i] == 0)
-			exit_with_message("Invalid texture", t);
-		i++;
+		init_raycasting_vars(&d);
+		ray_casting_cycle(t, &d);
+		wall_dist_to_wall_height(&d);
+		draw_ceil(&d, t);
+		draw_texture(&d, t);
+		draw_floor(&d, t);
+		z_buffer[d.x] = d.wall_dist;
+		d.x++;
 	}
+	draw_objects(t, &d, z_buffer);
+	return (1);
 }
-
-void	init_game (t_all *t)
-{
-	int	bpp;
-	int	size_line;
-	int	endian;
-
-	if (!(t->game.mlx = mlx_init()))
-		exit_with_message("GAME: mlx_init malloc error", t);
-	if(!(t->game.img = mlx_new_image(t->game.mlx, t->maze->w_h / 1000000, t->maze->w_h % 1000000)))
-		exit_with_message("GAME: mlx_image_init malloc error", t);
-
-	t->game.addr = (unsigned int *)(mlx_get_data_addr(t->game.img, &bpp, &size_line, &endian)); 
-	t->game.win = 0;
-	init_txt_array(t);
-	fill_image_by_map(t);
-}
-
 
 void	go_game_logic(t_all *t)
 {
-	if (!(t->game.win = mlx_new_window(t->game.mlx, (int)(t->maze->w_h / 1000000),\
-					(int)(t->maze->w_h % 1000000), "mchau")))
+	if (!(t->game.win = mlx_new_window(t->game.mlx, (int)(t->maze->w_h[0]),\
+					(int)(t->maze->w_h[1]), "mchau")))
 		exit_with_message("GAME: mlx_new_window malloc error", t);
 	mlx_do_key_autorepeatoff(t->game.mlx);
 	mlx_mouse_show();
@@ -332,7 +109,6 @@ void	go_game_logic(t_all *t)
 	mlx_hook(t->game.win, 17, 0, exit_handler, t);
 	mlx_hook(t->game.win, 2, 0, key_handler, t);
 	mlx_hook(t->game.win, 3, 0, key_handler, t);
-	mlx_hook(t->game.win, 6, 4, mouse_motion, t);
 	mlx_loop_hook(t->game.mlx, key_state_checker, t);
 	mlx_loop(t->game.mlx);
 }

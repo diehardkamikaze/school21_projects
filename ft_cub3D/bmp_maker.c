@@ -6,11 +6,11 @@
 /*   By: mchau <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/21 11:36:13 by mchau             #+#    #+#             */
-/*   Updated: 2021/04/21 10:43:35 by mchau            ###   ########.fr       */
+/*   Updated: 2021/04/22 17:50:10 by mchau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_cub3D.h"
+#include "ft_cub3d.h"
 
 unsigned int	get_color(int el, unsigned int *addr)
 {

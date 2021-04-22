@@ -6,11 +6,11 @@
 /*   By: mchau <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/19 12:19:04 by mchau             #+#    #+#             */
-/*   Updated: 2021/04/21 10:21:21 by mchau            ###   ########.fr       */
+/*   Updated: 2021/04/22 17:52:29 by mchau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_cub3D.h"
+#include "ft_cub3d.h"
 
 void	sprite_handler(int coords, t_compose *t)
 {

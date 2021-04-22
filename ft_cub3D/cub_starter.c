@@ -6,11 +6,19 @@
 /*   By: mchau <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/11 13:59:25 by mchau             #+#    #+#             */
-/*   Updated: 2021/04/21 10:49:41 by mchau            ###   ########.fr       */
+/*   Updated: 2021/04/22 18:00:23 by mchau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_cub3D.h"
+#include "ft_cub3d.h"
+
+int		is_not_true_format(char **argv, int val)
+{
+	if (argv[1][val] != 'b' || argv[1][val - 1] != 'u' || \
+			argv[1][val - 2] != 'c' || argv[1][val - 3] != '.')
+		return (1);
+	return (0);
+}
 
 int		main(int argc, char **argv)
 {
@@ -23,7 +31,7 @@ int		main(int argc, char **argv)
 	i = 0;
 	while (*(argv[1] + i) != 0)
 		i++;
-	if (i < 4 || IS_NOT_TRUE_FORMAT(i - 1))
+	if (i < 4 || is_not_true_format(argv, i - 1))
 		exit_with_message("Invalid map format\n", 0);
 	errno = 0;
 	fd = open(argv[1], O_RDONLY);

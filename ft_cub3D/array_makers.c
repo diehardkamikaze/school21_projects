@@ -6,11 +6,11 @@
 /*   By: mchau <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/21 09:34:24 by mchau             #+#    #+#             */
-/*   Updated: 2021/04/21 09:59:40 by mchau            ###   ########.fr       */
+/*   Updated: 2021/04/22 17:50:02 by mchau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_cub3D.h"
+#include "ft_cub3d.h"
 
 void	sprite_array_maker(t_compose *t)
 {

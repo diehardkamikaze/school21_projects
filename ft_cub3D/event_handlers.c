@@ -6,22 +6,23 @@
 /*   By: mchau <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/23 10:13:15 by mchau             #+#    #+#             */
-/*   Updated: 2021/04/01 11:24:36 by mchau            ###   ########.fr       */
+/*   Updated: 2021/04/22 17:51:14 by mchau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_cub3D.h"
+#include "ft_cub3d.h"
 
 int	exit_handler(void *param)
 {
-	t_all   *t;
+	t_all	*t;
 
 	t = (t_all *)param;
-
-	mlx_destroy_image(t->game.mlx, t->game.img);
-	mlx_destroy_window(t->game.mlx, t->game.win);
+	if (t->game.img)
+		mlx_destroy_image(t->game.mlx, t->game.img);
+	if (t->game.win)
+		mlx_destroy_window(t->game.mlx, t->game.win);
 	free_wrapper(t);
-	exit(1);
+	exit(0);
 	return (1);
 }
 
@@ -29,42 +30,36 @@ int	key_state_checker(void *param)
 {
 	t_all		*t;
 	t_key_state	*pressed;
-	int rerender;
+	int			rerender;
 
-	rerender = 0;
 	t = (t_all *)param;
 	pressed = &(t->pressed);
-	if (pressed->key_w)
-		rerender +=handle_moving_ws(1, t);
+	if (!(rerender = 0) && pressed->key_w)
+		rerender += handle_moving_ws(1, t);
 	if (pressed->key_a)
-		rerender +=handle_moving_ad(1, t);
+		rerender += handle_moving_ad(1, t);
 	if (pressed->key_s)
-		rerender +=handle_moving_ws(-1, t);
+		rerender += handle_moving_ws(-1, t);
 	if (pressed->key_d)
-		rerender +=handle_moving_ad(-1, t);
+		rerender += handle_moving_ad(-1, t);
 	if (pressed->key_arrow_top)
 		rerender += handle_vertical_rotation(1, t);
 	if (pressed->key_arrow_bottom)
 		rerender += handle_vertical_rotation(-1, t);
 	if (pressed->key_arrow_left)
-		rerender +=handle_rotating(1, t);
+		rerender += handle_rotating(1, t);
 	if (pressed->key_arrow_right)
-		rerender +=handle_rotating(-1, t);
-	if (rerender)
-	{
-		fill_image_by_map(t);
+		rerender += handle_rotating(-1, t);
+	if (rerender && fill_image_by_game(t))
 		mlx_put_image_to_window(t->game.mlx, t->game.win, t->game.img, 0, 0);
-//		render_map(t);
-//		mlx_put_image_to_window(t->game.mlx, t->game.win, t->game.img, 0, 0);
-	}
 	return (1);
 }
 
 int	key_handler(int keycode, void *param)
 {
 	t_all	*t;
-	t = (t_all *)param;
 
+	t = (t_all *)param;
 	if (keycode == 53)
 		exit_handler(param);
 	if (keycode == 2)
@@ -83,12 +78,5 @@ int	key_handler(int keycode, void *param)
 		t->pressed.key_arrow_top ^= 1;
 	if (keycode == 125)
 		t->pressed.key_arrow_bottom ^= 1;
-	return (1);
-}
-
-int	mouse_motion(int x, int y, void *t)
-{
-	if (t)
-		printf("%d %d\n", x, y);
 	return (1);
 }

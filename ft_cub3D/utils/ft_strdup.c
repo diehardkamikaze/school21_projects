@@ -6,11 +6,11 @@
 /*   By: mchau <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/23 14:06:28 by mchau             #+#    #+#             */
-/*   Updated: 2021/03/23 15:24:10 by mchau            ###   ########.fr       */
+/*   Updated: 2021/04/22 17:58:32 by mchau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_cub3D.h"
+#include "ft_cub3d.h"
 
 char	*ft_strdup(const char *s1)
 {

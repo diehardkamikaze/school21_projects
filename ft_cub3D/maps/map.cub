@@ -1,14 +1,14 @@
 
-C ,245,
+C 255,255,255
 
-R 1200		800
-
-
-
-F 127,111,28
+R 1270 720
 
 
-WE ./textures/ryan.xpm
+
+F 127,  111 , 255
+
+
+WE ./textures/wood.xpm
 EA ./textures/mossy.xpm
 S	./textures/barrel.xpm
 

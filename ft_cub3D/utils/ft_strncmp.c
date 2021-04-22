@@ -6,11 +6,11 @@
 /*   By: mchau <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/18 15:18:52 by mchau             #+#    #+#             */
-/*   Updated: 2021/03/18 15:32:45 by mchau            ###   ########.fr       */
+/*   Updated: 2021/04/22 17:57:34 by mchau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_cub3D.h"
+#include "ft_cub3d.h"
 
 int	ft_strncmp(const char *s1, const char *s2, size_t n)
 {
