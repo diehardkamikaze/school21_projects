@@ -6,7 +6,7 @@
 /*   By: mchau <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/16 13:52:52 by mchau             #+#    #+#             */
-/*   Updated: 2021/04/16 17:25:19 by mchau            ###   ########.fr       */
+/*   Updated: 2021/05/23 12:40:06 by mchau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,51 +15,11 @@
 #include <stdio.h>
 #include <signal.h>
 
-void	before_exit(int sig)
-{
-	printf("now i going to sleep");
-	exit(1);
-}
-
-void	window_edited(int sig)
-{
-	printf("window size edited?");
-}
-
 int		main(void)
 {
-	int c;
-	struct sigaction action;
-
-	action.sa_handler = before_exit;
-	sigemptyset(&(action.sa_mask));
-	action.sa_flags = 0;
-	sigaction(SIGINT, &action, 0);
-
-	struct sigaction action2;
-	action2.sa_handler = window_edited;
-	sigemptyset(&(action2.sa_mask));
-	action2.sa_flags = 0;
-	sigaction(SIGWINCH, &action2, 0);
-	while((c=fgetc(stdin)) !=EOF) {
-		printf("%c", c);
-	}
-	/*	int pid;
-	int fd[2];
-
-	pipe(fd); //защити [ отсюда считываем, cюда записываем ]
-	pid = fork(); // защити
-	write(fd[1], "1", 1);
-	if (!pid)
-	{
-		close(fd[1]);
-		dup2(fd[0], 0);
-		execl("./test", 0); //защити
-	}
-	close(fd[0]);
-	dup2(fd[1], 1);
-	//while (1)
-		write(fd[1], "1", 1); //раньше пишем в буфер, чем запускается дочерний процесс, но разве это не кусок памяти?
-*/
+	char some_str[2000];
+	int l;
+	l = read(0, some_str, 1000);
+	write(1, some_str, l);
 	return (0);
 }
