@@ -22,31 +22,8 @@ RUN apt-get upgrade -y
 RUN apt-get -y install wget
 # установить пакет wget
 
-#nginx installation and configure
-RUN apt-get -y install nginx
-# установить nginx
-COPY ./srcs/default /etc/nginx/sites-available/
-# заменить дефолтный конфиг unix
-
 RUN apt-get -y install mariadb-server
 # установить mariadb
-
-RUN apt-get -y install php7.3 php-mysql php-fpm php-pdo php-gd php-cli php-mbstring php-xml
-# установить php7.3 
-# php7.3 - интерпретатор версии 7.3
-# php-mysql - устанавливает расширения(типа библиотеки) ext/mysql, ext/mysqli, и PDO_MYSQL.для Wordpress
-# php-fpm - (Fastcgi process manage) программный пакет, работающий с веб-сервером(nginx, apache),
-# сервак статические данные обрабатывает, а обработку скриптов направляет сюда
-# php-pdo - опять скорее всего расширение для работы с бд
-# php-gd - gd graphic library, библиотека для работы с изображениями
-# php-cli - интерфейс командной строки php, он здесь нужен?
-# php-mbstring - библиотека для работы с многобайтовыми строками, с unicode в основном
-# php-xml - внезапно затребовал phpmyadmin, скорее всего просто библиотека для работы с xml
-
-WORKDIR /var/www/html/
-
-RUN rm -rf * | true
-# очистить рабочую директорию
 
 # installing telnet
 RUN apt-get -y install telnet
@@ -54,69 +31,12 @@ RUN apt-get -y install telnet
 # installing VIM
 RUN apt-get -y install vim
 
-#phpmyadmin installation and configure
-RUN wget https://files.phpmyadmin.net/phpMyAdmin/5.1.0/phpMyAdmin-5.1.0-english.tar.gz
-# скачать версию 5.1.0 phpmyadmin
-
-RUN tar -xf phpMyAdmin-5.1.0-english.tar.gz && rm -rf phpMyAdmin-5.1.0-english.tar.gz
-# распаковать в текущую директорию и удалить архив
-
-RUN mv phpMyAdmin-5.1.0-english phpmyadmin
-# переименовать папку
-
-COPY ./srcs/config.inc.php phpmyadmin
-# скопировать заготовленный конфиг phpmyadmin в соответствующую папку в образ
-
-#WP installation and configure
-RUN wget https://wordpress.org/latest.tar.gz
-# загрузить последнюю версию WP
-
-RUN tar -xvzf latest.tar.gz && rm -rf latest.tar.gz
-# распаковать последнюю версию в текущую папку и удалить архив
-
-RUN mv ./wordpress/* ./ && rm -rf wordpress
-# вытащить все из WP в корневую директорию
-
-COPY ./srcs/wp-config.php ./
-# скопировать заготовленный конфиг WP из текущей папки в образ
-
-#End WP installing
-
+RUN apt-get -y install php7.3 php-mysql php-fpm php-xml
 
 #change mariadb conf
 COPY ./srcs/my.cnf /etc/mysql
 
-#SSL settings
-RUN openssl req -x509 -nodes -days 90 -subj "/C=RU/ST=Russia/L=Kazan/O=school21/OU=mchau//emailAddress=mchau@student.21-school.ru/CN=localhost" -newkey rsa:2048 -keyout /etc/ssl/mchau-selfsigned.key -out /etc/ssl/mchau-selfsigned.crt;
-# https://stackoverflow.com/questions/10175812/how-to-create-a-self-signed-certificate-with-openssl
-# openssl - open-source криптографическая библиотека на С, реализующая протоколы SSL и TLS
-# Имеет инструменты для генерации приватных ключей RSA и CSR-запросов, управления сертификатами и код./декод.
-# req - в первую очередь используется для создания CSR-запросов, кроме того - для создания самощаверяющих
-# сертификатов
-# параметр к req -x509 - генерировать самозаверяющий сертификат вместо CSR-запроса. Обычно используется
-#   для тестового сертификата. Если нет параметра set_serial будет использовано большое случайное число.
-# параметр к req -nodes: - при наличии этой опции приватные ключ не будет зашифрован при помощи passphrasei
-# параметр к req -days: если задан x509, то назначает срок действия сертификата
-# CRS-параметры (-subj):
-#  - Country Name – ISO-кодстраны
-#  - State or Province Name – область, где была проведена официальная регистрация компании
-#  - Locality Name – город, где была проведена официальная регистрация компании
-#  - Organization Name – полное название организации (без сокращений)
-#  - Organizational Unit Name – название отдела организации
-#  - Common Name – полное доменное имя сервера
-
-RUN chown -R www-data:www-data *
-# веб-сервер должен работать под определенным пользователем, поскольку если он будет
-# взломан, то у него не будет root прав для на сервере
-# так, nginx может работать только с теми файлами, к которым есть права у www-data
-#chown - change owner - заменить у всех файлов владельца и группа на www-data
-# -R - recursive
-# www-data:www-data - пользоваель:группа
-# * - на всех файлах
-# Это стандартный юзер nginx и php-fpm
-
-RUN chmod -R 755 /var/www/*
-# выдать права только на чтение всех файлов рекурсивно
+COPY ./srcs/mchau.sql /mchau.sql
 
 COPY ./srcs/init.sh ./
 # скопировать из текущей директории файл в образ
@@ -124,6 +44,7 @@ COPY ./srcs/init.sh ./
 RUN chmod +x init.sh
 # CMD ./init.sh
 RUN ./init.sh
-ENTRYPOINT ["mysqld"]
-CMD ["-u root"]
+# ENTRYPOINT ["mysqld"]
+# CMD ["-u root"]
+CMD sleep 999999
 # запустить во время запуска контейнера

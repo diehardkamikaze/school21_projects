@@ -6,14 +6,16 @@
 #    By: mchau <marvin@42.fr>                       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/03/09 12:10:52 by mchau             #+#    #+#              #
-#    Updated: 2021/03/09 17:44:21 by mchau            ###   ########.fr        #
+#    Updated: 2021/07/24 18:33:23 by mchau            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
+
+#todo проверить чтобы не пускало без пароля в mysql и выкинуть рут ?
 
 #!/bin/bash
 service mysql start
 # Configure a wordpress database using pipe and mysql command
-echo "CREATE DATABASE mchau;" | mysql -u root --skip-password
+echo "source /mchau.sql;" | mysql -u root --skip-password
 echo "CREATE USER 'root'@'%' IDENTIFIED BY 'root'; GRANT ALL ON *.* TO 'root'@'%' WITH GRANT OPTION; FLUSH PRIVILEGES;" | mysql -u root --skip-password
 echo "CREATE USER 'mchau'@'%' IDENTIFIED BY 'mchau'; GRANT ALL ON *.* TO 'root'@'%' WITH GRANT OPTION; FLUSH PRIVILEGES;" | mysql -u root --skip-password
 echo "GRANT ALL PRIVILEGES ON mchau.* TO 'root'@'localhost' WITH GRANT OPTION;" | mysql -u root --skip-password

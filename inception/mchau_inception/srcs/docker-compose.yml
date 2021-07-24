@@ -7,7 +7,14 @@ volumes:
     driver_opts:
       type: none
       o: bind
-      device: /Users/mchau/data/wp_vol #todo  исправить после переноса на ВМ и создать там, шоб все было как в subject
+      device: /Users/mchau/data/wp_vol #todo  исправить после переноса на ВМ и создать там, шоб все было как в subject - /home/mchau/data/wp_vol
+  db_vol:
+    driver: local
+    name: db_vol
+    driver_opts:
+      type: none
+      o: bind
+      device: /Users/mchau/data/db_vol #todo  исправить после переноса на ВМ и создать там, шоб все было как в subject - /home/mchau/data/db_vol
 
 networks:
   mchau_network:
@@ -37,9 +44,8 @@ services:
       - mchau_network
     ports:
       - "443:443"
-      - "80:80"
     volumes:
-      - wp_vol:/var/www/html
+     - wp_vol:/var/www/html
 #  main:
 #    build:
 #      context: ./requirements/main
@@ -58,6 +64,8 @@ services:
     container_name: mariadb
     networks:
       - mchau_network
+    volumes:
+      - db_vol:/var/lib/mysql
 
 #  sql:
 #    driver: local

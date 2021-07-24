@@ -22,29 +22,17 @@ RUN apt-get upgrade -y
 RUN apt-get -y install wget
 # установить пакет wget
 
+# installing telnet
+RUN apt-get -y install telnet
+
+# installing vim
+RUN apt-get -y install vim
+
 #nginx installation and configure
 RUN apt-get -y install nginx
 # установить nginx
 COPY ./srcs/default /etc/nginx/sites-available/
 # заменить дефолтный конфиг unix
-
-# installing telnet
-RUN apt-get -y install telnet
-
-RUN apt-get -y install mariadb-server
-# установить mariadb
-
-RUN apt-get -y install php7.3 php-mysql php-fpm php-pdo php-gd php-cli php-mbstring php-xml
-# установить php7.3
-# php7.3 - интерпретатор версии 7.3
-# php-mysql - устанавливает расширения(типа библиотеки) ext/mysql, ext/mysqli, и PDO_MYSQL.для Wordpress
-# php-fpm - (Fastcgi process manage) программный пакет, работающий с веб-сервером(nginx, apache),
-# сервак статические данные обрабатывает, а обработку скриптов направляет сюда
-# php-pdo - опять скорее всего расширение для работы с бд
-# php-gd - gd graphic library, библиотека для работы с изображениями
-# php-cli - интерфейс командной строки php, он здесь нужен?
-# php-mbstring - библиотека для работы с многобайтовыми строками, с unicode в основном
-# php-xml - внезапно затребовал phpmyadmin, скорее всего просто библиотека для работы с xml
 
 WORKDIR /var/www/html/
 
@@ -63,16 +51,6 @@ RUN mv phpMyAdmin-5.1.0-english phpmyadmin
 
 COPY ./srcs/config.inc.php phpmyadmin
 # скопировать заготовленный конфиг phpmyadmin в соответствующую папку в образ
-
-# #WP installation and configure
-# RUN wget https://wordpress.org/latest.tar.gz
-# # загрузить последнюю версию WP
-#
-# RUN tar -xvzf latest.tar.gz && rm -rf latest.tar.gz
-# # распаковать последнюю версию в текущую папку и удалить архив
-#
-# RUN mv ./wordpress/* ./ && rm -rf wordpress
-# # вытащить все из WP в корневую директорию
 
 #End WP installing
 
