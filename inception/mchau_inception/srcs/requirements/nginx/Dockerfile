@@ -35,7 +35,7 @@ RUN apt-get -y install mariadb-server
 # установить mariadb
 
 RUN apt-get -y install php7.3 php-mysql php-fpm php-pdo php-gd php-cli php-mbstring php-xml
-# установить php7.3 
+# установить php7.3
 # php7.3 - интерпретатор версии 7.3
 # php-mysql - устанавливает расширения(типа библиотеки) ext/mysql, ext/mysqli, и PDO_MYSQL.для Wordpress
 # php-fpm - (Fastcgi process manage) программный пакет, работающий с веб-сервером(nginx, apache),
@@ -73,6 +73,9 @@ RUN tar -xvzf latest.tar.gz && rm -rf latest.tar.gz
 
 RUN mv ./wordpress/* ./ && rm -rf wordpress
 # вытащить все из WP в корневую директорию
+
+COPY ./srcs/wp-config.php ./
+# скопировать заготовленный конфиг WP из текущей папки в образ
 
 #End WP installing
 

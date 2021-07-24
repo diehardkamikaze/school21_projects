@@ -65,6 +65,9 @@ COPY ./srcs/init.sh ./
 # скопировать из текущей директории файл в образ
 # скопировать из текущей директории файл в образ
 
+# php config update
+COPY ./srcs/www.conf /etc/php/7.3/fpm/pool.d/
+
 # fix error with php/run
 RUN mkdir /run/php
 
