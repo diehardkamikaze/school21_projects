@@ -1,0 +1,47 @@
+version: '3'
+
+networks:
+  mchau_network:
+    name: mchau_network
+    driver: bridge
+
+services:
+  wordpress:
+      build:
+        context: ./requirements/wordpress
+      image:  wordpress
+      restart: always
+      user: root
+      container_name:  wordpress
+      networks:
+        - mchau_network
+  nginx:
+    build:
+      context: ./requirements/nginx
+    image: nginx
+    restart: always
+    user: root
+    container_name: nginx
+    networks:
+      - mchau_network
+    ports:
+      - "443:443"
+      - "80:80"
+#  main:
+#    build:
+#      context: ./requirements/main
+#    image: main
+#    restart: always
+#    user: root
+#    container_name: main
+#    networks:
+#      - mchau_network
+  mariadb:
+    build:
+      context: ./requirements/mariadb
+    image: mariadb
+    restart: always
+    user: root
+    container_name: mariadb
+    networks:
+      - mchau_network

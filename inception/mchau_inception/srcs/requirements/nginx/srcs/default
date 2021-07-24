@@ -1,0 +1,33 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    default                                            :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: mchau <marvin@42.fr>                       +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2021/03/09 16:32:15 by mchau             #+#    #+#              #
+#    Updated: 2021/03/09 16:36:56 by mchau            ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
+server {
+    listen 443 ssl;
+    listen [::]:443 ssl;
+    server_name localhost www.localhost;
+
+    ssl on;
+    ssl_certificate /etc/ssl/mchau-selfsigned.crt;
+    ssl_certificate_key /etc/ssl/mchau-selfsigned.key;
+
+    root /var/www/html;
+    index index.html index.htm index.nginx-debian.html index.php;
+	location / {
+		try_files $uri $uri/ =404;
+	}
+    location ~ \.php$ {
+       fastcgi_pass    wordpress:9000;
+       fastcgi_index   index.php;
+       include         fastcgi_params;
+       fastcgi_param   SCRIPT_FILENAME $document_root$fastcgi_script_name;
+    }
+}
