@@ -64,18 +64,15 @@ RUN mv phpMyAdmin-5.1.0-english phpmyadmin
 COPY ./srcs/config.inc.php phpmyadmin
 # скопировать заготовленный конфиг phpmyadmin в соответствующую папку в образ
 
-#WP installation and configure
-RUN wget https://wordpress.org/latest.tar.gz
-# загрузить последнюю версию WP
-
-RUN tar -xvzf latest.tar.gz && rm -rf latest.tar.gz
-# распаковать последнюю версию в текущую папку и удалить архив
-
-RUN mv ./wordpress/* ./ && rm -rf wordpress
-# вытащить все из WP в корневую директорию
-
-COPY ./srcs/wp-config.php ./
-# скопировать заготовленный конфиг WP из текущей папки в образ
+# #WP installation and configure
+# RUN wget https://wordpress.org/latest.tar.gz
+# # загрузить последнюю версию WP
+#
+# RUN tar -xvzf latest.tar.gz && rm -rf latest.tar.gz
+# # распаковать последнюю версию в текущую папку и удалить архив
+#
+# RUN mv ./wordpress/* ./ && rm -rf wordpress
+# # вытащить все из WP в корневую директорию
 
 #End WP installing
 
