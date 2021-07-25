@@ -28,8 +28,6 @@ RUN apt-get -y install telnet
 #installing vim
 RUN apt-get -y install vim
 
-RUN apt-get -y install mariadb-server
-# установить mariadb
 
 RUN apt-get -y install php7.3 php-mysql php-fpm php-xml
 # установить php7.3

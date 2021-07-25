@@ -1,4 +1,3 @@
-VAR = '$(docker ps -a -q)'
 
 all:
 	docker-compose -f ./srcs/docker-compose.yml up --build -d
@@ -6,7 +5,12 @@ all:
 stop:
 	docker-compose -f ./srcs/docker-compose.yml down
 
+clean: stop
+	rm -rf /Users/mchau/data/wp_vol/*
+	rm -rf /Users/mchau/data/db_vol/*
 
+re: clean
+	docker-compose -f ./srcs/docker-compose.yml up --build -d
 
 # mysql -u root -p
 # show databases;

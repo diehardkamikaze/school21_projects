@@ -55,5 +55,5 @@ services:
     container_name: mariadb
     networks:
       - mchau_network
-    volumes:
-      - db_vol:/var/lib/mysql
+#    volumes:
+#      - db_vol:/var/lib/mysql
