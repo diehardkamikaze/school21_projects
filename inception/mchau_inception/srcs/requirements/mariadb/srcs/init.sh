@@ -20,6 +20,6 @@ echo "CREATE USER 'root'@'%' IDENTIFIED BY 'root'; GRANT ALL ON *.* TO 'root'@'%
 echo "CREATE USER 'mchau'@'%' IDENTIFIED BY 'mchau'; GRANT ALL ON *.* TO 'root'@'%' WITH GRANT OPTION; FLUSH PRIVILEGES;" | mysql -u root --skip-password
 echo "GRANT ALL PRIVILEGES ON mchau.* TO 'root'@'localhost' WITH GRANT OPTION;" | mysql -u root --skip-password
 echo "FLUSH PRIVILEGES;" | mysql -u root --skip-password
-echo "update mysql.user set plugin='' where user='root';" | mysql -u root --skip-password
+# echo "update mysql.user set plugin='' where user='root';" | mysql -u root --skip-password
 # nginx -g "daemon off;"
 

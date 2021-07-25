@@ -46,15 +46,6 @@ services:
       - "443:443"
     volumes:
      - wp_vol:/var/www/html
-#  main:
-#    build:
-#      context: ./requirements/main
-#    image: main
-#    restart: always
-#    user: root
-#    container_name: main
-#    networks:
-#      - mchau_network
   mariadb:
     build:
       context: ./requirements/mariadb
@@ -66,11 +57,3 @@ services:
       - mchau_network
     volumes:
       - db_vol:/var/lib/mysql
-
-#  sql:
-#    driver: local
-#    name: sql
-#    driver_opts:
-#      type: none
-#      o: bind
-#      device: /home/ipasta/data/sql

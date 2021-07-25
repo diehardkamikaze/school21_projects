@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: mariadb
--- Generation Time: Jul 24, 2021 at 03:21 PM
+-- Generation Time: Jul 25, 2021 at 06:41 AM
 -- Server version: 10.3.29-MariaDB-0+deb10u1
 -- PHP Version: 7.3.29-1~deb10u1
 
@@ -20,8 +20,7 @@ SET time_zone = "+00:00";
 --
 -- Database: `mchau`
 --
-
-CREATE DATABASE `mchau` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci */;
+CREATE DATABASE IF NOT EXISTS `mchau` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
 USE `mchau`;
 
 -- --------------------------------------------------------
@@ -228,7 +227,7 @@ INSERT INTO `wp_options` (`option_id`, `option_name`, `option_value`, `autoload`
 (118, 'widget_tag_cloud', 'a:1:{s:12:\"_multiwidget\";i:1;}', 'yes'),
 (119, 'widget_nav_menu', 'a:1:{s:12:\"_multiwidget\";i:1;}', 'yes'),
 (120, 'widget_custom_html', 'a:1:{s:12:\"_multiwidget\";i:1;}', 'yes'),
-(121, '_transient_doing_cron', '1627140009.5134809017181396484375', 'yes'),
+(121, '_transient_doing_cron', '1627195201.1186470985412597656250', 'yes'),
 (122, 'secure_auth_key', 'J8H@?O{))7gmMshSHUagNO]8$.!k*$S+]v-:oiFgv,/D>xhH+542F Tb[~U&<EID', 'no'),
 (123, 'secure_auth_salt', '5)n/!WXpJlmn@ha>+>.7uU9_N2(9Nw+!tKSYPP4e `RtlGN!iEX!]Z%I;Ry3j#/O', 'no'),
 (124, '_site_transient_update_core', 'O:8:\"stdClass\":4:{s:7:\"updates\";a:1:{i:0;O:8:\"stdClass\":10:{s:8:\"response\";s:6:\"latest\";s:8:\"download\";s:57:\"https://downloads.wordpress.org/release/wordpress-5.8.zip\";s:6:\"locale\";s:5:\"en_US\";s:8:\"packages\";O:8:\"stdClass\":5:{s:4:\"full\";s:57:\"https://downloads.wordpress.org/release/wordpress-5.8.zip\";s:10:\"no_content\";s:68:\"https://downloads.wordpress.org/release/wordpress-5.8-no-content.zip\";s:11:\"new_bundled\";s:69:\"https://downloads.wordpress.org/release/wordpress-5.8-new-bundled.zip\";s:7:\"partial\";s:0:\"\";s:8:\"rollback\";s:0:\"\";}s:7:\"current\";s:3:\"5.8\";s:7:\"version\";s:3:\"5.8\";s:11:\"php_version\";s:6:\"5.6.20\";s:13:\"mysql_version\";s:3:\"5.0\";s:11:\"new_bundled\";s:3:\"5.6\";s:15:\"partial_version\";s:0:\"\";}}s:12:\"last_checked\";i:1627135836;s:15:\"version_checked\";s:3:\"5.8\";s:12:\"translations\";a:0:{}}', 'no'),

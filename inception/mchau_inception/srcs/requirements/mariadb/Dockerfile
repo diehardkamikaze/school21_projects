@@ -44,7 +44,7 @@ COPY ./srcs/init.sh ./
 RUN chmod +x init.sh
 # CMD ./init.sh
 RUN ./init.sh
-# ENTRYPOINT ["mysqld"]
-# CMD ["-u root"]
-CMD sleep 999999
+ENTRYPOINT ["mysqld"]
+CMD ["-u root"]
+#CMD sleep 999999
 # запустить во время запуска контейнера
