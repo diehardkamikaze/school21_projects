@@ -18,6 +18,7 @@ server {
     ssl on;
     ssl_certificate /etc/ssl/mchau-selfsigned.crt;
     ssl_certificate_key /etc/ssl/mchau-selfsigned.key;
+    ssl_protocols TLSv1.3;
 
     root /var/www/html;
     # index index.html index.htm index.nginx-debian.html index.php;
