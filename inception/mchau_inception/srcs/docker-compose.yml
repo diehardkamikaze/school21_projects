@@ -25,9 +25,9 @@ services:
   nginx:
     build:
       context: ./requirements/nginx
-    #   args:
-    #     - DOMAIN_NAME=${DOMAIN_NAME}
-    # env_file: .env
+      args:
+        - DOMAIN_NAME=${DOMAIN_NAME}
+    env_file: .env
     image: nginx
     restart: always
     user: root
