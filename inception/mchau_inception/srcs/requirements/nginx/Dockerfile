@@ -39,7 +39,7 @@ COPY ./srcs/default /etc/nginx/sites-available/
 
 WORKDIR /var/www/html/
 
-RUN rm -rf * | true
+# RUN rm -rf * | true
 # очистить рабочую директорию
 
 # #phpmyadmin installation and configure

@@ -22,17 +22,6 @@ networks:
     driver: bridge
 
 services:
-  wordpress:
-      build:
-        context: ./requirements/wordpress
-      image:  wordpress
-      restart: always
-      user: root
-      container_name:  wordpress
-      networks:
-        - mchau_network
-      volumes:
-        - wp_vol:/var/www/html
   nginx:
     build:
       context: ./requirements/nginx
@@ -45,7 +34,7 @@ services:
     ports:
       - "443:443"
     volumes:
-     - wp_vol:/var/www/html
+      - wp_vol:/var/www/html
   mariadb:
     build:
       context: ./requirements/mariadb
@@ -55,5 +44,17 @@ services:
     container_name: mariadb
     networks:
       - mchau_network
-#    volumes:
-#      - db_vol:/var/lib/mysql
+#      volumes:
+#        - db_vol:/var/lib/mysql
+  wordpress:
+      build:
+        context: ./requirements/wordpress
+      image:  wordpress
+      restart: always
+      user: root
+      container_name:  wordpress
+      networks:
+        - mchau_network
+      volumes:
+        - wp_vol:/var/www/html
+

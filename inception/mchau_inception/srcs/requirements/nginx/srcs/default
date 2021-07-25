@@ -20,7 +20,8 @@ server {
     ssl_certificate_key /etc/ssl/mchau-selfsigned.key;
 
     root /var/www/html;
-    index index.html index.htm index.nginx-debian.html index.php;
+    # index index.html index.htm index.nginx-debian.html index.php;
+    index index.php;
 	location / {
 		try_files $uri $uri/ =404;
 	}
