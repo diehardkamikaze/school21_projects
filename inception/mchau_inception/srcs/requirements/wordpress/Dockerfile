@@ -64,8 +64,8 @@ RUN mv ./wordpress/* ./ && rm -rf wordpress
 COPY ./srcs/conf/wp-config.php ./
 # скопировать заготовленный конфиг WP из текущей папки в образ
 
-RUN sed -i "s/_DB_USER_PLACEHOLDER_/$MYSQL_USER/g" /var/www/html/wp-config.php
-RUN sed -i "s/_DB_PASSWORD_PLACEHOLDER_/$MYSQL_USER_PASSWORD/g" /var/www/html/wp-config.php
+RUN sed -i "s/_DB_USER_PLACEHOLDER_/${MYSQL_USER}/g" /var/www/html/wp-config.php
+RUN sed -i "s/_DB_PASSWORD_PLACEHOLDER_/${MYSQL_USER_PASSWORD}/g" /var/www/html/wp-config.php
 #End WP installing
 
 # скопировать из текущей директории файл в образ

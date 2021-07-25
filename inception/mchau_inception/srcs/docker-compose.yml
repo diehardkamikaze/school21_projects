@@ -7,14 +7,14 @@ volumes:
     driver_opts:
       type: none
       o: bind
-      device: /Users/mchau/data/wp_vol #todo  исправить после переноса на ВМ и создать там, шоб все было как в subject - /home/mchau/data/wp_vol
+      device: /home/mchau/data/wp_vol #todo  исправить после переноса на ВМ и создать там, шоб все было как в subject - /home/mchau/data/wp_vol
   db_vol:
     driver: local
     name: db_vol
     driver_opts:
       type: none
       o: bind
-      device: /Users/mchau/data/db_vol #todo  исправить после переноса на ВМ и создать там, шоб все было как в subject - /home/mchau/data/db_vol
+      device: /home/mchau/data/db_vol #todo  исправить после переноса на ВМ и создать там, шоб все было как в subject - /home/mchau/data/db_vol
 
 networks:
   mchau_network:
@@ -25,9 +25,9 @@ services:
   nginx:
     build:
       context: ./requirements/nginx
-#      args:
-#        - DOMAIN_NAME=${DOMAIN_NAME}
-#    env_file: .env
+    #   args:
+    #     - DOMAIN_NAME=${DOMAIN_NAME}
+    # env_file: .env
     image: nginx
     restart: always
     user: root
@@ -42,9 +42,9 @@ services:
     env_file: .env
     build:
       context: ./requirements/wordpress
-#      args:
-#        - MYSQL_USER=${MYSQL_USER}
-#        - MYSQL_USER_PASSWORD=${MYSQL_USER_PASSWORD}
+      args:
+        - MYSQL_USER=${MYSQL_USER}
+        - MYSQL_USER_PASSWORD=${MYSQL_USER_PASSWORD}
     image:  wordpress
     restart: always
     user: root
@@ -56,16 +56,16 @@ services:
   mariadb:
     build:
       context: ./requirements/mariadb
-#      args:
-#        - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
-#        - MYSQL_USER=${MYSQL_USER}
-#        - MYSQL_USER_PASSWORD=${MYSQL_USER_PASSWORD}
-#    env_file: .env
+      args:
+        - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+        - MYSQL_USER=${MYSQL_USER}
+        - MYSQL_USER_PASSWORD=${MYSQL_USER_PASSWORD}
+    env_file: .env
     image: mariadb
     restart: always
     user: root
     container_name: mariadb
     networks:
       - mchau_network
-#    volumes:
+#   volumes:
 #      - db_vol:/var/lib/mysql

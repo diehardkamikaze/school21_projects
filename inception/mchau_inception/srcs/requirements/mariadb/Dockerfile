@@ -33,6 +33,10 @@ RUN apt-get -y install vim
 
 # RUN apt-get -y install php7.3 php-mysql php-fpm php-xml
 
+ARG MYSQL_ROOT_PASSWORD
+ARG MYSQL_USER
+ARG MYSQL_USER_PASSWORD
+
 #change mariadb conf
 COPY ./srcs/conf/my.cnf /etc/mysql
 
