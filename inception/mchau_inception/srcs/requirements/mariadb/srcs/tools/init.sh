@@ -20,11 +20,11 @@ echo "source /mchau.sql;" | mysql -u root --skip-password
 #echo "flush privileges;" | mysql -u root --skip-password
 #echo "fupdate user set plugin='' where User='root';" | mysql -u root --skip-password
 #echo "CREATE USER 'root'@'%' IDENTIFIED BY 'almaz'; GRANT ALL ON *.* TO 'root'@'%' WITH GRANT OPTION; FLUSH PRIVILEGES;" | mysql -u root --skip-password
-echo "CREATE USER 'mchau'@'%' IDENTIFIED BY 'mchau'; GRANT ALL ON *.* TO 'mchau'@'%' WITH GRANT OPTION; FLUSH PRIVILEGES;" | mysql -u root --skip-password
+echo "CREATE USER '${MYSQL_USER}'@'%' IDENTIFIED BY '${MYSQL_USER_PASSWORD}'; GRANT ALL ON *.* TO 'mchau'@'%' WITH GRANT OPTION; FLUSH PRIVILEGES;" | mysql -u root --skip-password
 echo "GRANT ALL PRIVILEGES ON mchau.* TO 'root'@'localhost' WITH GRANT OPTION;" | mysql -u root --skip-password
 echo "FLUSH PRIVILEGES;" | mysql -u root --skip-password
-echo "SET PASSWORD FOR root@'%'=PASSWORD('almaz');"| mysql -u root --skip-password
-echo "update mysql.user set authentication_string=PASSWORD('almaz'), plugin='mysql_native_password' where user='root';"| mysql -u root --skip-password
-mysql -e "alter user 'root'@'localhost' identified by 'almaz'";
+echo "SET PASSWORD FOR root@'%'=PASSWORD('${MYSQL_ROOT_PASSWORD}');"| mysql -u root --skip-password
+echo "update mysql.user set authentication_string=PASSWORD('a${MYSQL_ROOT_PASSWORD}'), plugin='mysql_native_password' where user='root';"| mysql -u root --skip-password
+mysql -e "alter user 'root'@'localhost' identified by '${MYSQL_ROOT_PASSWORD}'";
 # echo "update mysql.user set plugin='' where user='root';" | mysql -u root --skip-password
 # nginx -g "daemon off;"

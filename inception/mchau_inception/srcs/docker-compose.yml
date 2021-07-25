@@ -25,6 +25,9 @@ services:
   nginx:
     build:
       context: ./requirements/nginx
+#      args:
+#        - DOMAIN_NAME=${DOMAIN_NAME}
+#    env_file: .env
     image: nginx
     restart: always
     user: root
@@ -35,26 +38,34 @@ services:
       - "443:443"
     volumes:
       - wp_vol:/var/www/html
+  wordpress:
+    env_file: .env
+    build:
+      context: ./requirements/wordpress
+#      args:
+#        - MYSQL_USER=${MYSQL_USER}
+#        - MYSQL_USER_PASSWORD=${MYSQL_USER_PASSWORD}
+    image:  wordpress
+    restart: always
+    user: root
+    container_name:  wordpress
+    networks:
+      - mchau_network
+    volumes:
+      - wp_vol:/var/www/html
   mariadb:
     build:
       context: ./requirements/mariadb
+#      args:
+#        - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+#        - MYSQL_USER=${MYSQL_USER}
+#        - MYSQL_USER_PASSWORD=${MYSQL_USER_PASSWORD}
+#    env_file: .env
     image: mariadb
     restart: always
     user: root
     container_name: mariadb
     networks:
       - mchau_network
-#      volumes:
-#        - db_vol:/var/lib/mysql
-  wordpress:
-      build:
-        context: ./requirements/wordpress
-      image:  wordpress
-      restart: always
-      user: root
-      container_name:  wordpress
-      networks:
-        - mchau_network
-      volumes:
-        - wp_vol:/var/www/html
-
+#    volumes:
+#      - db_vol:/var/lib/mysql

@@ -34,8 +34,10 @@ RUN apt-get install -y procps
 #nginx installation and configure
 RUN apt-get -y install nginx
 # установить nginx
-COPY ./srcs/default /etc/nginx/sites-available/
+COPY ./srcs/conf/default /etc/nginx/sites-available/
 # заменить дефолтный конфиг unix
+
+# RUN sed -i "s/_PLACEHOLDER_DOMAIN_NAME_/$DOMAIN_NAME/g" /etc/nginx/sites-available/default
 
 WORKDIR /var/www/html/
 

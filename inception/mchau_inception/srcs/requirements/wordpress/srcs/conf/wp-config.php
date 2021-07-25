@@ -5,10 +5,10 @@
 define( 'DB_NAME', 'mchau' );
 
 /** MySQL database username */
-define( 'DB_USER', 'root' );
+define( 'DB_USER', '_DB_USER_PLACEHOLDER_' );
 
 /** MySQL database password */
-define( 'DB_PASSWORD', 'root' );
+define( 'DB_PASSWORD', '_DB_PASSWORD_PLACEHOLDER_' );
 
 /** MySQL hostname */
 define( 'DB_HOST', 'mariadb' );

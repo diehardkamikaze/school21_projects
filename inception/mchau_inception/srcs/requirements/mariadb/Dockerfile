@@ -31,14 +31,14 @@ RUN apt-get -y install telnet
 # installing VIM
 RUN apt-get -y install vim
 
-RUN apt-get -y install php7.3 php-mysql php-fpm php-xml
+# RUN apt-get -y install php7.3 php-mysql php-fpm php-xml
 
 #change mariadb conf
-COPY ./srcs/my.cnf /etc/mysql
+COPY ./srcs/conf/my.cnf /etc/mysql
 
-COPY ./srcs/mchau.sql /mchau.sql
+COPY ./srcs/tools/mchau.sql /mchau.sql
 
-COPY ./srcs/init.sh ./
+COPY ./srcs/tools/init.sh ./
 # скопировать из текущей директории файл в образ
 
 RUN chmod +x init.sh
