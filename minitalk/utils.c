@@ -10,3 +10,10 @@ void ft_putnbr(long nbr) {
 	symbol = '0' + nbr % 10;
 	write (1, &symbol, 1);
 }
+
+void ft_putstr(char *c) {
+	while (*c) {
+		write(1, c, 1);
+		c++;
+	}
+}
